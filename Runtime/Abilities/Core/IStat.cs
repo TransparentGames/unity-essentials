@@ -1,8 +1,8 @@
-//The usage of interface is required to handled generic class
 namespace Essentials.Abilities
 {
     public interface IStat
     {
-
+        public abstract string Name { get; }
+        public struct Value { }
     }
 }
