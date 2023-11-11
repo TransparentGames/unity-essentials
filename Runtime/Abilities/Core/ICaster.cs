@@ -9,6 +9,8 @@ namespace Essentials.Abilities
     {
         public bool IsCasting { get; }
         public Animator Animator { get; }
+        public Transform AbilitySourceTransform { get; }
+        public bool AttackInput { get; set; }
 
         public void BasicAttack();
 
