@@ -10,24 +10,9 @@ namespace Essentials.Abilities
         public bool IsCasting { get; }
         public Animator Animator { get; }
         public Transform AbilitySourceTransform { get; }
-        public bool AttackInput { get; set; }
-
-        public void BasicAttack();
-
-        public void Ability1()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Ability2()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanCast(AbilityTypes abilityType);
-
+        public void CastAbility(AbilityTypes abilityType);
+        public bool CanCastAbility(AbilityTypes abilityType);
         public void EquipAbility(AbilityDefinitionSO definition);
-
         public IStat RetrieveStats(StatDefinitionSO stat);
 
         //public void ShootProjectile(ProjectileDefinitionSO projectile);
