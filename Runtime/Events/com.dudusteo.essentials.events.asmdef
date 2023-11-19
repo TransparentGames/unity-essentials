@@ -1,7 +1,10 @@
 {
-    "name": "com.dudusteo.essentials.abilities",
+    "name": "com.dudusteo.essentials.events",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:ef8aaf76f74c0553f9e54fb9c7317d9e",
+        "GUID:9cf2c6113795c8da781c6f21f011340a"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
