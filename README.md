@@ -1,9 +1,11 @@
-# unity-essentials
+# Unity Essentials
 
 -   Singletons
 -   Update Manager
 -   Finite State Machine
 -   Events
+-   Scene Management
+-   Base Classes (DescriptionBaseSO)
 
 # Editors
 
