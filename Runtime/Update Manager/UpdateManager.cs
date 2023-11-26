@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Singletons;
 using UnityEngine.Assertions;
 
 public class UpdateManager : PersistentMonoSingleton<UpdateManager>
