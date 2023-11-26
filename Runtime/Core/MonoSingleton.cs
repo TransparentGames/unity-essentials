@@ -1,27 +1,19 @@
 using UnityEngine;
-using System.Text.RegularExpressions;
 
-public class MonoSingleton<T> : Singleton<MonoBehaviour> where T : MonoBehaviour
+public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static new T Instance
+    public static T Instance
     {
         get
         {
             if (_instance == null)
             {
                 _instance = FindObjectOfType<T>();
-                if (_instance == null)
-                {
-                    GameObject obj = new()
-                    {
-                        name = Regex.Replace(typeof(T).Name, "(\\B[A-Z])", " $1")
-                    };
-                    _instance = obj.AddComponent<T>();
-                }
             }
             return _instance;
         }
     }
+    public static bool IsInitialized => _instance != null;
 
     private static T _instance;
 }
