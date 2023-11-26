@@ -9,8 +9,8 @@ namespace Essentials.StateMachine.Editor
 	internal class TransitionTableEditorWindow : EditorWindow
 	{
 		private static TransitionTableEditorWindow _window;
-		private static readonly string _uxmlPath = "Assets/Scripts/StateMachine/Editor/TransitionTableEditorWindow.uxml";
-		private static readonly string _ussPath = "Assets/Scripts/StateMachine/Editor/TransitionTableEditorWindow.uss";
+		private static readonly string _uxmlPath = "Packages/Essentials/Runtime/StateMachine/Editor/TransitionTableEditorWindow.uxml";
+		private static readonly string _ussPath = "Packages/Essentials/Runtime/StateMachine/Editor/TransitionTableEditorWindow.uss";
 		private bool _doRefresh;
 
 		private UnityEditor.Editor _transitionTableEditor;
