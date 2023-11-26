@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace Singletons
 {
-    public static T Instance
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        public static T Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = FindObjectOfType<T>();
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<T>();
+                }
+                return _instance;
             }
-            return _instance;
         }
-    }
-    public static bool IsInitialized => _instance != null;
+        public static bool IsInitialized => _instance != null;
 
-    private static T _instance;
+        private static T _instance;
+    }
 }
