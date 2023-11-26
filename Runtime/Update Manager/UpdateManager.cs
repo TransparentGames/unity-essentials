@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class UpdateManager : MonoSingleton<UpdateManager>
+public class UpdateManager : PersistentMonoSingleton<UpdateManager>
 {
     private List<UpdateEntity> _updateEntities = new();
     private List<UpdateEntity> _fixedUpdateEntities = new();
