@@ -19,7 +19,7 @@ public class GameSceneSO : DescriptionBaseSO
 		//Playable scenes
 		Location, //SceneSelector tool will also load PersistentManagers and Gameplay
 		Menu, //SceneSelector tool will also load Gameplay
-
+		Multiplayer,
 		//Special scenes
 		Initialisation,
 		PersistentManagers,
