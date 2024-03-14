@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Singletons;
+using UnityCommunity.UnitySingleton;
 using UnityEngine.Assertions;
 
 public class UpdateManager : PersistentMonoSingleton<UpdateManager>
@@ -9,6 +9,9 @@ public class UpdateManager : PersistentMonoSingleton<UpdateManager>
     private List<UpdateEntity> _fixedUpdateEntities = new();
     private List<UpdateEntity> _lateUpdateEntities = new();
 
+    private List<UpdateEntity> _updateEntitiesToRemove = new();
+    private List<UpdateEntity> _fixedUpdateEntitiesToRemove = new();
+    private List<UpdateEntity> _lateUpdateEntitiesToRemove = new();
 
     public static IUpdateEntity StartUpdate(Action onUpdateAction, UpdateType updateType, int interval = 1)
     {
@@ -24,25 +27,18 @@ public class UpdateManager : PersistentMonoSingleton<UpdateManager>
 
     private List<UpdateEntity> GetListForUpdateType(UpdateType updateType)
     {
-        switch (updateType)
+        return updateType switch
         {
-            case UpdateType.Update:
-                return _updateEntities;
-
-            case UpdateType.FixedUpdate:
-                return _fixedUpdateEntities;
-
-            case UpdateType.LateUpdate:
-                return _lateUpdateEntities;
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(updateType), updateType, null);
-        }
+            UpdateType.Update => _updateEntities,
+            UpdateType.FixedUpdate => _fixedUpdateEntities,
+            UpdateType.LateUpdate => _lateUpdateEntities,
+            _ => throw new ArgumentOutOfRangeException(nameof(updateType), updateType, null),
+        };
     }
 
     public static void Stop(IUpdateEntity updateEntity)
     {
-        if (IsInitialized == false) return;
+        if (InstanceExists == false) return;
 
         Instance.InternalStop(updateEntity);
     }
@@ -53,15 +49,17 @@ public class UpdateManager : PersistentMonoSingleton<UpdateManager>
         Assert.IsNotNull(entity);
 
         if (_updateEntities.Contains(entity))
-            _updateEntities.Remove(entity);
+            _updateEntitiesToRemove.Add(entity);
         else if (_fixedUpdateEntities.Contains(entity))
-            _fixedUpdateEntities.Remove(entity);
+            _fixedUpdateEntitiesToRemove.Add(entity);
         else if (_lateUpdateEntities.Contains(entity))
-            _lateUpdateEntities.Remove(entity);
+            _lateUpdateEntitiesToRemove.Add(entity);
     }
 
     private void Update()
     {
+        SafelyRemoveEntities(_updateEntitiesToRemove, _updateEntities);
+
         for (int i = 0; i < _updateEntities.Count; i++)
         {
             _updateEntities[i].Tick();
@@ -70,6 +68,8 @@ public class UpdateManager : PersistentMonoSingleton<UpdateManager>
 
     private void FixedUpdate()
     {
+        SafelyRemoveEntities(_fixedUpdateEntitiesToRemove, _fixedUpdateEntities);
+
         for (int i = 0; i < _fixedUpdateEntities.Count; i++)
         {
             _fixedUpdateEntities[i].Tick();
@@ -78,9 +78,21 @@ public class UpdateManager : PersistentMonoSingleton<UpdateManager>
 
     private void LateUpdate()
     {
+        SafelyRemoveEntities(_lateUpdateEntitiesToRemove, _lateUpdateEntities);
+
         for (int i = 0; i < _lateUpdateEntities.Count; i++)
         {
             _lateUpdateEntities[i].Tick();
         }
+    }
+
+    private void SafelyRemoveEntities(List<UpdateEntity> entities, List<UpdateEntity> listFrom)
+    {
+        for (int i = 0; i < entities.Count; i++)
+        {
+            listFrom.Remove(entities[i]);
+        }
+
+        entities.Clear();
     }
 }
