@@ -1,3 +1,6 @@
-﻿public interface IUpdateEntity
+﻿namespace TransparentGames.Essentials
 {
+    public interface IUpdateEntity
+    {
+    }
 }

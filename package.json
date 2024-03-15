@@ -1,8 +1,6 @@
 {
-	"displayName": "Essentials",
-	"name": "com.dudusteo.essentials",
-	"version": "0.2.2",
-	"description": "This is an example package",
-	"unity": "2022.3",
-	"unityRelease": "7f1"
+  "displayName": "Essentials",
+  "name": "com.transparentgames.essentials",
+  "version": "0.3.0",
+  "description": "This is an example package"
 }

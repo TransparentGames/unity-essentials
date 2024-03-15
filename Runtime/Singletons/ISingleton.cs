@@ -1,4 +1,4 @@
-namespace UnityCommunity.UnitySingleton
+namespace TransparentGames.Essentials
 {
     /// <summary>
     /// The singleton interface.

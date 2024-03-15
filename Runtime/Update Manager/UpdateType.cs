@@ -1,4 +1,7 @@
-﻿public enum UpdateType
+﻿namespace TransparentGames.Essentials
 {
-    Update, FixedUpdate, LateUpdate
+    public enum UpdateType
+    {
+        Update, FixedUpdate, LateUpdate
+    }
 }

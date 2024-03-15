@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace TransparentGames.Core
+namespace TransparentGames.Essentials
 {
 	/// <summary>
 	/// This class is a base class which contains what is common to all game scenes (Locations, Menus, Managers)
