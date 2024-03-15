@@ -4,7 +4,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace TransparentGames.Core
+namespace TransparentGames.Essentials
 {
     /// <summary>
     /// Allows a "cold start" in the editor, when pressing Play and not passing from the Initialization scene.

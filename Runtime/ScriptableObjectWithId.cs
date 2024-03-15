@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace TransparentGames.Core
+namespace TransparentGames.Essentials
 {
     public class ScriptableObjectWithId : ScriptableObject, ISerializationCallbackReceiver
     {

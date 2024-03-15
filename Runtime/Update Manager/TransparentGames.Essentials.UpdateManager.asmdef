@@ -1,10 +1,8 @@
 {
-    "name": "com.dudusteo.essentials.scenemanagement",
+    "name": "TransparentGames.Essentials.UpdateManager",
     "rootNamespace": "",
     "references": [
-        "GUID:9e24947de15b9834991c9d8411ea37cf",
-        "GUID:45a631f56af1e3138afc5f5de1bf685d",
-        "GUID:84651a3751eca9349aac36a66bba901b"
+        "GUID:45a631f56af1e3138afc5f5de1bf685d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

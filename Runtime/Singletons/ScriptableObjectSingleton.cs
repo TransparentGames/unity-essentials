@@ -10,7 +10,7 @@ using UnityEditor.AddressableAssets;
 #endif
 
 
-namespace TransparentGames.Core
+namespace TransparentGames.Essentials
 {
     /// <summary>
     /// The basic ScriptableObject singleton implementation.
