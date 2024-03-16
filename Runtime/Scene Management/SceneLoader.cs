@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;

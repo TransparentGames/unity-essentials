@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityCommunity.UnitySingleton;
 using UnityEngine.Assertions;
 
 namespace TransparentGames.Essentials

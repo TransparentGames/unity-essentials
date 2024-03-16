@@ -1,7 +1,12 @@
 {
     "name": "TransparentGames.Essentials",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:9cf2c6113795c8da781c6f21f011340a",
+        "GUID:45a631f56af1e3138afc5f5de1bf685d",
+        "GUID:f170a55c1e88b70f88cce30894499105",
+        "GUID:b0c3d37d6d9bb2d25b072c78585c4819"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
