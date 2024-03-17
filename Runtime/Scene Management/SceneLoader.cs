@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace TransparentGames.Essentials
+namespace TransparentGames.Essentials.SceneManagement
 {
     /// <summary>
     /// This class manages the scene loading and unloading.

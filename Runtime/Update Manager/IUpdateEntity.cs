@@ -1,4 +1,4 @@
-﻿namespace TransparentGames.Essentials
+﻿namespace TransparentGames.Essentials.UpdateManager
 {
     public interface IUpdateEntity
     {

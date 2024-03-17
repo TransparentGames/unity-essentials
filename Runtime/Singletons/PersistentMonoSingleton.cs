@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TransparentGames.Essentials
+namespace TransparentGames.Essentials.Singletons
 {
     /// <summary>
     /// This singleton is persistent across scenes by calling <see cref="Object.DontDestroyOnLoad(Object)"/>.

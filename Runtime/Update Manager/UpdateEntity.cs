@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.Assertions;
 
-namespace TransparentGames.Essentials
+namespace TransparentGames.Essentials.UpdateManager
 {
     [Serializable]
     public class UpdateEntity : IUpdateEntity
