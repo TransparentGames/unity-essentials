@@ -4,7 +4,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace TransparentGames.Essentials
+namespace TransparentGames.Essentials.SceneManagement
 {
     public class Initializer : MonoBehaviour
     {

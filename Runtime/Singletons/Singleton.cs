@@ -1,4 +1,4 @@
-namespace TransparentGames.Essentials
+namespace TransparentGames.Essentials.Singletons
 {
     public enum SingletonInitializationStatus
     {
