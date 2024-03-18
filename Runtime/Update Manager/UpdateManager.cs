@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TransparentGames.Essentials.Singletons;
 using UnityEngine.Assertions;
 
 namespace TransparentGames.Essentials.UpdateManager

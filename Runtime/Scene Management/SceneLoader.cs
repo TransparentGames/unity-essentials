@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
