@@ -52,7 +52,20 @@ namespace TransparentGames.Essentials.PlayFab
             }, PlayFabFailure);
         }
 
+        public static void GuestLogin(Action<LoginResult> successCallback, string customId = null)
+        {
+            PlayFabClientAPI.LoginWithCustomID(new LoginWithCustomIDRequest
+            {
+                CustomId = customId ?? SystemInfo.deviceUniqueIdentifier,
+                CreateAccount = true,
 
+            }, successResult =>
+            {
+                SessionTicket = successResult.SessionTicket;
+                Debug.Log($"Successfully logged with [{SessionTicket}] user");
+                successCallback(successResult);
+            }, PlayFabFailure);
+        }
 
         #endregion
 
@@ -86,6 +99,15 @@ namespace TransparentGames.Essentials.PlayFab
                 successCallback(successResult);
             }, PlayFabFailure);
 
+        }
+
+        public static void GetVirtualCurrency(Action<GetUserInventoryResult> successCallback)
+        {
+            PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), successResult =>
+            {
+                Debug.Log($"Successfully retrieved [{successResult.VirtualCurrency}] virtual currency");
+                successCallback(successResult);
+            }, PlayFabFailure);
         }
 
         private static void PlayFabFailure(PlayFabError error)
