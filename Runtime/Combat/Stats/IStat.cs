@@ -1,4 +1,4 @@
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     public interface IStat
     {

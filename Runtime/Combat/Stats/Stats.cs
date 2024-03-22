@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     [Serializable]
     public class Stats

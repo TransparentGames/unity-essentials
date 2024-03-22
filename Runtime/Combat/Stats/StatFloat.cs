@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     [Serializable]
     public class StatFloat : Stat<float>

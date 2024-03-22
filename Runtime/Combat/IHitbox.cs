@@ -1,6 +1,5 @@
 
 using System;
-using TransparentGames.Combat;
 using TransparentGames.Essentials.Combat;
 
 namespace TransparentGames.Combat
