@@ -4,7 +4,7 @@ namespace TransparentGames.Essentials.Combat
 {
     public struct HitInfo
     {
-        public float Damage;
-        public GameObject Source;
+        public float damage;
+        public GameObject source;
     }
 }
