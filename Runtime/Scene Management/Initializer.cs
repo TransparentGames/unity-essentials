@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -12,16 +13,20 @@ namespace TransparentGames.Essentials.SceneManagement
         [SerializeField] private GameSceneSO mainMenuSceneSO = default;
 
 #if !UNITY_SERVER
-        private void Start()
+        private async void Start()
         {
-            persistentManagerSceneSO.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += OnPersistentManagerSceneLoaded;
+            // Load the persistent manager scene asynchronously
+            AsyncOperationHandle<SceneInstance> persistentManagerSceneHandle = Addressables.LoadSceneAsync(persistentManagerSceneSO.sceneReference, LoadSceneMode.Additive);
+
+            // Wait until the persistent manager scene is fully loaded
+            await persistentManagerSceneHandle.Task;
+
+            // Once loaded, load the main menu scene
+            SceneLoader.Instance.LoadMenu(mainMenuSceneSO);
+
+            // Unload the current scene
+            SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 #endif
-
-        private void OnPersistentManagerSceneLoaded(AsyncOperationHandle<SceneInstance> handle)
-        {
-            SceneLoader.Instance.LoadMenu(mainMenuSceneSO);
-            SceneManager.UnloadSceneAsync(0);
-        }
     }
 }

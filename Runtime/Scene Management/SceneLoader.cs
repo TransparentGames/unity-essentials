@@ -50,7 +50,6 @@ namespace TransparentGames.Essentials.SceneManagement
         /// </summary>
         public void LoadLocation(GameSceneSO locationToLoad, bool showLoadingScreen = false, bool fadeScreen = false)
         {
-            //Prevent a double-loading, for situations where the player falls in two Exit colliders in one frame
             if (_isLoading)
                 return;
 
@@ -58,11 +57,10 @@ namespace TransparentGames.Essentials.SceneManagement
             _showLoadingScreen = showLoadingScreen;
             _isLoading = true;
 
-            //In case we are coming from the main menu, we need to load the Gameplay manager scene first
             if (_gameplayManagerSceneInstance.Scene == null
                 || !_gameplayManagerSceneInstance.Scene.isLoaded)
             {
-                _gameplayManagerLoadingOpHandle = gameplayScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+                _gameplayManagerLoadingOpHandle = Addressables.LoadSceneAsync(gameplayScene.sceneReference, LoadSceneMode.Additive, true);
                 _gameplayManagerLoadingOpHandle.Completed += OnGameplayManagersLoaded;
             }
             else
@@ -76,7 +74,6 @@ namespace TransparentGames.Essentials.SceneManagement
         /// </summary>
         public void LoadMenu(GameSceneSO menuToLoad, bool showLoadingScreen = false, bool fadeScreen = false)
         {
-            //Prevent a double-loading, for situations where the player falls in two Exit colliders in one frame
             if (_isLoading)
                 return;
 
@@ -84,37 +81,39 @@ namespace TransparentGames.Essentials.SceneManagement
             _showLoadingScreen = showLoadingScreen;
             _isLoading = true;
 
-            //In case we are coming from a Location back to the main menu, we need to get rid of the persistent Gameplay manager scene
             if (_gameplayManagerSceneInstance.Scene != null
                 && _gameplayManagerSceneInstance.Scene.isLoaded)
-                Addressables.UnloadSceneAsync(_gameplayManagerLoadingOpHandle, true);
+            {
+                Addressables.Release(_gameplayManagerLoadingOpHandle);
+            }
 
             StartCoroutine(UnloadPreviousScene());
         }
 
         private void OnGameplaySceneCompleted(AsyncOperationHandle<SceneInstance> obj)
         {
-            // This callback will be executed when the scene loading is completed
             if (obj.Status == AsyncOperationStatus.Succeeded)
             {
-                // Get the loaded scene instance
                 _gameplayManagerSceneInstance = obj.Result;
-
-                // Start the gameplay after the scene is loaded
                 StartGameplay();
             }
             else
             {
-                // Handle failure if necessary
-                Debug.LogError("Failed to load gameplay scene.");
+                Debug.LogError($"Failed to load gameplay scene: {obj.OperationException}");
             }
         }
 
         private void OnGameplayManagersLoaded(AsyncOperationHandle<SceneInstance> obj)
         {
-            _gameplayManagerSceneInstance = _gameplayManagerLoadingOpHandle.Result;
-
-            StartCoroutine(UnloadPreviousScene());
+            if (obj.Status == AsyncOperationStatus.Succeeded)
+            {
+                _gameplayManagerSceneInstance = obj.Result;
+                StartCoroutine(UnloadPreviousScene());
+            }
+            else
+            {
+                Debug.LogError($"Failed to load gameplay managers: {obj.OperationException}");
+            }
         }
 
         /// <summary>
