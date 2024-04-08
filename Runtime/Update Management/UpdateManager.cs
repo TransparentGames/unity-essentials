@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine.Assertions;
 
-namespace TransparentGames.Essentials.UpdateManager
+namespace TransparentGames.Essentials.UpdateManagement
 {
     public class UpdateManager : PersistentMonoSingleton<UpdateManager>
     {
