@@ -1,4 +1,4 @@
-﻿namespace TransparentGames.Essentials.UpdateManager
+﻿namespace TransparentGames.Essentials.UpdateManagement
 {
     public enum UpdateType
     {
