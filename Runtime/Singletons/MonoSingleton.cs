@@ -16,6 +16,7 @@ namespace TransparentGames.Essentials.Singletons
         /// The instance.
         /// </summary>
         private static T _instance;
+        private static Action _initialized;
 
         /// <summary>
         /// The initialization status of the singleton's instance.
@@ -26,12 +27,15 @@ namespace TransparentGames.Essentials.Singletons
 
         #region Properties
 
-        public Action Initialized;
-
         /// <summary>
         /// Gets the instance.
         /// </summary>
         /// <value>The instance.</value>
+        public static void Initialized(Action onInitializeCallback)
+        {
+            _initialized += onInitializeCallback;
+        }
+
         public static T Instance
         {
             get
@@ -110,7 +114,8 @@ namespace TransparentGames.Essentials.Singletons
 
         protected virtual void OnInitialized()
         {
-            Initialized?.Invoke();
+            _initialized?.Invoke();
+            _initialized = null;
         }
 
         #endregion
