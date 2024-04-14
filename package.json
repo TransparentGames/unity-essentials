@@ -1,12 +1,12 @@
 {
-	"displayName": "Essentials",
-	"name": "com.transparentgames.essentials",
-	"version": "0.4.1",
-	"description": "This is an example package",
-	"dependencies": {
-		"com.unity.addressables": "1.21.20"
-	},
-	"author": {
-		"name": "Transparent Games"
-	}
+  "displayName": "Essentials",
+  "name": "com.transparentgames.essentials",
+  "version": "0.4.2",
+  "description": "This is an example package",
+  "dependencies": {
+    "com.unity.addressables": "1.21.20"
+  },
+  "author": {
+    "name": "Transparent Games"
+  }
 }
