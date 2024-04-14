@@ -60,12 +60,15 @@ namespace TransparentGames.Essentials.Detection
             return list;
         }
 
-        public List<IDetectable> OverlapBox(Vector3 position, Vector3 size, Quaternion rotation)
+        public List<IDetectable> OverlapBox(Vector3 position, Vector3 size, Quaternion rotation, LayerMask layerMask)
         {
             List<IDetectable> list = new();
 
             foreach (IDetectable detectable in _detected)
             {
+                if (layerMask != (layerMask | (1 << detectable.Owner.layer)))
+                    continue;
+
                 Vector3 objectPosition = detectable.Owner.transform.position;
 
                 Vector3 halfSize = size / 2;
