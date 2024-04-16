@@ -33,6 +33,12 @@ namespace TransparentGames.Essentials.Singletons
         /// <value>The instance.</value>
         public static void Initialized(Action onInitializeCallback)
         {
+            if (InstanceExists)
+            {
+                onInitializeCallback?.Invoke();
+                return;
+            }
+
             _initialized += onInitializeCallback;
         }
 
