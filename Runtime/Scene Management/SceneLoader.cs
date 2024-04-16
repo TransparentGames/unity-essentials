@@ -40,7 +40,8 @@ namespace TransparentGames.Essentials.SceneManagement
             if (_currentlyLoadedScene.sceneType == GameSceneSO.GameSceneType.Location)
             {
                 // Load the gameplay scene asynchronously
-                gameplayScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += OnGameplaySceneCompleted;
+                _gameplayManagerLoadingOpHandle = Addressables.LoadSceneAsync(gameplayScene.sceneReference, LoadSceneMode.Additive, true);
+                _gameplayManagerLoadingOpHandle.Completed += OnGameplaySceneCompleted;
             }
         }
 #endif
@@ -125,10 +126,10 @@ namespace TransparentGames.Essentials.SceneManagement
 
             if (_currentlyLoadedScene != null) //would be null if the game was started in Initialization
             {
-                if (_currentlyLoadedScene.sceneReference.OperationHandle.IsValid())
+                if (_loadingOperationHandle.IsValid())
                 {
-                    //Unload the scene through its AssetReference, i.e. through the Addressable system
-                    _currentlyLoadedScene.sceneReference.UnLoadScene();
+                    //Unload the scene through the Addressable system
+                    Addressables.UnloadSceneAsync(_loadingOperationHandle);
                 }
 #if UNITY_EDITOR
                 else
@@ -154,7 +155,7 @@ namespace TransparentGames.Essentials.SceneManagement
                 ToggleLoadingScreen?.Invoke(true);
             }
 
-            _loadingOperationHandle = _sceneToLoad.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true, 0);
+            _loadingOperationHandle = Addressables.LoadSceneAsync(_sceneToLoad.sceneReference, LoadSceneMode.Additive, true);
             _loadingOperationHandle.Completed += OnNewSceneLoaded;
         }
 
