@@ -28,7 +28,7 @@ namespace TransparentGames.Essentials.SceneManagement
         {
             if (isColdStart)
             {
-                persistentManagersSceneSO.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
+                Addressables.LoadSceneAsync(persistentManagersSceneSO.sceneReference, LoadSceneMode.Additive, true).Completed += LoadEventChannel;
             }
         }
 
