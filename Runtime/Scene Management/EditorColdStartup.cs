@@ -15,7 +15,9 @@ namespace TransparentGames.Essentials.SceneManagement
         [SerializeField] private GameSceneSO thisSceneSO = default;
         [SerializeField] private GameSceneSO persistentManagersSceneSO = default;
 
+        private AsyncOperationHandle<SceneInstance> _persistentManagerAsyncOperationHandle;
         private bool isColdStart = false;
+
         private void Awake()
         {
             if (!SceneManager.GetSceneByName(persistentManagersSceneSO.sceneReference.editorAsset.name).isLoaded)
@@ -28,12 +30,14 @@ namespace TransparentGames.Essentials.SceneManagement
         {
             if (isColdStart)
             {
-                Addressables.LoadSceneAsync(persistentManagersSceneSO.sceneReference, LoadSceneMode.Additive, true).Completed += LoadEventChannel;
+                _persistentManagerAsyncOperationHandle = Addressables.LoadSceneAsync(persistentManagersSceneSO.sceneReference, LoadSceneMode.Additive, true);
+                _persistentManagerAsyncOperationHandle.Completed += LoadEventChannel;
             }
         }
 
         private void LoadEventChannel(AsyncOperationHandle<SceneInstance> obj)
         {
+            _persistentManagerAsyncOperationHandle.Completed -= LoadEventChannel;
             SceneLoader.Instance.LocationColdStartup(thisSceneSO);
         }
 #endif

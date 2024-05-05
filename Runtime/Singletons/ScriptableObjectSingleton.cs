@@ -23,6 +23,7 @@ namespace TransparentGames.Essentials.Singletons
         /// The instance.
         /// </summary>
         private static T _instance;
+        private static Action _initialized;
 
         /// <summary>
         /// The initialization status of the singleton's instance.
@@ -33,16 +34,20 @@ namespace TransparentGames.Essentials.Singletons
 
         #region Properties
 
-        public static void OnInitialized(Action<T> onInit)
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
+        public static void Initialized(Action onInitializeCallback)
         {
             if (InstanceExists)
             {
-                onInit.Invoke(_instance);
+                onInitializeCallback?.Invoke();
+                return;
             }
-            else
-            {
-                _ = LoadAsync(Key, onInit);
-            }
+
+            //_ = LoadAsync(Key);
+            _initialized += onInitializeCallback;
         }
 
         protected static string Key => typeof(T).Name;
@@ -107,21 +112,25 @@ namespace TransparentGames.Essentials.Singletons
 
         protected virtual void OnInitialized()
         {
-
+            _initialized?.Invoke();
+            _initialized = null;
         }
 
-        protected static async Task LoadAsync(string key, System.Action<T> callback)
+        private static async Task LoadAsync(string key)
         {
+            while (Caching.ready == false)
+            {
+                await Task.Yield();
+            }
+
             var handle = Addressables.LoadAssetAsync<T>(key);
 
             if (handle.IsValid() == false) return;
 
             _instance = await handle.Task;
-
-            callback(_instance);
         }
 
-        protected static T Load(string key)
+        private static T Load(string key)
         {
             Debug.LogFormat("Loading... {0}", Key);
             return Addressables.LoadAssetAsync<T>(key).WaitForCompletion();
@@ -168,15 +177,22 @@ namespace TransparentGames.Essentials.Singletons
 #if UNITY_EDITOR
         protected virtual void OnEnable()
         {
-
             _ = CheckIfAddressable();
         }
 
         protected async Task CheckIfAddressable()
         {
+            while (Caching.ready == false)
+            {
+                await Task.Yield();
+            }
+
             await Addressables.InitializeAsync().Task;
+
             var path = AssetDatabase.GetAssetPath(this);
             var guid = AssetDatabase.AssetPathToGUID(path);
+
+            if (string.IsNullOrEmpty(guid)) return;
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
             var entry = settings.FindAssetEntry(guid) ?? settings.CreateOrMoveEntry(guid, settings.DefaultGroup);
