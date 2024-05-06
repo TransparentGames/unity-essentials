@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 
 #if UNITY_EDITOR
 using UnityEditor;
