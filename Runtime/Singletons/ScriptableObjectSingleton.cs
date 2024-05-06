@@ -175,37 +175,55 @@ namespace TransparentGames.Essentials.Singletons
         #endregion
 
 #if UNITY_EDITOR
-        protected virtual void OnEnable()
+    protected virtual void OnEnable()
+    {
+        _ = CheckIfAddressable();
+    }
+
+    protected async Task CheckIfAddressable()
+    {
+        while (Caching.ready == false)
         {
-            _ = CheckIfAddressable();
+            await Task.Yield();
         }
 
-        protected async Task CheckIfAddressable()
+        try
         {
-            while (Caching.ready == false)
-            {
-                await Task.Yield();
-            }
-
             await Addressables.InitializeAsync().Task;
-
-            var path = AssetDatabase.GetAssetPath(this);
-            var guid = AssetDatabase.AssetPathToGUID(path);
-
-            if (string.IsNullOrEmpty(guid)) return;
-
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            var entry = settings.FindAssetEntry(guid) ?? settings.CreateOrMoveEntry(guid, settings.DefaultGroup);
-
-            if (entry.address != Key)
-            {
-                entry.address = Key;
-            }
-            else
-            {
-                Debug.LogFormat("Config {0} loaded successfully", this);
-            }
         }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to initialize Addressables: {ex}");
+            return;
+        }
+
+        var path = AssetDatabase.GetAssetPath(this);
+        var guid = AssetDatabase.AssetPathToGUID(path);
+
+        if (string.IsNullOrEmpty(guid)) return;
+
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        AddressableAssetEntry entry = null;
+
+        try
+        {
+            entry = settings.FindAssetEntry(guid) ?? settings.CreateOrMoveEntry(guid, settings.DefaultGroup);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to find or create asset entry: {ex}");
+            return;
+        }
+
+        if (entry.address != Key)
+        {
+            entry.address = Key;
+        }
+        else
+        {
+            Debug.LogFormat("Config {0} loaded successfully", this);
+        }
+    }
 #endif
     }
 }
