@@ -98,7 +98,34 @@ namespace TransparentGames.Essentials.PlayFab
                 Debug.Log($"Successfully retrieved [{successResult.PlayerProfile.DisplayName}] player profile");
                 successCallback(successResult);
             }, PlayFabFailure);
+        }
 
+        /// <summary>
+        /// Purchase Item by Item ID in catalog using specific currency.
+        /// </summary>
+        /// <param name="itemId">Item ID you want to buy</param>
+        /// <param name="currencyCode">Currency Code (for example: AB/CD/etc.)</param>
+        /// <param name="successCallback">On Purchase Success. Contains PurchaseItemResult</param>
+        /// <param name="errorCallback">On Error. Contains PlayFabError</param>
+        public static void PurchaseItem(string itemId, string currencyCode, int price, Action<PurchaseItemResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.PurchaseItem(new PurchaseItemRequest
+            {
+                ItemId = itemId,
+                VirtualCurrency = currencyCode,
+                Price = price
+            }, successCallback,
+            errorCallback ?? PlayFabFailure);
+        }
+
+        public static void UseItem(string itemInstanceId, int count, Action<ConsumeItemResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.ConsumeItem(new ConsumeItemRequest
+            {
+                ItemInstanceId = itemInstanceId,
+                ConsumeCount = count
+            }, successCallback,
+            errorCallback ?? PlayFabFailure);
         }
 
         public static void GetVirtualCurrency(Action<GetUserInventoryResult> successCallback)
