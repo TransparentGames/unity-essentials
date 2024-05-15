@@ -100,6 +100,15 @@ namespace TransparentGames.Essentials.PlayFab
             }, PlayFabFailure);
         }
 
+        public static void GetUserInventory(Action<GetUserInventoryResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), successResult =>
+            {
+                Debug.Log($"Successfully retrieved inventory");
+                successCallback(successResult);
+            }, errorCallback ?? PlayFabFailure);
+        }
+
         /// <summary>
         /// Purchase Item by Item ID in catalog using specific currency.
         /// </summary>
@@ -126,15 +135,6 @@ namespace TransparentGames.Essentials.PlayFab
                 ConsumeCount = count
             }, successCallback,
             errorCallback ?? PlayFabFailure);
-        }
-
-        public static void GetVirtualCurrency(Action<GetUserInventoryResult> successCallback)
-        {
-            PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), successResult =>
-            {
-                Debug.Log($"Successfully retrieved [{successResult.VirtualCurrency}] virtual currency");
-                successCallback(successResult);
-            }, PlayFabFailure);
         }
 
         private static void PlayFabFailure(PlayFabError error)
