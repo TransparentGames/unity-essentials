@@ -8,6 +8,7 @@ namespace TransparentGames.Essentials.PlayFab
     public static class ClientPlayFabHandler
     {
         public static string SessionTicket { get; private set; }
+        public static string PlayFabId { get; private set; }
 
         #region Register
         public static void Register(string email, string username, string password,
@@ -62,6 +63,7 @@ namespace TransparentGames.Essentials.PlayFab
             }, successResult =>
             {
                 SessionTicket = successResult.SessionTicket;
+                PlayFabId = successResult.PlayFabId;
                 Debug.Log($"Successfully logged with [{SessionTicket}] user");
                 successCallback(successResult);
             }, PlayFabFailure);
@@ -133,6 +135,14 @@ namespace TransparentGames.Essentials.PlayFab
             {
                 ItemInstanceId = itemInstanceId,
                 ConsumeCount = count
+            }, successCallback,
+            errorCallback ?? PlayFabFailure);
+        }
+
+        public static void GetCatalogItems(Action<GetCatalogItemsResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.GetCatalogItems(new GetCatalogItemsRequest
+            {
             }, successCallback,
             errorCallback ?? PlayFabFailure);
         }
