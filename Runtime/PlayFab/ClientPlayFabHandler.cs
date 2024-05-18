@@ -129,7 +129,7 @@ namespace TransparentGames.Essentials.PlayFab
             errorCallback ?? PlayFabFailure);
         }
 
-        public static void UseItem(string itemInstanceId, int count, Action<ConsumeItemResult> successCallback, Action<PlayFabError> errorCallback = null)
+        public static void ConsumeItem(string itemInstanceId, int count, Action<ConsumeItemResult> successCallback, Action<PlayFabError> errorCallback = null)
         {
             PlayFabClientAPI.ConsumeItem(new ConsumeItemRequest
             {
