@@ -43,26 +43,27 @@ namespace TransparentGames.Essentials.PlayFab
             }, PlayFabFailure);
         }
 
-        public static void GetItemsFromDropTable(string tableId, string playFabId, Action<GrantItemsToUserResult> successCallback, Action<PlayFabError> errorCallback = null)
+        public static void GetDropTableData(string tableId, Action<RandomResultTableListing> successCallback, Action<PlayFabError> errorCallback = null)
         {
             PlayFabServerAPI.GetRandomResultTables(new GetRandomResultTablesRequest()
             {
                 TableIDs = new List<string> { tableId }
             }, successResult =>
-            {
-                Debug.Log("Completed getting drop tables");
-                EvaluateRandomResultTable(tableId, playFabId, successCallback, errorCallback);
-            }, errorCallback ?? PlayFabFailure);
+        {
+            Debug.Log("Completed getting drop tables");
+            successCallback(successResult.Tables[tableId]);
+        }, errorCallback ?? PlayFabFailure);
         }
 
-        public static void ReadDropTableData(string tableId, Action<GetRandomResultTablesResult> successCallback, Action<PlayFabError> errorCallback = null)
+        public static void GrantItemsToUser(string playFabId, List<string> itemIds, Action<GrantItemsToUserResult> successCallback, Action<PlayFabError> errorCallback = null)
         {
-            PlayFabServerAPI.GetRandomResultTables(new GetRandomResultTablesRequest()
+            PlayFabServerAPI.GrantItemsToUser(new GrantItemsToUserRequest
             {
-                TableIDs = new List<string> { tableId }
+                PlayFabId = playFabId,
+                ItemIds = itemIds
             }, successResult =>
             {
-                Debug.Log("Completed getting drop tables");
+                Debug.Log("Successfully granted items to user");
                 successCallback(successResult);
             }, errorCallback ?? PlayFabFailure);
         }
