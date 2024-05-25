@@ -30,7 +30,7 @@ namespace TransparentGames.Essentials.PlayFab
             }, PlayFabFailure);
         }
 
-        public static void UpdateUserData(string playFabId, Dictionary<string, string> data, Action<UpdateUserDataResult> successCallback = null)
+        public static void UpdateUserData(string playFabId, Dictionary<string, string> data, Action<UpdateUserDataResult> successCallback = null, Action<PlayFabError> errorCallback = null)
         {
             PlayFabServerAPI.UpdateUserData(new UpdateUserDataRequest
             {
@@ -40,7 +40,7 @@ namespace TransparentGames.Essentials.PlayFab
             {
                 Debug.Log("Successfully updated user data");
                 successCallback(successResult);
-            }, PlayFabFailure);
+            }, errorCallback ?? PlayFabFailure);
         }
 
         public static void GetDropTableData(string tableId, Action<RandomResultTableListing> successCallback, Action<PlayFabError> errorCallback = null)
