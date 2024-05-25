@@ -53,12 +53,18 @@ namespace TransparentGames.Essentials.PlayFab
             }, PlayFabFailure);
         }
 
-        public static void GuestLogin(Action<LoginResult> successCallback, string customId = null)
+        public static void GuestLogin(Action<LoginResult> successCallback, Action<PlayFabError> errorCallback = null, string customId = null)
         {
             PlayFabClientAPI.LoginWithCustomID(new LoginWithCustomIDRequest
             {
                 CustomId = customId ?? SystemInfo.deviceUniqueIdentifier,
                 CreateAccount = true,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetUserData = true,
+                    GetUserInventory = true,
+                    GetUserVirtualCurrency = true,
+                }
 
             }, successResult =>
             {
@@ -66,7 +72,7 @@ namespace TransparentGames.Essentials.PlayFab
                 PlayFabId = successResult.PlayFabId;
                 Debug.Log($"Successfully logged with [{SessionTicket}] user");
                 successCallback(successResult);
-            }, PlayFabFailure);
+            }, errorCallback ?? PlayFabFailure);
         }
 
         #endregion
