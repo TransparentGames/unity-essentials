@@ -153,6 +153,26 @@ namespace TransparentGames.Essentials.PlayFab
             errorCallback ?? PlayFabFailure);
         }
 
+        public static void SubtractUserVirtualCurrency(string currencyCode, int amount, Action<ModifyUserVirtualCurrencyResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.SubtractUserVirtualCurrency(new SubtractUserVirtualCurrencyRequest
+            {
+                VirtualCurrency = currencyCode,
+                Amount = amount
+            }, successCallback,
+            errorCallback ?? PlayFabFailure);
+        }
+
+        public static void AddUserVirtualCurrency(string currencyCode, int amount, Action<ModifyUserVirtualCurrencyResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabClientAPI.AddUserVirtualCurrency(new AddUserVirtualCurrencyRequest
+            {
+                VirtualCurrency = currencyCode,
+                Amount = amount
+            }, successCallback,
+            errorCallback ?? PlayFabFailure);
+        }
+
         private static void PlayFabFailure(PlayFabError error)
         {
             Debug.Log(error.GenerateErrorReport());
