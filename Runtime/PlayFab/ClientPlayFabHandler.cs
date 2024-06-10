@@ -64,6 +64,7 @@ namespace TransparentGames.Essentials.PlayFab
                     GetUserData = true,
                     GetUserInventory = true,
                     GetUserVirtualCurrency = true,
+                    GetTitleData = true,
                 }
 
             }, successResult =>
