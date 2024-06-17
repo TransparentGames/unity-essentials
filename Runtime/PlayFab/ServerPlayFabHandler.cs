@@ -68,7 +68,7 @@ namespace TransparentGames.Essentials.PlayFab
             }, errorCallback ?? PlayFabFailure);
         }
 
-        public static void EvaluateRandomResultTable(string tableId, string playFabId, Action<GrantItemsToUserResult> successCallback, Action<PlayFabError> errorCallback = null)
+        public static void EvaluateRandomResultTable(string playFabId, string tableId, Action<GrantItemsToUserResult> successCallback, Action<PlayFabError> errorCallback = null)
         {
             PlayFabServerAPI.EvaluateRandomResultTable(new EvaluateRandomResultTableRequest
             {
@@ -78,6 +78,18 @@ namespace TransparentGames.Essentials.PlayFab
             {
                 Debug.Log("Successfully got random result tables");
                 OnRandomResultTableResponse(successResult, playFabId, successCallback, errorCallback);
+            }, errorCallback ?? PlayFabFailure);
+        }
+
+        public static void RevokeInventoryItems(string playFabId, List<RevokeInventoryItem> revokeInventoryItems, Action<RevokeInventoryItemsResult> successCallback, Action<PlayFabError> errorCallback = null)
+        {
+            PlayFabServerAPI.RevokeInventoryItems(new RevokeInventoryItemsRequest
+            {
+                Items = revokeInventoryItems,
+            }, successResult =>
+            {
+                Debug.Log("Successfully revoked inventory items");
+                successCallback?.Invoke(successResult);
             }, errorCallback ?? PlayFabFailure);
         }
 
