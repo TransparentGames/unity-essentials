@@ -81,8 +81,18 @@ namespace TransparentGames.Essentials.PlayFab
             }, errorCallback ?? PlayFabFailure);
         }
 
-        public static void RevokeInventoryItems(string playFabId, List<RevokeInventoryItem> revokeInventoryItems, Action<RevokeInventoryItemsResult> successCallback, Action<PlayFabError> errorCallback = null)
+        public static void RevokeInventoryItems(string playFabId, List<string> itemInstanceIds, Action<RevokeInventoryItemsResult> successCallback, Action<PlayFabError> errorCallback = null)
         {
+            List<RevokeInventoryItem> revokeInventoryItems = new();
+            foreach (var itemInstanceId in itemInstanceIds)
+            {
+                revokeInventoryItems.Add(new RevokeInventoryItem
+                {
+                    ItemInstanceId = itemInstanceId,
+                    PlayFabId = playFabId
+                });
+            }
+
             PlayFabServerAPI.RevokeInventoryItems(new RevokeInventoryItemsRequest
             {
                 Items = revokeInventoryItems,
