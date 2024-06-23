@@ -1,3 +1,4 @@
+#if !DISABLE_PLAYFABCLIENT_API && ENABLE_PLAYFABCLIENT_API
 using System;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -180,3 +181,4 @@ namespace TransparentGames.Essentials.PlayFab
         }
     }
 }
+#endif

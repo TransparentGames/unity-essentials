@@ -1,7 +1,7 @@
 {
   "displayName": "Essentials",
   "name": "com.transparentgames.essentials",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "This is an example package",
   "dependencies": {
     "com.unity.addressables": "1.21.20"
