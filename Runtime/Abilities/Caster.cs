@@ -43,6 +43,7 @@ namespace TransparentGames.Abilities
             _ability.Owner = Owner;
             _ability.Damage = _damage;
             _ability.LayerMask = abilityTemplate.layerMask;
+            _ability.Use(this);
             _inProgress = true;
             _ability.Finished += OnAbilityFinished;
         }
