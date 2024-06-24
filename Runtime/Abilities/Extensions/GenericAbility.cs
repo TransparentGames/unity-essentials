@@ -12,6 +12,11 @@ namespace TransparentGames.Abilities
 
         private List<HitResult> _hitResults = new();
 
+        public override void Use(Caster caster)
+        {
+            throw new NotImplementedException();
+        }
+
         public void OnDealDamage()
         {
             Vector2 localHitboxSize = hitboxSize * transform.localScale;
@@ -43,5 +48,7 @@ namespace TransparentGames.Abilities
             Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.Euler(0, 0, transform.eulerAngles.z), Vector3.one);
             Gizmos.DrawWireCube(Vector3.zero, localHitboxSize);
         }
+
+
     }
 }

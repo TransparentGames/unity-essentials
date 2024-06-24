@@ -13,6 +13,8 @@ namespace TransparentGames.Abilities
         public float Damage { get; set; }
         public LayerMask LayerMask { get; set; }
 
+        public abstract void Use(Caster caster);
+
         protected void OnFinished()
         {
             Finished?.Invoke();
