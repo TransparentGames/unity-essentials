@@ -21,7 +21,6 @@ namespace TransparentGames.Abilities
         public bool InProgress => _inProgress;
 
         [SerializeField] private AbilityTemplate abilityTemplate;
-        [SerializeField] private BaseNode<int> targetKilled;
 
         private Ability _ability;
         private bool _inProgress = false;
@@ -29,6 +28,9 @@ namespace TransparentGames.Abilities
 
         public bool CanCast()
         {
+            if (abilityTemplate == null)
+                return false;
+
             return abilityTemplate.CanUse(this) && !_inProgress;
         }
 
@@ -54,8 +56,7 @@ namespace TransparentGames.Abilities
         {
             foreach (HitResult hitResult in hitResults)
             {
-                if (hitResult.wasKilled)
-                    targetKilled.Value += 1;
+
             }
         }
 
