@@ -1,0 +1,20 @@
+{
+    "name": "TransparentGames.Essentials.NodeCanvas",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2289059ddf1745b4d80a0f184af99d6b",
+        "GUID:ef8aaf76f74c0553f9e54fb9c7317d9e",
+        "GUID:66c2eb417c67ad849907d0769db96dbf"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "NODECANVAS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
