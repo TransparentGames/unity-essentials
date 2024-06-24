@@ -1,11 +1,12 @@
 using System;
+using UnityEngine;
 
-namespace TransparentGames.Essentials.Combat
+namespace TransparentGames.Stats
 {
     [Serializable]
-    public abstract class Stat<T> : IStat where T : struct
+    public class Stat
     {
-        public abstract string Name { get; }
-        public abstract T Value { get; set; }
+        public StatDefinition statDefinition;
+        public float value;
     }
 }
