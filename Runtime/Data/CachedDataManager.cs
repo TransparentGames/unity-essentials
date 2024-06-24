@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using PlayFab.ClientModels;
-using TransparentGames.Essentials.PlayFab;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
