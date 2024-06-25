@@ -20,9 +20,17 @@ namespace TransparentGames.Combat
             _health = GetComponent<IHealth>();
         }
 
+        public void SetInvincible(bool isInvincible)
+        {
+            _isInvincible = isInvincible;
+        }
+
         public HitResult OnHit(HitInfo hitInfo)
         {
             if (_isInvincible)
+                return new HitResult();
+
+            if (_health.CurrentHealth <= 0)
                 return new HitResult();
 
             _health.Add(-hitInfo.damage);
@@ -33,9 +41,6 @@ namespace TransparentGames.Combat
                 wasKilled = _health.CurrentHealth <= 0,
                 hitObject = GameObject
             };
-
-            if (hitResult.wasKilled)
-                _isInvincible = true;
 
             HitResultEvent?.Invoke(hitResult);
             HitInfoEvent?.Invoke(hitInfo);

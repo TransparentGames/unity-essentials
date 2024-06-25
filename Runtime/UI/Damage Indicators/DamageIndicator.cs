@@ -21,11 +21,11 @@ namespace TransparentGames.Combat
         {
             textMeshProUGUI.text = damageAmount.ToString();
             textMeshProUGUI.color = normalTextColor;
-            transform.position = Camera.main.WorldToScreenPoint(position);
+            transform.position = position;
             transform.localScale = Vector3.one;
 
-            _moveXTween = transform.DOMoveX(transform.position.x + 50f, 0.5f).SetEase(Ease.InOutQuad);
-            _moveYTween = transform.DOMoveY(transform.position.y + 20f, 0.5f).SetEase(Ease.OutQuad);
+            _moveXTween = transform.DOMoveX(transform.position.x + 0.5f, 0.5f).SetEase(Ease.InOutQuad);
+            _moveYTween = transform.DOMoveY(transform.position.y + 0.2f, 0.5f).SetEase(Ease.OutQuad);
 
             _scaleTween = transform.DOScale(Vector3.one * 1.2f, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => FadeOut());
         }

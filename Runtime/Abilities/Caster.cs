@@ -17,6 +17,7 @@ namespace TransparentGames.Abilities
     public class Caster : MonoBehaviour, IStatsRequired, IComponent
     {
         public GameObject Owner { get; set; }
+        public StatsHolder StatsHolder { get; set; }
         public Animator Animator => Owner.GetComponentInChildren<Animator>();
         public bool IsBusy => _abilityInProgress;
 
@@ -24,7 +25,6 @@ namespace TransparentGames.Abilities
 
         private Ability _ability;
         private bool _abilityInProgress = false;
-        private float _damage = 0f;
 
         public bool CanCast()
         {
@@ -34,26 +34,22 @@ namespace TransparentGames.Abilities
             return abilityTemplate.CanUse(this) && !_abilityInProgress;
         }
 
-        public void Cast(Vector3 target)
+        public void Cast(Vector3 position)
         {
-            Vector3 direction = (target - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            _ability = Instantiate(abilityTemplate.abilityPrefab, transform.position + direction, Quaternion.Euler(0f, 0f, angle));
+            _ability = Instantiate(abilityTemplate.abilityPrefab, position, Owner.transform.rotation);
             _ability.HitResultsEvent += OnHitResults;
             _ability.Owner = Owner;
-            _ability.Damage = _damage;
+            _ability.Damage = abilityTemplate.Calculate(StatsHolder.Stats);
             _ability.LayerMask = abilityTemplate.layerMask;
             _ability.Use(this);
             _abilityInProgress = true;
             _ability.Finished += OnAbilityFinished;
         }
 
-        public void OnStatsChanged(List<Stat> stats)
-        {
-            if (abilityTemplate == null)
-                return;
 
-            _damage = abilityTemplate.Calculate(stats);
+        public void OnStatsChanged()
+        {
+            // Does not need to update, the ability will be updated when it is cast
         }
 
         private void OnHitResults(List<HitResult> hitResults)
@@ -71,6 +67,7 @@ namespace TransparentGames.Abilities
             _abilityInProgress = false;
             Destroy(_ability.gameObject);
         }
+
     }
 
 #if UNITY_EDITOR
@@ -89,7 +86,7 @@ namespace TransparentGames.Abilities
             EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
 
             if (GUILayout.Button("Cast"))
-                caster.Cast(caster.transform.forward);
+                caster.Cast(caster.Owner.transform.position);
         }
     }
 #endif
