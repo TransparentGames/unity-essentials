@@ -7,7 +7,7 @@ namespace TransparentGames.Essentials.Combat
         public float MaxHealth { get; }
         public float CurrentHealth { get; }
 
-        public event Action<float, float> ValueChanged;
+        public event Action<float> ValueChanged;
         public event Action ValueZeroed;
 
         public void Add(float amount);

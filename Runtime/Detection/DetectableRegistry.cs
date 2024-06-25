@@ -66,16 +66,18 @@ namespace TransparentGames.Essentials.Detection
 
             foreach (IDetectable detectable in _detected)
             {
-                if (layerMask != (layerMask | (1 << detectable.Owner.layer)))
+                // Corrected layer mask check
+                if ((layerMask & (1 << detectable.Owner.layer)) == 0)
                     continue;
 
-                Vector3 objectPosition = detectable.Owner.transform.position;
-
+                Vector3 targetPosition = detectable.Owner.transform.position;
                 Vector3 halfSize = size / 2;
 
-                Vector3 localPosition = Quaternion.Inverse(rotation) * (objectPosition - position);
+                // Correctly calculate the local position of the target relative to the box
+                Vector3 localPosition = Quaternion.Inverse(rotation) * (targetPosition - position);
 
-                if (Mathf.Abs(localPosition.x) < halfSize.x && Mathf.Abs(localPosition.y) < halfSize.y)
+                // Correctly check if the target is within the box in all three dimensions
+                if (Mathf.Abs(localPosition.x) <= halfSize.x && Mathf.Abs(localPosition.y) <= halfSize.y && Mathf.Abs(localPosition.z) <= halfSize.z)
                 {
                     list.Add(detectable);
                 }

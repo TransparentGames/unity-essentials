@@ -12,27 +12,28 @@ namespace TransparentGames.Combat
 {
     public class Health : MonoBehaviour, IHealth, IStatsRequired
     {
-        public event Action<float, float> ValueChanged;
+        public StatsHolder StatsHolder { get; set; }
+
+        public event Action<float> ValueChanged;
         public event Action ValueZeroed;
         public float MaxHealth => _maxHealth;
         public float CurrentHealth => _currentHealth;
+
 
         private float _maxHealth = 999f;
         private float _currentHealth = 999f;
 
         public virtual void Add(float amount)
         {
-            float previousHealth = _currentHealth;
-
             _currentHealth += amount;
-            ValueChanged?.Invoke(previousHealth, _currentHealth);
+            ValueChanged?.Invoke(_currentHealth);
             if (_currentHealth <= 0)
                 ValueZeroed?.Invoke();
         }
 
-        public void OnStatsChanged(List<Stat> stats)
+        public void OnStatsChanged()
         {
-            _maxHealth = stats.Find(stat => stat.statDefinition.statName == "Health").value;
+            _maxHealth = StatsHolder.Stats.Find(stat => stat.statDefinition.statName == "Health").value;
             _currentHealth = _maxHealth;
         }
     }

@@ -6,6 +6,8 @@ namespace TransparentGames.Stats
 {
     public class StatsHolder : MonoBehaviour
     {
+        public List<Stat> Stats => _stats;
+
         [SerializeField] private BaseStats baseStats;
 
         private IStatsRequired[] _statsRequired;
@@ -26,7 +28,10 @@ namespace TransparentGames.Stats
                 statUpdater.StatChanged += OnStatChanged;
 
             foreach (var statsRequired in _statsRequired)
-                statsRequired.OnStatsChanged(_stats);
+            {
+                statsRequired.StatsHolder = this;
+                statsRequired.OnStatsChanged();
+            }
         }
 
         private void OnDisable()
@@ -42,7 +47,7 @@ namespace TransparentGames.Stats
             _stats = baseStats.stats;
 
             foreach (var statsRequired in _statsRequired)
-                statsRequired.OnStatsChanged(_stats);
+                statsRequired.OnStatsChanged();
         }
     }
 }
