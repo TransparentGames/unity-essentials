@@ -50,6 +50,9 @@ namespace TransparentGames.Abilities
 
         public void OnStatsChanged(List<Stat> stats)
         {
+            if (abilityTemplate == null)
+                return;
+
             _damage = abilityTemplate.Calculate(stats);
         }
 
