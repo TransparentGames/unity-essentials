@@ -18,12 +18,12 @@ namespace TransparentGames.Abilities
     {
         public GameObject Owner { get; set; }
         public Animator Animator => Owner.GetComponentInChildren<Animator>();
-        public bool InProgress => _inProgress;
+        public bool IsBusy => _abilityInProgress;
 
         [SerializeField] private AbilityTemplate abilityTemplate;
 
         private Ability _ability;
-        private bool _inProgress = false;
+        private bool _abilityInProgress = false;
         private float _damage = 0f;
 
         public bool CanCast()
@@ -31,7 +31,7 @@ namespace TransparentGames.Abilities
             if (abilityTemplate == null)
                 return false;
 
-            return abilityTemplate.CanUse(this) && !_inProgress;
+            return abilityTemplate.CanUse(this) && !_abilityInProgress;
         }
 
         public void Cast(Vector3 target)
@@ -44,7 +44,7 @@ namespace TransparentGames.Abilities
             _ability.Damage = _damage;
             _ability.LayerMask = abilityTemplate.layerMask;
             _ability.Use(this);
-            _inProgress = true;
+            _abilityInProgress = true;
             _ability.Finished += OnAbilityFinished;
         }
 
@@ -65,7 +65,7 @@ namespace TransparentGames.Abilities
         {
             _ability.HitResultsEvent -= OnHitResults;
             _ability.Finished -= OnAbilityFinished;
-            _inProgress = false;
+            _abilityInProgress = false;
             Destroy(_ability.gameObject);
         }
     }
