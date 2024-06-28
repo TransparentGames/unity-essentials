@@ -34,6 +34,8 @@ namespace TransparentGames.UI
             _highlightTween?.Kill();
             _maxHealth = maxHealth;
             _currentHealth = currentHealth;
+            hpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
+            animatedHpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
         }
 
         private void AnimateHpBar()
