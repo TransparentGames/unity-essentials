@@ -41,6 +41,13 @@ namespace TransparentGames.UI
 
             var newAnchor = mainCamera.WorldToViewportPoint(worldPosition);
 
+            // Hide the UI element if it's outside the screen
+            if (newAnchor.z < 0)
+            {
+                newAnchor.x = -1;
+                newAnchor.y = -1;
+            }
+
             if (clampToScreenEdge)
             {
                 if (separateOffsets)
