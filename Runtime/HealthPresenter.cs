@@ -30,6 +30,13 @@ namespace TransparentGames.Combat
         {
             if (_healthBar != null)
             {
+                if (isWorldSpace)
+                {
+                    var worldSpaceElement = _healthBar.GetComponent<WorldSpaceElement>();
+                    worldSpaceElement.SetOffset(healthBarOffset);
+                    worldSpaceElement.SetTarget(transform);
+                }
+
                 _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
                 _healthBar.gameObject.SetActive(true);
             }
@@ -53,9 +60,7 @@ namespace TransparentGames.Combat
             _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
             _healthBar.gameObject.SetActive(false);
 
-            var worldSpaceElement = _healthBar.GetComponent<WorldSpaceElement>();
-            worldSpaceElement.SetOffset(healthBarOffset);
-            worldSpaceElement.SetTarget(transform);
+
         }
 
         private void CreateScreenSpaceHealthBar()
