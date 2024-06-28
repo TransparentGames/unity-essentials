@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.UI
+namespace TransparentGames.UI.ScreenSpace
 {
     [RequireComponent(typeof(Canvas))]
     public class DynamicElementsCanvas : MonoSingleton<DynamicElementsCanvas>
@@ -29,6 +29,8 @@ namespace TransparentGames.UI
 
         protected override void Awake()
         {
+            base.Awake();
+
             foreach (var order in Enum.GetNames(typeof(Layer)))
             {
                 var trans = new GameObject(order).transform;
@@ -40,7 +42,7 @@ namespace TransparentGames.UI
                 _layers.Add(rectTransform);
             }
 
-            base.Awake();
+
 
             Canvas = GetComponent<Canvas>();
 

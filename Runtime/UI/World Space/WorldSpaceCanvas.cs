@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-[RequireComponent(typeof(Canvas))]
-public class WorldSpaceCanvas : MonoSingleton<WorldSpaceCanvas>
+namespace TransparentGames.UI.WorldSpace
 {
-    // TODO: Auto setup camera here
-    public enum Layer
+    [RequireComponent(typeof(Canvas))]
+    public class WorldSpaceCanvas : MonoSingleton<WorldSpaceCanvas>
     {
-        Background,
-        Default,
-        Foreground
-    }
-
-    private readonly List<Transform> _layers = new();
-    private Canvas _canvas;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        foreach (var order in Enum.GetNames(typeof(Layer)))
+        // TODO: Auto setup camera here
+        public enum Layer
         {
-            Transform trans = new GameObject(order).transform;
-            trans.SetParent(transform);
-            trans.localScale = Vector3.one;
-            _layers.Add(trans);
+            Background,
+            Default,
+            Foreground
         }
 
-        _canvas = GetComponent<Canvas>();
-    }
+        private readonly List<Transform> _layers = new();
+        private Canvas _canvas;
 
-    public Transform Transform => GetTransform(Layer.Default);
+        protected override void Awake()
+        {
+            base.Awake();
+            foreach (var order in Enum.GetNames(typeof(Layer)))
+            {
+                Transform trans = new GameObject(order).transform;
+                trans.SetParent(transform);
+                trans.localScale = Vector3.one;
+                _layers.Add(trans);
+            }
 
-    public Transform GetTransform(Layer layer)
-    {
-        return _layers[(int)layer];
+            _canvas = GetComponent<Canvas>();
+        }
+
+        public Transform Transform => GetTransform(Layer.Default);
+
+        public Transform GetTransform(Layer layer = Layer.Default)
+        {
+            return _layers[(int)layer];
+        }
     }
 }
