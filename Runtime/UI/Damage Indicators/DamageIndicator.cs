@@ -17,22 +17,32 @@ namespace TransparentGames.Combat
         private Tween _scaleTween;
         private Tween _fadeTween;
 
-        public void Show(int damageAmount, Vector3 position)
+        public void Set(int damageAmount)
         {
+            _moveXTween?.Kill();
+            _moveYTween?.Kill();
+            _scaleTween?.Kill();
+            _fadeTween?.Kill();
+
+            transform.localScale = Vector3.zero;
+
             textMeshProUGUI.text = damageAmount.ToString();
             textMeshProUGUI.color = normalTextColor;
-            transform.position = position;
-            transform.localScale = Vector3.one;
 
-            _moveXTween = transform.DOMoveX(transform.position.x + 0.5f, 0.5f).SetEase(Ease.InOutQuad);
-            _moveYTween = transform.DOMoveY(transform.position.y + 0.2f, 0.5f).SetEase(Ease.OutQuad);
+            _moveXTween = textMeshProUGUI.transform.DOMoveX(transform.position.x + 0.5f, 0.5f).SetEase(Ease.InOutQuad);
+            _moveYTween = textMeshProUGUI.transform.DOMoveY(transform.position.y + 0.2f, 0.5f).SetEase(Ease.OutQuad);
 
-            _scaleTween = transform.DOScale(Vector3.one * 1.2f, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => FadeOut());
+            _scaleTween = transform.DOScale(Vector3.one * 5.0f, 0.2f).SetEase(Ease.OutQuad).OnComplete(() => ScaleDown());
+        }
+
+        private void ScaleDown()
+        {
+            _scaleTween = transform.DOScale(Vector3.one * 2.0f, 0.3f).SetEase(Ease.OutQuad).OnComplete(() => FadeOut());
         }
 
         private void FadeOut()
         {
-            _fadeTween = textMeshProUGUI.DOFade(0f, 0.7f).SetEase(Ease.OutQuad).OnComplete(() => ReturnToPool());
+            _fadeTween = textMeshProUGUI.DOFade(0f, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => ReturnToPool());
         }
 
         private void ReturnToPool()

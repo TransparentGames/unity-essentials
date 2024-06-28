@@ -1,5 +1,7 @@
 using TransparentGames.Essentials.Combat;
 using TransparentGames.Essentials.Singletons;
+using TransparentGames.UI;
+using TransparentGames.UI.ScreenSpace;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -21,12 +23,19 @@ namespace TransparentGames.Combat
             _pool.Clear();
         }
 
-        public void Spawn(HitResult hitResult)
+        public void Spawn(HitResult hitResult, Vector3 offset)
         {
             DamageIndicator damageIndicator = _pool.Get();
+            damageIndicator.transform.localPosition = new Vector3(damageIndicator.transform.localPosition.x, damageIndicator.transform.localPosition.y, 0);
+            damageIndicator.transform.localScale = Vector3.one;
+
+            var worldSpaceUIElement = damageIndicator.GetComponent<WorldSpaceUIElement>();
+            worldSpaceUIElement.SetTarget(hitResult.hitObject.transform);
+            worldSpaceUIElement.SetOffset(offset);
+
             damageIndicator.OnReturnToPool += Release;
 
-            damageIndicator.Show(hitResult.damageDealt, hitResult.hitObject.transform.position);
+            damageIndicator.Set(hitResult.damageDealt);
         }
 
         public void Release(DamageIndicator damageIndicator)
@@ -37,8 +46,7 @@ namespace TransparentGames.Combat
 
         private DamageIndicator CreateDamageIndicator()
         {
-            DamageIndicator damageIndicator = Instantiate(damageIndicatorPrefab, transform);
-
+            DamageIndicator damageIndicator = Instantiate(damageIndicatorPrefab, DynamicElementsCanvas.Instance.GetTransform(), false);
             return damageIndicator;
         }
 
