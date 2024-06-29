@@ -16,6 +16,7 @@ namespace TransparentGames.Abilities
 {
     public class Caster : MonoBehaviour, IStatsRequired, IComponent
     {
+        public event Action Ready;
         public GameObject Owner { get; set; }
         public StatsHolder StatsHolder { get; set; }
         public Animator Animator => Owner.GetComponentInChildren<Animator>();
@@ -25,6 +26,14 @@ namespace TransparentGames.Abilities
 
         private Ability _ability;
         private bool _abilityInProgress = false;
+
+        private void OnDisable()
+        {
+            if (_ability != null)
+            {
+                OnAbilityFinished();
+            }
+        }
 
         public bool CanCast()
         {
@@ -65,9 +74,10 @@ namespace TransparentGames.Abilities
             _ability.HitResultsEvent -= OnHitResults;
             _ability.Finished -= OnAbilityFinished;
             _abilityInProgress = false;
+            Ready?.Invoke();
+
             Destroy(_ability.gameObject);
         }
-
     }
 
 #if UNITY_EDITOR
