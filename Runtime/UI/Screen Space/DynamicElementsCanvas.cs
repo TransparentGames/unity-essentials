@@ -29,8 +29,6 @@ namespace TransparentGames.UI.ScreenSpace
 
         protected override void Awake()
         {
-            base.Awake();
-
             foreach (var order in Enum.GetNames(typeof(Layer)))
             {
                 var trans = new GameObject(order).transform;
@@ -42,7 +40,7 @@ namespace TransparentGames.UI.ScreenSpace
                 _layers.Add(rectTransform);
             }
 
-
+            base.Awake();
 
             Canvas = GetComponent<Canvas>();
 
