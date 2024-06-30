@@ -21,7 +21,6 @@ namespace TransparentGames.UI.WorldSpace
 
         protected override void Awake()
         {
-            base.Awake();
             foreach (var order in Enum.GetNames(typeof(Layer)))
             {
                 Transform trans = new GameObject(order).transform;
@@ -29,6 +28,8 @@ namespace TransparentGames.UI.WorldSpace
                 trans.localScale = Vector3.one;
                 _layers.Add(trans);
             }
+
+            base.Awake();
 
             _canvas = GetComponent<Canvas>();
         }
