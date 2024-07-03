@@ -6,23 +6,21 @@ namespace TransparentGames.Stats
 {
     public class StatsHolder : MonoBehaviour
     {
-        public List<Stat> Stats => CalculateStats();
-        public List<Stat> BaseStats => baseStats.stats;
+        public Dictionary<string, Stat> Stats => _currentStats;
 
         [SerializeField] private BaseStats baseStats;
 
         private IStatsRequired[] _statsRequired;
         private IStatUpdater[] _statUpdaters;
-        //private List<Stat> _stats;
+        private Dictionary<string, Stat> _currentStats = new();
 
         private void Awake()
         {
             _statsRequired = GetComponentsInChildren<IStatsRequired>();
             _statUpdaters = GetComponentsInChildren<IStatUpdater>();
-        }
 
-        private void OnEnable()
-        {
+            _currentStats = CalculateStats();
+
             foreach (var statUpdater in _statUpdaters)
                 statUpdater.StatChanged += OnStatChanged;
 
@@ -33,7 +31,7 @@ namespace TransparentGames.Stats
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             foreach (var statUpdater in _statUpdaters)
             {
@@ -43,18 +41,41 @@ namespace TransparentGames.Stats
 
         private void OnStatChanged()
         {
+            _currentStats = CalculateStats();
+
             foreach (var statsRequired in _statsRequired)
                 statsRequired.OnStatsChanged();
         }
 
-        private List<Stat> CalculateStats()
+        private Dictionary<string, Stat> CalculateStats()
         {
-            var finalStats = baseStats.stats;
+            var finalStatsDict = new Dictionary<string, Stat>();
 
+            // Initialize finalStatsDict with base stats.
+            foreach (var baseStat in baseStats.stats)
+            {
+                finalStatsDict[baseStat.statDefinition.statName] = new Stat(baseStat.statDefinition, baseStat.value);
+            }
+
+            // Apply updates from statUpdaters.
             foreach (var statUpdater in _statUpdaters)
-                finalStats = statUpdater.CalculateStats(baseStats.stats);
+            {
+                foreach (var stat in statUpdater.CalculateStats(baseStats.stats))
+                {
+                    if (finalStatsDict.TryGetValue(stat.statDefinition.statName, out var existingStat))
+                    {
+                        existingStat.value += stat.value;
+                    }
+                    else
+                    {
+                        // This case should not happen if all stats are initialized correctly,
+                        // but it's here to ensure the method is robust to unexpected inputs.
+                        finalStatsDict[stat.statDefinition.statName] = new Stat(stat.statDefinition, stat.value);
+                    }
+                }
+            }
 
-            return finalStats;
+            return finalStatsDict;
         }
     }
 }

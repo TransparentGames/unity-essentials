@@ -14,12 +14,15 @@ namespace TransparentGames.Abilities
         public List<Stat> multipliers;
         public LayerMask layerMask;
 
-        public virtual float Calculate(List<Stat> stats)
+        public virtual float Calculate(Dictionary<string, Stat> stats)
         {
             float result = 0f;
             foreach (Stat stat in multipliers)
             {
-                result += stats.Find(s => s.statDefinition.statName == stat.statDefinition.statName).value * stat.value;
+                if (stats.TryGetValue(stat.statDefinition.statName, out Stat existingStat))
+                {
+                    result += existingStat.value * stat.value;
+                }
             }
             return result;
         }

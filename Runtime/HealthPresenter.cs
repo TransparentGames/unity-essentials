@@ -13,6 +13,7 @@ namespace TransparentGames.Combat
         [SerializeField] private HealthBar healthBarPrefab;
         [SerializeField] private Vector3 healthBarOffset;
         [SerializeField] private bool isWorldSpace = true;
+
         private IHealth _health;
         private HealthBar _healthBar;
 
@@ -24,9 +25,13 @@ namespace TransparentGames.Combat
                 WorldSpaceCanvas.Initialized(() => CreateWorldSpaceHealthBar());
             else
                 DynamicElementsCanvas.Initialized(() => CreateScreenSpaceHealthBar());
+
+            _health.ValueInitialized += OnInitialized;
+            OnInitialized();
+            _health.ValueChanged += OnHealthChanged;
         }
 
-        private void OnEnable()
+        private void OnInitialized()
         {
             if (_healthBar != null)
             {
@@ -40,15 +45,17 @@ namespace TransparentGames.Combat
                 _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
                 _healthBar.gameObject.SetActive(true);
             }
-
-            _health.ValueChanged += OnHealthChanged;
         }
 
         private void OnDisable()
         {
             if (_healthBar != null)
                 _healthBar.gameObject.SetActive(false);
+        }
 
+        private void OnDestroy()
+        {
+            _health.ValueInitialized -= OnInitialized;
             _health.ValueChanged -= OnHealthChanged;
         }
 
@@ -57,17 +64,12 @@ namespace TransparentGames.Combat
             _healthBar = Instantiate(healthBarPrefab, WorldSpaceCanvas.Instance.GetTransform(), false);
             _healthBar.transform.localPosition = new Vector3(_healthBar.transform.localPosition.x, _healthBar.transform.localPosition.y, 0);
             _healthBar.transform.localScale = Vector3.one;
-            _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
             _healthBar.gameObject.SetActive(false);
-
-
         }
 
         private void CreateScreenSpaceHealthBar()
         {
             _healthBar = Instantiate(healthBarPrefab, DynamicElementsCanvas.Instance.GetTransform(), false);
-
-            _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
             _healthBar.gameObject.SetActive(false);
         }
 
