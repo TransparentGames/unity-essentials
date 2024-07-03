@@ -6,13 +6,14 @@ namespace TransparentGames.Stats
 {
     public class StatsHolder : MonoBehaviour
     {
-        public List<Stat> Stats => _stats;
+        public List<Stat> Stats => CalculateStats();
+        public List<Stat> BaseStats => baseStats.stats;
 
         [SerializeField] private BaseStats baseStats;
 
         private IStatsRequired[] _statsRequired;
         private IStatUpdater[] _statUpdaters;
-        private List<Stat> _stats;
+        //private List<Stat> _stats;
 
         private void Awake()
         {
@@ -22,8 +23,6 @@ namespace TransparentGames.Stats
 
         private void OnEnable()
         {
-            _stats = baseStats.stats;
-
             foreach (var statUpdater in _statUpdaters)
                 statUpdater.StatChanged += OnStatChanged;
 
@@ -42,12 +41,20 @@ namespace TransparentGames.Stats
             }
         }
 
-        private void OnStatChanged(List<Stat> list)
+        private void OnStatChanged()
         {
-            _stats = baseStats.stats;
-
             foreach (var statsRequired in _statsRequired)
                 statsRequired.OnStatsChanged();
+        }
+
+        private List<Stat> CalculateStats()
+        {
+            var finalStats = baseStats.stats;
+
+            foreach (var statUpdater in _statUpdaters)
+                finalStats = statUpdater.CalculateStats(baseStats.stats);
+
+            return finalStats;
         }
     }
 }

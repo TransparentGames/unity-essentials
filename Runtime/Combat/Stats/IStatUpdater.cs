@@ -5,6 +5,7 @@ namespace TransparentGames.Stats
 {
     public interface IStatUpdater
     {
-        public event Action<List<Stat>> StatChanged;
+        public abstract List<Stat> CalculateStats(List<Stat> baseStats);
+        public event Action StatChanged;
     }
 }
