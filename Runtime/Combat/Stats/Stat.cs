@@ -8,5 +8,11 @@ namespace TransparentGames.Stats
     {
         public StatDefinition statDefinition;
         public float value;
+
+        public Stat(StatDefinition statDefinition, float value)
+        {
+            this.statDefinition = statDefinition;
+            this.value = value;
+        }
     }
 }
