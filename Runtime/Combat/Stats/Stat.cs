@@ -14,5 +14,12 @@ namespace TransparentGames.Stats
             this.statDefinition = statDefinition;
             this.value = value;
         }
+
+        public Stat(string key, float value)
+        {
+            // TODO get this value from a StatCollection
+            //statDefinition = new StatDefinition(key);
+            this.value = value;
+        }
     }
 }

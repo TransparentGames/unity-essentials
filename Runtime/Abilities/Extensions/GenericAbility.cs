@@ -6,7 +6,7 @@ using System;
 
 namespace TransparentGames.Abilities
 {
-    public class GenericAbility : Ability, IAbilityCallbacks
+    public class GenericAbility : Ability
     {
         [SerializeField] private Vector2 hitboxSize = new(1, 3);
 
@@ -14,13 +14,13 @@ namespace TransparentGames.Abilities
 
         public override void Use(Caster caster)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void OnDealDamage()
         {
             Vector2 localHitboxSize = hitboxSize * transform.localScale;
-            List<IDetectable> detected = DetectableRegistry.Instance.OverlapBox(transform.position, localHitboxSize, Quaternion.Euler(0, 0, transform.eulerAngles.z), LayerMask);
+            List<IDetectable> detected = DetectableRegistry.Instance.OverlapBox2D(transform.position, localHitboxSize, transform.eulerAngles.z, LayerMask);
             foreach (IDetectable detectable in detected)
             {
                 if (detectable.Owner == Owner)
@@ -48,7 +48,5 @@ namespace TransparentGames.Abilities
             Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.Euler(0, 0, transform.eulerAngles.z), Vector3.one);
             Gizmos.DrawWireCube(Vector3.zero, localHitboxSize);
         }
-
-
     }
 }

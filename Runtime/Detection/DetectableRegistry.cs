@@ -86,6 +86,32 @@ namespace TransparentGames.Essentials.Detection
             return list;
         }
 
+        public List<IDetectable> OverlapBox2D(Vector2 position, Vector2 size, float rotation, LayerMask layerMask)
+        {
+            List<IDetectable> list = new();
+
+            foreach (IDetectable detectable in _detected)
+            {
+                // Corrected layer mask check
+                if ((layerMask & (1 << detectable.Owner.layer)) == 0)
+                    continue;
+
+                Vector2 targetPosition = detectable.Owner.transform.position;
+                Vector2 halfSize = size / 2;
+
+                // Correctly calculate the local position of the target relative to the box
+                Vector2 localPosition = Quaternion.Inverse(Quaternion.Euler(0, 0, rotation)) * (targetPosition - position);
+
+                // Correctly check if the target is within the box in all two dimensions
+                if (Mathf.Abs(localPosition.x) <= halfSize.x && Mathf.Abs(localPosition.y) <= halfSize.y)
+                {
+                    list.Add(detectable);
+                }
+            }
+
+            return list;
+        }
+
         private bool IsInRange(Vector3 position, float range, IDetectable detectable)
         {
             return Vector3.Distance(position, detectable.Owner.transform.position) <= range;

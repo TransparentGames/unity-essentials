@@ -11,17 +11,17 @@ namespace TransparentGames.Abilities
         [Space]
         public string abilityName;
         public Ability abilityPrefab;
-        public List<Stat> multipliers;
+        public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;
 
         public virtual float Calculate(Dictionary<string, Stat> stats)
         {
             float result = 0f;
-            foreach (Stat stat in multipliers)
+            foreach (var additionalStat in additionalStats)
             {
-                if (stats.TryGetValue(stat.statDefinition.statName, out Stat existingStat))
+                if (stats.TryGetValue(additionalStat.statDefinition.statName, out Stat existingStat))
                 {
-                    result += existingStat.value * stat.value;
+                    result += additionalStat.Calculate(existingStat.value);
                 }
             }
             return result;

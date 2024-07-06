@@ -5,7 +5,7 @@ namespace TransparentGames.Stats
 {
     public interface IStatUpdater
     {
-        public abstract List<Stat> CalculateStats(List<Stat> baseStats);
+        public abstract Dictionary<string, float> CalculateStats(Dictionary<string, Stat> baseStats);
         public event Action StatChanged;
     }
 }

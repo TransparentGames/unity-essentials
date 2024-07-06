@@ -7,5 +7,17 @@ namespace TransparentGames.Stats
     public class BaseStats : ScriptableObject
     {
         public List<Stat> stats;
+
+        public Dictionary<string, Stat> GetAsDict()
+        {
+            var statsDict = new Dictionary<string, Stat>();
+
+            foreach (var stat in stats)
+            {
+                statsDict[stat.statDefinition.statName] = stat;
+            }
+
+            return statsDict;
+        }
     }
 }
