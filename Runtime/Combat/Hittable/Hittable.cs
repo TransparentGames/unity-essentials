@@ -1,19 +1,22 @@
 using System;
 using TransparentGames.Essentials.Combat;
+using TransparentGames.Stats;
 using UnityEngine;
 
 namespace TransparentGames.Combat
 {
     [RequireComponent(typeof(IHealth))]
-    public class Hittable : MonoBehaviour, IHittable
+    public class Hittable : MonoBehaviour, IHittable, IStatsRequired
     {
         public GameObject GameObject => gameObject;
+        public StatsHolder StatsHolder { get; set; }
 
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
         private IHealth _health;
         private bool _isInvincible = false;
+        private float _defense = 0;
 
         private void Awake()
         {
@@ -33,11 +36,12 @@ namespace TransparentGames.Combat
             if (_health.CurrentHealth <= 0)
                 return new HitResult();
 
-            _health.Add(-hitInfo.damage);
+            var damage = Mathf.CeilToInt(hitInfo.damage * (1 - (_defense / (_defense + 5 * hitInfo.level + 500))));
 
+            _health.Add(-damage);
             HitResult hitResult = new()
             {
-                damageDealt = (int)hitInfo.damage,
+                damageDealt = (int)damage,
                 wasKilled = _health.CurrentHealth <= 0,
                 hitObject = GameObject
             };
@@ -46,6 +50,14 @@ namespace TransparentGames.Combat
             HitInfoEvent?.Invoke(hitInfo);
 
             return hitResult;
+        }
+
+        public void OnStatsChanged()
+        {
+            if (StatsHolder.Stats.TryGetValue("Defense", out Stat defenseStat))
+            {
+                _defense = defenseStat.value;
+            }
         }
     }
 }
