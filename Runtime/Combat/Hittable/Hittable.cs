@@ -36,7 +36,8 @@ namespace TransparentGames.Combat
             if (_health.CurrentHealth <= 0)
                 return new HitResult();
 
-            var damage = Mathf.CeilToInt(hitInfo.damage * (1 - (_defense / (_defense + 5 * hitInfo.level + 500))));
+            var dmgReduction = _defense / (_defense + (5 * hitInfo.level) + 500);
+            var damage = Mathf.CeilToInt(hitInfo.damage * (1 - dmgReduction));
 
             _health.Add(-damage);
             HitResult hitResult = new()
