@@ -10,9 +10,16 @@ namespace TransparentGames.Extensions
     {
         public BBParameter<Caster> Caster;
         public BBParameter<Vector3> Target;
+        public bool waitUntilFinish = false;
 
         protected override string OnInit()
         {
+            if (Caster.value == null)
+                return "Caster is null";
+
+            if (Target.value == null)
+                return "Target is null";
+
             return null;
         }
 
@@ -22,12 +29,18 @@ namespace TransparentGames.Extensions
         protected override void OnExecute()
         {
             Caster.value.Cast(Target.value);
-            EndAction(true);
+            if (!waitUntilFinish)
+                EndAction(true);
+            else
+            {
+                Caster.value.Ready += OnCasterReady;
+            }
         }
 
-        protected override void OnUpdate()
+        protected void OnCasterReady()
         {
-
+            Caster.value.Ready -= OnCasterReady;
+            EndAction(true);
         }
     }
 }
