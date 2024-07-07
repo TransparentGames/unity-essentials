@@ -24,8 +24,13 @@ namespace TransparentGames.Abilities
 
         [SerializeField] private AbilityTemplate abilityTemplate;
 
-        private Ability _ability;
+        private Ability _ability = null;
         private bool _abilityInProgress = false;
+
+        private void OnEnable()
+        {
+            _abilityInProgress = false;
+        }
 
         private void OnDisable()
         {
