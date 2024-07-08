@@ -5,7 +5,6 @@ namespace TransparentGames.Stats
 {
     public interface IStatsRequired
     {
-        public StatsHolder StatsHolder { get; set; }
-        public void OnStatsChanged();
+        public void OnStatsChanged(StatsHolder statsHolder);
     }
 }

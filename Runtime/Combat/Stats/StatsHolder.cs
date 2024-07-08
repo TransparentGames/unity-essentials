@@ -28,8 +28,7 @@ namespace TransparentGames.Stats
 
             foreach (var statsRequired in _statsRequired)
             {
-                statsRequired.StatsHolder = this;
-                statsRequired.OnStatsChanged();
+                statsRequired.OnStatsChanged(this);
             }
         }
 
@@ -46,7 +45,7 @@ namespace TransparentGames.Stats
             _currentStats = CalculateStats(_baseStats);
 
             foreach (var statsRequired in _statsRequired)
-                statsRequired.OnStatsChanged();
+                statsRequired.OnStatsChanged(this);
         }
 
         private Dictionary<string, Stat> CalculateStats(Dictionary<string, Stat> baseStatsDict)

@@ -12,7 +12,6 @@ namespace TransparentGames.Combat
 {
     public class Health : MonoBehaviour, IHealth, IStatsRequired
     {
-        public StatsHolder StatsHolder { get; set; }
         public event Action ValueInitialized;
         public event Action<float> ValueChanged;
         public event Action ValueZeroed;
@@ -38,9 +37,9 @@ namespace TransparentGames.Combat
             ValueInitialized?.Invoke();
         }
 
-        public void OnStatsChanged()
+        public void OnStatsChanged(StatsHolder statsHolder)
         {
-            if (StatsHolder.Stats.TryGetValue("Health", out Stat healthStat))
+            if (statsHolder.Stats.TryGetValue("Health", out Stat healthStat))
             {
                 _maxHealth = healthStat.value;
                 if (_currentHealth > _maxHealth)

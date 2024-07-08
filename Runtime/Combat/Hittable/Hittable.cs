@@ -9,8 +9,6 @@ namespace TransparentGames.Combat
     public class Hittable : MonoBehaviour, IHittable, IStatsRequired
     {
         public GameObject GameObject => gameObject;
-        public StatsHolder StatsHolder { get; set; }
-
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
@@ -53,9 +51,9 @@ namespace TransparentGames.Combat
             return hitResult;
         }
 
-        public void OnStatsChanged()
+        public void OnStatsChanged(StatsHolder statsHolder)
         {
-            if (StatsHolder.Stats.TryGetValue("Defense", out Stat defenseStat))
+            if (statsHolder.Stats.TryGetValue("Defense", out Stat defenseStat))
             {
                 _defense = defenseStat.value;
             }

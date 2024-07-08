@@ -18,7 +18,6 @@ namespace TransparentGames.Abilities
     {
         public event Action Ready;
         public GameObject Owner { get; set; }
-        public StatsHolder StatsHolder { get; set; }
         public Animator Animator => Owner.GetComponentInChildren<Animator>();
         public bool IsBusy => _abilityInProgress;
 
@@ -26,6 +25,7 @@ namespace TransparentGames.Abilities
 
         private Ability _ability = null;
         private bool _abilityInProgress = false;
+        private StatsHolder _statsHolder;
 
         private void OnEnable()
         {
@@ -53,7 +53,7 @@ namespace TransparentGames.Abilities
             _ability = Instantiate(abilityTemplate.abilityPrefab, position, Owner.transform.rotation);
             _ability.HitResultsEvent += OnHitResults;
             _ability.Owner = Owner;
-            _ability.Damage = abilityTemplate.Calculate(StatsHolder.Stats);
+            _ability.Damage = abilityTemplate.Calculate(_statsHolder.Stats);
             _ability.LayerMask = abilityTemplate.layerMask;
             _ability.Use(this);
             _abilityInProgress = true;
@@ -61,9 +61,9 @@ namespace TransparentGames.Abilities
         }
 
 
-        public void OnStatsChanged()
+        public void OnStatsChanged(StatsHolder statsHolder)
         {
-            // Does not need to update, the ability will be updated when it is cast
+            _statsHolder = statsHolder;
         }
 
         private void OnHitResults(List<HitResult> hitResults)
