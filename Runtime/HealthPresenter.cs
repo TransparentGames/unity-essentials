@@ -64,13 +64,13 @@ namespace TransparentGames.Combat
             _healthBar = Instantiate(healthBarPrefab, WorldSpaceCanvas.Instance.GetTransform(), false);
             _healthBar.transform.localPosition = new Vector3(_healthBar.transform.localPosition.x, _healthBar.transform.localPosition.y, 0);
             _healthBar.transform.localScale = Vector3.one;
-            _healthBar.gameObject.SetActive(false);
+            _healthBar.gameObject.SetActive(gameObject.activeSelf);
         }
 
         private void CreateScreenSpaceHealthBar()
         {
             _healthBar = Instantiate(healthBarPrefab, DynamicElementsCanvas.Instance.GetTransform(), false);
-            _healthBar.gameObject.SetActive(false);
+            _healthBar.gameObject.SetActive(gameObject.activeSelf);
         }
 
         private void OnHealthChanged(float currentHealth)
