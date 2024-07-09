@@ -1,28 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
 using System;
 using TransparentGames.Essentials.UpdateManagement;
-using UnityEngine;
 
 namespace TransparentGames.Essentials.Time
 {
-    public class Timer
+    public class Countdown
     {
-        public float TimeElapsed => _timeElapsed;
+        public float TimeLeft => _timeLeft;
+        public float TimeStart => _timeStart;
         public event Action TimeIsUp;
 
-        private float _timeElapsed;
-        private float _timeLimit;
+        private float _timeLeft;
+        private float _timeStart;
         private bool _isRunning;
         private IUpdateEntity _updateEntity;
 
-        public Timer(float time)
+        public Countdown(float time)
         {
-            _timeLimit = time;
+            _timeLeft = time;
+            _timeStart = time;
         }
 
         public void Start()
         {
             _isRunning = true;
-            _timeElapsed = 0f;
             _updateEntity = UpdateManager.StartUpdate(Update, UpdateType.Update);
         }
 
@@ -35,8 +39,8 @@ namespace TransparentGames.Essentials.Time
         {
             if (_isRunning)
             {
-                _timeElapsed += UnityEngine.Time.deltaTime;
-                if (_timeElapsed >= _timeLimit)
+                _timeLeft -= UnityEngine.Time.deltaTime;
+                if (_timeLeft <= 0)
                 {
                     TimeIsUp?.Invoke();
                     TimeIsUp = null;
