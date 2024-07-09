@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TransparentGames.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,11 +11,14 @@ namespace TransparentGames.UI
         public event Action Showed;
         public event Action Hided;
 
-        [SerializeField] private Button closeButton;
+        [SerializeField] private List<Button> closeButtons;
 
         public override void Show()
         {
-            closeButton.interactable = true;
+            foreach (var button in closeButtons)
+            {
+                button.interactable = true;
+            }
             gameObject.SetActive(true);
             Showed?.Invoke();
         }
@@ -27,7 +31,8 @@ namespace TransparentGames.UI
 
         private void Awake()
         {
-            closeButton.onClick.AddListener(OnCloseButtonClicked);
+            foreach (var closeButton in closeButtons)
+                closeButton.onClick.AddListener(OnCloseButtonClicked);
         }
 
         private void Start()
@@ -38,12 +43,16 @@ namespace TransparentGames.UI
 
         private void OnDestroy()
         {
-            closeButton.onClick.RemoveListener(OnCloseButtonClicked);
+            foreach (var closeButton in closeButtons)
+                closeButton.onClick.RemoveListener(OnCloseButtonClicked);
         }
 
         private void OnCloseButtonClicked()
         {
-            closeButton.interactable = false;
+            foreach (var button in closeButtons)
+            {
+                button.interactable = false;
+            }
             Hide();
             OnClosed();
         }
