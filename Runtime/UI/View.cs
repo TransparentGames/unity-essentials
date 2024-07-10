@@ -59,7 +59,6 @@ namespace TransparentGames.Essentials.UI
             Hide();
         }
 
-
         private void OnDestroy()
         {
             foreach (var closeButton in closeButtons)
@@ -72,7 +71,7 @@ namespace TransparentGames.Essentials.UI
             {
                 button.interactable = false;
             }
-            Hide();
+            TryClose();
             OnClosed();
         }
     }

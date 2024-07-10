@@ -18,8 +18,8 @@ namespace TransparentGames.Combat
         public float MaxHealth => _maxHealth;
         public float CurrentHealth => _currentHealth;
 
-        private float _maxHealth = 999f;
-        private float _currentHealth = 999f;
+        private float _maxHealth = 9999f;
+        private float _currentHealth = 9999f;
 
         public virtual void Add(float amount)
         {
@@ -30,11 +30,6 @@ namespace TransparentGames.Combat
             ValueChanged?.Invoke(_currentHealth);
             if (_currentHealth <= 0)
                 ValueZeroed?.Invoke();
-        }
-
-        private void OnEnable()
-        {
-            ValueInitialized?.Invoke();
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
