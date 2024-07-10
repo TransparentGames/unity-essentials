@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.UI
@@ -13,6 +14,17 @@ namespace TransparentGames.Essentials.UI
         public void Close()
         {
             UIManager.Initialized(() => UIManager.Instance.Close(this));
+        }
+
+        public void AddListener(Action callback)
+        {
+            UIManager.Initialized(() => UIManager.Instance.Get(this).Closed += callback);
+        }
+
+        public void RemoveListener(Action callback)
+        {
+            if (UIManager.InstanceExists)
+                UIManager.Instance.Get(this).Closed -= callback;
         }
     }
 }

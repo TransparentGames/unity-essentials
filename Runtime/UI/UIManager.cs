@@ -29,6 +29,16 @@ namespace TransparentGames.Essentials.UI
             }
         }
 
+        public UIElement Get(UIState state)
+        {
+            if (_UIElements.TryGetValue(state, out var uiElement))
+            {
+                return uiElement;
+            }
+
+            return null;
+        }
+
         public void Close(UIState state)
         {
             if (_UIElements.TryGetValue(state, out var uiElement))
