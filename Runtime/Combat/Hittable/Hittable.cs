@@ -1,4 +1,5 @@
 using System;
+using TransparentGames.Essentials;
 using TransparentGames.Essentials.Combat;
 using TransparentGames.Stats;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine;
 namespace TransparentGames.Combat
 {
     [RequireComponent(typeof(IHealth))]
-    public class Hittable : MonoBehaviour, IHittable, IStatsRequired
+    public class Hittable : MonoBehaviour, IHittable, IStatsRequired, IComponent
     {
-        public GameObject GameObject => gameObject;
+        public GameObject Owner { get; set; }
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
@@ -42,7 +43,7 @@ namespace TransparentGames.Combat
             {
                 damageDealt = (int)damage,
                 wasKilled = _health.CurrentHealth <= 0,
-                hitObject = GameObject
+                hitObject = Owner
             };
 
             HitResultEvent?.Invoke(hitResult);
