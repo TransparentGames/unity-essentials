@@ -48,9 +48,9 @@ namespace TransparentGames.Abilities
             return abilityTemplate.CanUse(this) && !_abilityInProgress;
         }
 
-        public void Cast(Vector3 position)
+        public void Cast(GameObject target = null)
         {
-            _ability = Instantiate(abilityTemplate.abilityPrefab, position, Owner.transform.rotation);
+            _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
             _ability.HitResultsEvent += OnHitResults;
             _ability.Owner = Owner;
             _ability.Damage = abilityTemplate.Calculate(_statsHolder.Stats);
@@ -101,7 +101,7 @@ namespace TransparentGames.Abilities
             EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
 
             if (GUILayout.Button("Cast"))
-                caster.Cast(caster.Owner.transform.position);
+                caster.Cast();
         }
     }
 #endif

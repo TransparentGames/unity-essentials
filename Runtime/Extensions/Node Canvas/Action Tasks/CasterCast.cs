@@ -9,7 +9,7 @@ namespace TransparentGames.Extensions
     public class CasterCast : ActionTask
     {
         public BBParameter<Caster> Caster;
-        public BBParameter<Vector3> Target;
+        public BBParameter<GameObject> Target;
         public bool waitUntilFinish = false;
 
         protected override string OnInit()
