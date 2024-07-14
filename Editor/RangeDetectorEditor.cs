@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Detection
 {
-    [CustomEditor(typeof(FilterDetector))]
-    public class FilterDetectorEditor : Editor
+    [CustomEditor(typeof(RangeDetector))]
+    public class RangeDetectorEditor : Editor
     {
         private bool _showDetectedList;
 
