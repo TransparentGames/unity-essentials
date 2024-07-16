@@ -1,5 +1,5 @@
 using TransparentGames.Essentials.Combat;
-using TransparentGames.UI;
+using TransparentGames.Essentials.UI;
 using TransparentGames.UI.ScreenSpace;
 using TransparentGames.UI.WorldSpace;
 using UnityEngine;
@@ -23,7 +23,7 @@ namespace TransparentGames.Essentials.Stats
             _levelable = GetComponent<ILevelable>();
 
             if (isWorldSpace)
-                WorldSpaceCanvas.Initialized(() => CreateWorldSpaceHealthBar());
+                CreateWorldSpaceHealthBar();
             else
                 DynamicElementsCanvas.Initialized(() => CreateScreenSpaceHealthBar());
 
@@ -45,9 +45,7 @@ namespace TransparentGames.Essentials.Stats
 
             if (isWorldSpace)
             {
-                var worldSpaceElement = _healthBar.GetComponent<WorldSpaceElement>();
-                worldSpaceElement.SetOffset(worldOffset);
-                worldSpaceElement.SetTarget(transform);
+                _healthBar.transform.position = transform.position + worldOffset;
             }
 
             _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
@@ -70,9 +68,7 @@ namespace TransparentGames.Essentials.Stats
 
         private void CreateWorldSpaceHealthBar()
         {
-            _healthBar = Instantiate(healthBarPrefab, WorldSpaceCanvas.Instance.GetTransform(), false);
-            _healthBar.transform.localPosition = new Vector3(_healthBar.transform.localPosition.x, _healthBar.transform.localPosition.y, 0);
-            _healthBar.transform.localScale = Vector3.one;
+            _healthBar = Instantiate(healthBarPrefab, transform, false);
 
             _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
             _healthBar.gameObject.SetActive(gameObject.activeSelf);
