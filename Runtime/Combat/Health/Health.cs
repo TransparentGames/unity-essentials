@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using TransparentGames.Stats;
+using TransparentGames.Essentials.Stats;
 using System.Collections.Generic;
 using TransparentGames.Essentials.Combat;
 
@@ -36,7 +36,7 @@ namespace TransparentGames.Combat
         {
             if (statsHolder.Stats.TryGetValue("Health", out Stat healthStat))
             {
-                _maxHealth = healthStat.value;
+                _maxHealth = healthStat.Value;
                 if (_currentHealth > _maxHealth)
                 {
                     _currentHealth = _maxHealth;

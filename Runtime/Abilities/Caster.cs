@@ -1,5 +1,5 @@
 using UnityEngine;
-using TransparentGames.Stats;
+using TransparentGames.Essentials.Stats;
 using System.Collections.Generic;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Combat;
@@ -52,6 +52,7 @@ namespace TransparentGames.Abilities
         {
             _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
             _ability.HitResultsEvent += OnHitResults;
+            _ability.Level = _statsHolder.Level;
             _ability.Owner = Owner;
             _ability.Damage = abilityTemplate.Calculate(_statsHolder.Stats);
             _ability.LayerMask = abilityTemplate.layerMask;

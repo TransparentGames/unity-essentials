@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TransparentGames.Stats
+namespace TransparentGames.Essentials.Stats
 {
     [Serializable]
     public class AdditionalStat : Stat
@@ -15,7 +15,7 @@ namespace TransparentGames.Stats
 
         public float Calculate(float baseValue)
         {
-            var calculatedValue = isPercentage ? baseValue * value : value;
+            var calculatedValue = isPercentage ? baseValue * Value : Value;
             return calculatedValue;
         }
     }
