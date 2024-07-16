@@ -1,6 +1,6 @@
 using System;
 using TransparentGames.Essentials.Combat;
-using TransparentGames.UI;
+using TransparentGames.Essentials.UI;
 using TransparentGames.UI.ScreenSpace;
 using TransparentGames.UI.WorldSpace;
 using UnityEngine;
