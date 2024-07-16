@@ -15,8 +15,7 @@ namespace TransparentGames.Essentials.UI
         [SerializeField] private Image animatedHpBar;
         [SerializeField] private TextMeshProUGUI levelText;
         [Space]
-        [SerializeField] private TextMeshProUGUI currentHealthText;
-        [SerializeField] private TextMeshProUGUI maxHealthText;
+        [SerializeField] private TextMeshProUGUI healthText;
 
         private Tween _highlightTween;
 
@@ -30,7 +29,7 @@ namespace TransparentGames.Essentials.UI
             base.UpdateHealth(currentHealth);
 
             if (showHealthText)
-                currentHealthText.text = currentHealth.ToString();
+                healthText.text = currentHealth.ToString() + " / " + _maxHealth.ToString();
             AnimateHpBar();
         }
 
@@ -43,8 +42,7 @@ namespace TransparentGames.Essentials.UI
             animatedHpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
             if (showHealthText)
             {
-                maxHealthText.text = maxHealth.ToString();
-                currentHealthText.text = currentHealth.ToString();
+                healthText.text = currentHealth.ToString() + " / " maxHealth.ToString();
             }
         }
 
