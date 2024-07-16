@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TransparentGames.Stats
+namespace TransparentGames.Essentials.Stats
 {
     public interface IStatUpdater
     {

@@ -1,5 +1,5 @@
 using TransparentGames.Essentials;
-using TransparentGames.Stats;
+using TransparentGames.Essentials.Stats;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

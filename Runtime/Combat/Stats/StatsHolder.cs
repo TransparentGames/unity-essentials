@@ -2,11 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TransparentGames.Stats
+namespace TransparentGames.Essentials.Stats
 {
-    public class StatsHolder : MonoBehaviour
+    public class StatsHolder : MonoBehaviour, ILevelable
     {
+        public event Action<int> LevelChanged;
+
         public Dictionary<string, Stat> Stats => _currentStats;
+        public int Level
+        {
+            get => _level;
+            set
+            {
+                _level = value;
+                OnStatChanged();
+                LevelChanged?.Invoke(_level);
+            }
+        }
 
         [SerializeField] private BaseStats baseStats;
 
@@ -14,22 +26,20 @@ namespace TransparentGames.Stats
         private IStatUpdater[] _statUpdaters;
         private Dictionary<string, Stat> _currentStats = new();
         private Dictionary<string, Stat> _baseStats = new();
+        private int _level = 1;
 
         private void Awake()
         {
             _statsRequired = GetComponentsInChildren<IStatsRequired>();
             _statUpdaters = GetComponentsInChildren<IStatUpdater>();
 
-            _baseStats = baseStats.GetAsDict();
-            _currentStats = CalculateStats(_baseStats);
-
             foreach (var statUpdater in _statUpdaters)
                 statUpdater.StatChanged += OnStatChanged;
+        }
 
-            foreach (var statsRequired in _statsRequired)
-            {
-                statsRequired.OnStatsChanged(this);
-            }
+        private void Start()
+        {
+            OnStatChanged();
         }
 
         private void OnDestroy()
@@ -42,6 +52,7 @@ namespace TransparentGames.Stats
 
         private void OnStatChanged()
         {
+            _baseStats = baseStats.GetAsDict(_level);
             _currentStats = CalculateStats(_baseStats);
 
             foreach (var statsRequired in _statsRequired)
@@ -56,7 +67,7 @@ namespace TransparentGames.Stats
             foreach (var baseStatEntry in baseStatsDict)
             {
                 // Assuming Stat is a class with a copy constructor or a method to create a deep copy
-                finalStatsDict.Add(baseStatEntry.Key, new Stat(baseStatEntry.Value.statDefinition, baseStatEntry.Value.value));
+                finalStatsDict.Add(baseStatEntry.Key, new Stat(baseStatEntry.Value.statDefinition, baseStatEntry.Value.Value));
             }
 
             // Apply updates from statUpdaters.
@@ -67,7 +78,7 @@ namespace TransparentGames.Stats
                 foreach (var boostedStat in boostedStats)
                 {
                     if (finalStatsDict.ContainsKey(boostedStat.Key))
-                        finalStatsDict[boostedStat.Key].value += boostedStat.Value;
+                        finalStatsDict[boostedStat.Key].Value += boostedStat.Value;
                     else
                         finalStatsDict.Add(boostedStat.Key, new Stat(boostedStat.Key, boostedStat.Value));
                 }

@@ -1,7 +1,7 @@
 using System;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Combat;
-using TransparentGames.Stats;
+using TransparentGames.Essentials.Stats;
 using UnityEngine;
 
 namespace TransparentGames.Combat
@@ -56,7 +56,7 @@ namespace TransparentGames.Combat
         {
             if (statsHolder.Stats.TryGetValue("Defense", out Stat defenseStat))
             {
-                _defense = defenseStat.value;
+                _defense = defenseStat.Value;
             }
         }
     }

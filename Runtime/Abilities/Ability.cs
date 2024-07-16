@@ -10,6 +10,7 @@ namespace TransparentGames.Abilities
         public event Action<List<HitResult>> HitResultsEvent;
         public event Action Finished;
         public GameObject Owner { get; set; }
+        public int Level { get; set; }
         public float Damage { get; set; }
         public LayerMask LayerMask { get; set; }
 

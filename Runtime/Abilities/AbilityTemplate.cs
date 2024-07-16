@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TransparentGames.Essentials;
-using TransparentGames.Stats;
+using TransparentGames.Essentials.Stats;
 
 namespace TransparentGames.Abilities
 {
@@ -21,7 +21,7 @@ namespace TransparentGames.Abilities
             {
                 if (stats.TryGetValue(additionalStat.statDefinition.statName, out Stat existingStat))
                 {
-                    result += additionalStat.Calculate(existingStat.value);
+                    result += additionalStat.Calculate(existingStat.Value);
                 }
             }
             return result;

@@ -13,6 +13,11 @@ namespace TransparentGames.UI
 
         [SerializeField] private Image hpBar;
         [SerializeField] private Image animatedHpBar;
+        [SerializeField] private TextMeshProUGUI levelText;
+        [Space]
+        [SerializeField] private bool showHealthText = false;
+        [SerializeField] private TextMeshProUGUI currentHealthText;
+        [SerializeField] private TextMeshProUGUI maxHealthText;
 
         private Tween _highlightTween;
         private float _currentHealth;
@@ -26,6 +31,8 @@ namespace TransparentGames.UI
         public void UpdateHealth(float currentHealth)
         {
             _currentHealth = currentHealth;
+            if (showHealthText)
+                currentHealthText.text = currentHealth.ToString();
             AnimateHpBar();
         }
 
@@ -36,6 +43,16 @@ namespace TransparentGames.UI
             _currentHealth = currentHealth;
             hpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
             animatedHpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
+            if (showHealthText)
+            {
+                maxHealthText.text = maxHealth.ToString();
+                currentHealthText.text = currentHealth.ToString();
+            }
+        }
+
+        public void SetLevel(int level)
+        {
+            levelText.text = "Lvl " + level.ToString();
         }
 
         private void AnimateHpBar()
