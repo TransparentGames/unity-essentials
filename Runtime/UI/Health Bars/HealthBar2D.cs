@@ -42,7 +42,7 @@ namespace TransparentGames.Essentials.UI
             animatedHpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
             if (showHealthText)
             {
-                healthText.text = currentHealth.ToString() + " / " maxHealth.ToString();
+                healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
             }
         }
 
