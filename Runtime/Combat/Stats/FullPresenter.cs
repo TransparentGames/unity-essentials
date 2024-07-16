@@ -35,6 +35,7 @@ namespace TransparentGames.Essentials.Stats
         private void OnEnable()
         {
             OnInitialized();
+            OnLevelChanged(_levelable.Level);
         }
 
         private void OnInitialized()
