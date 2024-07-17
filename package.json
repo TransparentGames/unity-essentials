@@ -1,10 +1,11 @@
 {
   "displayName": "Essentials",
   "name": "com.transparentgames.essentials",
-  "version": "0.8.5",
+  "version": "0.9.1",
   "description": "Basic package of essential components used by our games.",
   "dependencies": {
-    "com.unity.addressables": "1.21.20"
+    "com.unity.addressables": "1.21.20",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
     "name": "Transparent Games"

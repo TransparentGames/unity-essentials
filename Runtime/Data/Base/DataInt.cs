@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data
 {
     [Serializable]
     public class DataInt : IDataProperty<int>

@@ -1,7 +1,7 @@
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.UI.ScreenSpace
+namespace TransparentGames.Essentials.UI
 {
     public class UICamera : MonoSingleton<UICamera>
     {

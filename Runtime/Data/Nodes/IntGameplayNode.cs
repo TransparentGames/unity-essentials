@@ -2,7 +2,7 @@ using System;
 using TransparentGames.Essentials;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data.Nodes
 {
     [CreateAssetMenu(fileName = "Gameplay Node", menuName = "Transparent Games/Data/Gameplay Node (int)", order = 0)]
     public class IntGameplayNode : BaseNode<int>

@@ -3,7 +3,7 @@ using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 
 
-namespace TransparentGames.Extensions
+namespace TransparentGames.Essentials.Extensions
 {
 
 	[Category("Detection")]

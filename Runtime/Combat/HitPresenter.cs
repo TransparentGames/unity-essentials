@@ -1,8 +1,6 @@
-using TransparentGames.Combat;
-using TransparentGames.Essentials.Combat;
 using UnityEngine;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     [RequireComponent(typeof(IHittable))]
     public class HitPresenter : MonoBehaviour

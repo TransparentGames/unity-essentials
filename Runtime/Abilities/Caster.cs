@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Combat;
 using System;
-using TransparentGames.Data;
-
-
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace TransparentGames.Abilities
+namespace TransparentGames.Essentials.Abilities
 {
     public class Caster : MonoBehaviour, IStatsRequired, IComponent
     {

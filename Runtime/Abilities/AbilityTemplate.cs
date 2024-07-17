@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Stats;
 
-namespace TransparentGames.Abilities
+namespace TransparentGames.Essentials.Abilities
 {
     [CreateAssetMenu(fileName = "New Ability Template", menuName = "Transparent Games/Abilities/Ability Template")]
     public class AbilityTemplate : ScriptableObjectWithId

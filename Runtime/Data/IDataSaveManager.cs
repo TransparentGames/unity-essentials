@@ -1,4 +1,4 @@
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data
 {
     public interface IDataSaveManager
     {

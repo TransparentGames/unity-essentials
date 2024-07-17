@@ -4,7 +4,7 @@ using ParadoxNotion.Design;
 using UnityEngine;
 
 
-namespace TransparentGames.Extensions
+namespace TransparentGames.Essentials.Extensions
 {
 	[Category("Detection")]
 	public class GetClosest : ActionTask

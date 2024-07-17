@@ -8,7 +8,7 @@ using TransparentGames.Essentials.Combat;
 using UnityEditor;
 #endif
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     public class Health : MonoBehaviour, IHealth, IStatsRequired
     {

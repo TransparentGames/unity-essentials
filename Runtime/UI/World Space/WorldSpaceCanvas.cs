@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.UI.WorldSpace
+namespace TransparentGames.Essentials.UI.WorldSpace
 {
     [RequireComponent(typeof(Canvas))]
     public class WorldSpaceCanvas : MonoSingleton<WorldSpaceCanvas>

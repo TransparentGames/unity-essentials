@@ -1,0 +1,17 @@
+{
+    "name": "TransparentGames.Essentials.Playfab",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0da6d172d18a54e4389d0dce1e1ffdf2",
+        "GUID:ef8aaf76f74c0553f9e54fb9c7317d9e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

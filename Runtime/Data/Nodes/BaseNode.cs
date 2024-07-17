@@ -2,7 +2,7 @@ using System;
 using TransparentGames.Essentials;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data.Nodes
 {
     /// <summary>
     /// Base class for modifying the value of a node, if you want to just get display value (string), use <see cref="Node"/>

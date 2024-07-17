@@ -2,7 +2,7 @@
 using System;
 using TransparentGames.Essentials.Combat;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     public interface IHitbox
     {

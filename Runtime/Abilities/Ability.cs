@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TransparentGames.Essentials.Combat;
 
-namespace TransparentGames.Abilities
+namespace TransparentGames.Essentials.Abilities
 {
     public abstract class Ability : MonoBehaviour
     {

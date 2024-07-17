@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TransparentGames.UI.ScreenSpace
+namespace TransparentGames.Essentials.UI.ScreenSpace
 {
     [RequireComponent(typeof(CanvasGroup), typeof(DynamicUiElement))]
     public class WorldSpaceUIElement : MonoBehaviour

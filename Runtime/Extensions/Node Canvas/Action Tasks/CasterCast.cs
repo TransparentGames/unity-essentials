@@ -1,9 +1,9 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
-using TransparentGames.Abilities;
+using TransparentGames.Essentials.Abilities;
 
-namespace TransparentGames.Extensions
+namespace TransparentGames.Essentials.Extensions
 {
     [Category("Abilities")]
     public class CasterCast : ActionTask
