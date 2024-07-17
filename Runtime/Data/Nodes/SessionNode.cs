@@ -2,7 +2,7 @@ using System;
 using TransparentGames.Essentials;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data.Nodes
 {
     [CreateAssetMenu(fileName = "Session Node", menuName = "Transparent Games/Data/Session Node", order = 0)]
     public class SessionNode : BaseNode<int>

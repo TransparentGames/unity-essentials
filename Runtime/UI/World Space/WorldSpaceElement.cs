@@ -1,7 +1,7 @@
 using TransparentGames.Essentials.UpdateManagement;
 using UnityEngine;
 
-namespace TransparentGames.UI.WorldSpace
+namespace TransparentGames.Essentials.UI.WorldSpace
 {
     public class WorldSpaceElement : MonoBehaviour
     {

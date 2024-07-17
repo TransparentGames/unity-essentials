@@ -1,11 +1,11 @@
 using TransparentGames.Essentials.Combat;
 using TransparentGames.Essentials.Singletons;
-using TransparentGames.UI;
-using TransparentGames.UI.ScreenSpace;
+using TransparentGames.Essentials.UI;
+using TransparentGames.Essentials.UI.ScreenSpace;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     public class DamageIndicatorManager : MonoSingleton<DamageIndicatorManager>
     {

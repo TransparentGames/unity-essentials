@@ -1,28 +1,29 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using TransparentGames.Data;
+using TransparentGames.Essentials.Data.Nodes;
 using UnityEngine;
 
-public class NodeLabel : MonoBehaviour
+namespace TransparentGames.Essentials.UI
 {
-    [SerializeField] private Node node;
-    [SerializeField] private TextMeshProUGUI label;
-
-    private void OnEnable()
+    public class NodeLabel : MonoBehaviour
     {
-        Redraw();
-        node.AddListener(Redraw);
-    }
+        [SerializeField] private Node node;
+        [SerializeField] private TextMeshProUGUI label;
 
-    private void OnDisable()
-    {
-        node.RemoveListener(Redraw);
-    }
+        private void OnEnable()
+        {
+            Redraw();
+            node.AddListener(Redraw);
+        }
 
-    private void Redraw()
-    {
-        label.text = node.DisplayValue;
+        private void OnDisable()
+        {
+            node.RemoveListener(Redraw);
+        }
+
+        private void Redraw()
+        {
+            label.text = node.DisplayValue;
+        }
     }
 }

@@ -4,7 +4,7 @@ using TransparentGames.Essentials.Combat;
 using TransparentGames.Essentials.Stats;
 using UnityEngine;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     [RequireComponent(typeof(IHealth))]
     public class Hittable : MonoBehaviour, IHittable, IStatsRequired, IComponent

@@ -1,9 +1,8 @@
 using System;
-using TransparentGames.Essentials;
 using UnityEngine;
 
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data.Nodes
 {
     /// <summary>
     /// Base class for getting the display value of a node

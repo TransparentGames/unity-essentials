@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TransparentGames.UI.ScreenSpace
+namespace TransparentGames.Essentials.UI.ScreenSpace
 {
     public class DynamicUiElement : MonoBehaviour
     {

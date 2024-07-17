@@ -2,7 +2,6 @@ using ParadoxNotion.Design;
 using UnityEngine.UI;
 using UnityEngine;
 using NodeCanvas.Framework;
-using TransparentGames.Data;
 
 namespace NodeCanvas.Tasks.Conditions
 {
@@ -11,7 +10,7 @@ namespace NodeCanvas.Tasks.Conditions
     public class NodeChanged : ConditionTask
     {
         [RequiredField]
-        public BBParameter<TransparentGames.Data.Node> node;
+        public BBParameter<TransparentGames.Essentials.Data.Nodes.Node> node;
 
         protected override string info
         {

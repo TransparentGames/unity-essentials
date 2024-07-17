@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data
 {
     //[CreateAssetMenu(fileName = "Cached Data Manager", menuName = "Transparent Games/Data/Cached Data Manager", order = 0)]
     public class CachedDataManager : ScriptableObjectSingleton<CachedDataManager>, IDataSaveManager

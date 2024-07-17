@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-namespace TransparentGames.Combat
+namespace TransparentGames.Essentials.Combat
 {
     public class DamageIndicator : MonoBehaviour
     {

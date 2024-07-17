@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.UI.ScreenSpace
+namespace TransparentGames.Essentials.UI.ScreenSpace
 {
     [RequireComponent(typeof(Canvas))]
     public class DynamicElementsCanvas : MonoSingleton<DynamicElementsCanvas>

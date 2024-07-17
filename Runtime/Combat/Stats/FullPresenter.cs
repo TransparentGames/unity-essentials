@@ -1,7 +1,7 @@
 using TransparentGames.Essentials.Combat;
 using TransparentGames.Essentials.UI;
-using TransparentGames.UI.ScreenSpace;
-using TransparentGames.UI.WorldSpace;
+using TransparentGames.Essentials.UI.ScreenSpace;
+using TransparentGames.Essentials.UI.WorldSpace;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.Stats

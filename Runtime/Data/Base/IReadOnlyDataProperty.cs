@@ -1,6 +1,6 @@
 using System;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data
 {
     public interface IReadOnlyDataProperty<T>
     {

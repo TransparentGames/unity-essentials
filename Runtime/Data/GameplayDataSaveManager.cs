@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
 
-namespace TransparentGames.Data
+namespace TransparentGames.Essentials.Data
 {
     public class GameplayDataSaveManager : MonoSingleton<GameplayDataSaveManager>, IDataSaveManager
     {
