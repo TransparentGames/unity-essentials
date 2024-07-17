@@ -6,7 +6,7 @@ namespace TransparentGames.Essentials.SceneManagement
 	/// <summary>
 	/// This class is a base class which contains what is common to all game scenes (Locations, Menus, Managers)
 	/// </summary>
-	[CreateAssetMenu(fileName = "New Game Scene", menuName = "Core/Game Scene")]
+	[CreateAssetMenu(fileName = "New Game Scene", menuName = "Transparent Games/Core/Game Scene")]
 	public class GameSceneSO : ScriptableObject
 	{
 		public GameSceneType sceneType;
