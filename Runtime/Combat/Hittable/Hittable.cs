@@ -43,7 +43,8 @@ namespace TransparentGames.Essentials.Combat
             {
                 damageDealt = (int)damage,
                 wasKilled = _health.CurrentHealth <= 0,
-                hitObject = Owner
+                hitObject = Owner,
+                isCritical = hitInfo.isCritical
             };
 
             HitResultEvent?.Invoke(hitResult);

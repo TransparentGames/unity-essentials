@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Stats;
+using TransparentGames.Essentials.Combat;
 
 namespace TransparentGames.Essentials.Abilities
 {
@@ -14,16 +15,36 @@ namespace TransparentGames.Essentials.Abilities
         public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;
 
-        public virtual float Calculate(Dictionary<string, Stat> stats)
+        [SerializeField] private bool canCrit;
+
+        public virtual HitInfo Calculate(Dictionary<string, Stat> stats)
         {
-            float result = 0f;
+            var result = new HitInfo
+            {
+                damage = 0,
+                isCritical = false
+            };
+
             foreach (var additionalStat in additionalStats)
             {
                 if (stats.TryGetValue(additionalStat.statDefinition.statName, out Stat existingStat))
                 {
-                    result += additionalStat.Calculate(existingStat.Value);
+                    result.damage += additionalStat.Calculate(existingStat.Value);
                 }
             }
+
+            if (canCrit == false)
+                return result;
+
+            if (stats.TryGetValue("Critical Chance", out Stat ccStat) && stats.TryGetValue("Critical Damage", out Stat cdStat))
+            {
+                if (Random.value < ccStat.Value)
+                {
+                    result.damage *= cdStat.Value;
+                    result.isCritical = true;
+                }
+            }
+
             return result;
         }
 

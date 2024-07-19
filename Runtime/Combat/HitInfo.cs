@@ -7,5 +7,6 @@ namespace TransparentGames.Essentials.Combat
         public float damage;
         public GameObject source;
         public int level;
+        public bool isCritical;
     }
 }

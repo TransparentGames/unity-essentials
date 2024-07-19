@@ -9,9 +9,7 @@ namespace TransparentGames.Essentials.Abilities
     {
         public event Action<List<HitResult>> HitResultsEvent;
         public event Action Finished;
-        public GameObject Owner { get; set; }
-        public int Level { get; set; }
-        public float Damage { get; set; }
+        public HitInfo HitInfo { get; set; }
         public LayerMask LayerMask { get; set; }
 
         public abstract void Use(Caster caster);
