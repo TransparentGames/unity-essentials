@@ -37,6 +37,19 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
         Debug.Log($"Added item [{itemInstance.ItemId}] to inventory");
     }
 
+    public void Add(InventoryItem inventoryItem)
+    {
+        if (_inventoryItems.ContainsKey(inventoryItem.ItemInstance.ItemInstanceId))
+        {
+            Debug.LogError($"Item [{inventoryItem.ItemInstance.ItemId}] already exists in inventory");
+            return;
+        }
+
+        _inventoryItems.Add(inventoryItem.ItemInstance.ItemInstanceId, inventoryItem);
+        Changed?.Invoke();
+        Debug.Log($"Added item [{inventoryItem.ItemInstance.ItemId}] to inventory");
+    }
+
     public bool TryGetItem(string itemId, out InventoryItem value)
     {
         foreach (var inventoryItem in _inventoryItems)
