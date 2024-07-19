@@ -49,9 +49,12 @@ namespace TransparentGames.Essentials.Abilities
         {
             _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
             _ability.HitResultsEvent += OnHitResults;
-            _ability.Level = _statsHolder.Level;
-            _ability.Owner = Owner;
-            _ability.Damage = abilityTemplate.Calculate(_statsHolder.Stats);
+
+            var hitInfo = abilityTemplate.Calculate(_statsHolder.Stats);
+            hitInfo.source = Owner;
+            hitInfo.level = _statsHolder.Level;
+
+            _ability.HitInfo = hitInfo;
             _ability.LayerMask = abilityTemplate.layerMask;
             _ability.Use(this);
             _abilityInProgress = true;

@@ -35,7 +35,7 @@ namespace TransparentGames.Essentials.Combat
 
             damageIndicator.OnReturnToPool += Release;
 
-            damageIndicator.Set(hitResult.damageDealt);
+            damageIndicator.Set(hitResult);
         }
 
         public void Release(DamageIndicator damageIndicator)
