@@ -16,7 +16,8 @@ namespace TransparentGames.Essentials.Stats
 
             foreach (var stat in stats)
             {
-                statsDict[stat.statDefinition.statName] = new Stat(stat.statDefinition, stat.Calculate(level));
+                var calculatedStat = new ScalableStat(stat, level);
+                statsDict[stat.statDefinition.statName] = calculatedStat;
             }
 
             return statsDict;
