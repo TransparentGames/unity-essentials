@@ -6,6 +6,7 @@ namespace TransparentGames.Essentials.Stats
 {
     public class StatsHolder : MonoBehaviour, ILevelable
     {
+        public event Action StatsChanged;
         public event Action<int> LevelChanged;
 
         public Dictionary<string, Stat> Stats => _currentStats;
@@ -54,6 +55,7 @@ namespace TransparentGames.Essentials.Stats
         {
             _baseStats = baseStats.GetAsDict(_level);
             _currentStats = CalculateStats(_baseStats);
+            StatsChanged?.Invoke();
 
             foreach (var statsRequired in _statsRequired)
                 statsRequired.OnStatsChanged(this);
@@ -79,8 +81,6 @@ namespace TransparentGames.Essentials.Stats
                 {
                     if (finalStatsDict.ContainsKey(boostedStat.Key))
                         finalStatsDict[boostedStat.Key].Value += boostedStat.Value;
-                    else
-                        finalStatsDict.Add(boostedStat.Key, new Stat(boostedStat.Key, boostedStat.Value));
                 }
             }
             return finalStatsDict;
