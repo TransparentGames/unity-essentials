@@ -62,5 +62,10 @@ namespace TransparentGames.Essentials.Currency
         {
             Changed?.Invoke();
         }
+
+        public override void ClearSingleton()
+        {
+            base.ClearSingleton();
+        }
     }
 }

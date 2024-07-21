@@ -67,5 +67,11 @@ namespace TransparentGames.Essentials.Data
             value = null;
             return false;
         }
+
+        public override void ClearSingleton()
+        {
+            _properties.Clear();
+            base.ClearSingleton();
+        }
     }
 }
