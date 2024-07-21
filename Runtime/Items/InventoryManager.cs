@@ -131,4 +131,11 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
 
         UpdateItem(itemInstanceId, inventoryItem.RemainingUses - amount);
     }
+
+    public override void ClearSingleton()
+    {
+        base.ClearSingleton();
+
+        _inventoryItems.Clear();
+    }
 }
