@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TransparentGames.Essentials.Singletons;
 using UnityEngine;
@@ -15,7 +16,9 @@ namespace TransparentGames.Essentials.UI
             foreach (var uiElement in uiElements)
             {
                 if (uiElement.State)
+                {
                     _UIElements.Add(uiElement.State, uiElement);
+                }
             }
 
             base.Awake();

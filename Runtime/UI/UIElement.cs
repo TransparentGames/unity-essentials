@@ -6,6 +6,7 @@ namespace TransparentGames.Essentials.UI
     public abstract class UIElement : MonoBehaviour
     {
         public event Action Closed;
+        public event Action Opened;
 
         public abstract UIState State { get; }
 
@@ -17,6 +18,11 @@ namespace TransparentGames.Essentials.UI
         protected void OnClosed()
         {
             Closed?.Invoke();
+        }
+
+        protected void OnOpened()
+        {
+            Opened?.Invoke();
         }
     }
 }
