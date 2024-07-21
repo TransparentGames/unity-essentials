@@ -9,7 +9,6 @@ namespace TransparentGames.Essentials.UI
     {
         public event Action TryOpened;
         public event Action TryClosed;
-        public event Action Opened;
 
         public override UIState State => state;
 
@@ -34,7 +33,7 @@ namespace TransparentGames.Essentials.UI
         public override void Open()
         {
             gameObject.SetActive(true);
-            Opened?.Invoke();
+            OnOpened();
         }
 
         public override void Close()
