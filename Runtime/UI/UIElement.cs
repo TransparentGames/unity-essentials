@@ -10,9 +10,9 @@ namespace TransparentGames.Essentials.UI
         public abstract UIState State { get; }
 
         public abstract void TryOpen();
-        public abstract void Show();
+        public abstract void Open();
         public abstract void TryClose();
-        public abstract void Hide();
+        public abstract void Close();
 
         protected void OnClosed()
         {

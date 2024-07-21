@@ -9,8 +9,7 @@ namespace TransparentGames.Essentials.UI
     {
         public event Action TryOpened;
         public event Action TryClosed;
-        public event Action Showed;
-        public event Action Hided;
+        public event Action Opened;
 
         public override UIState State => state;
 
@@ -22,30 +21,26 @@ namespace TransparentGames.Essentials.UI
         {
             TryOpened?.Invoke();
             if (manual == false)
-                Show();
+                Open();
         }
 
         public override void TryClose()
         {
             TryClosed?.Invoke();
             if (manual == false)
-                Hide();
+                Close();
         }
 
-        public override void Show()
+        public override void Open()
         {
-            foreach (var button in closeButtons)
-            {
-                button.interactable = true;
-            }
             gameObject.SetActive(true);
-            Showed?.Invoke();
+            Opened?.Invoke();
         }
 
-        public override void Hide()
+        public override void Close()
         {
             gameObject.SetActive(false);
-            Hided?.Invoke();
+            OnClosed();
         }
 
         private void Awake()
@@ -56,7 +51,7 @@ namespace TransparentGames.Essentials.UI
 
         private void Start()
         {
-            Hide();
+            Close();
         }
 
         private void OnDestroy()
@@ -67,12 +62,7 @@ namespace TransparentGames.Essentials.UI
 
         private void OnCloseButtonClicked()
         {
-            foreach (var button in closeButtons)
-            {
-                button.interactable = false;
-            }
             TryClose();
-            OnClosed();
         }
     }
 }
