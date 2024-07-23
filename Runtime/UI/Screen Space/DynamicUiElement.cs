@@ -92,8 +92,8 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
             transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
 
             // Ensure the UI element is facing the correct direction in screen space
-            Vector3 direction = mainCamera.transform.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+            //Vector3 direction = mainCamera.transform.position - transform.position;
+            //transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
         }
     }
 }
