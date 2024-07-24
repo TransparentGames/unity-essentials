@@ -16,24 +16,19 @@ namespace TransparentGames.Essentials.Abilities
         public event Action Ready;
         public GameObject Owner { get; set; }
         public Animator Animator => Owner.GetComponentInChildren<Animator>();
-        public bool IsBusy => _abilityInProgress;
+        public bool IsBusy => _ability != null && _ability.CanCancel == false;
 
         [SerializeField] private AbilityTemplate abilityTemplate;
 
         private Ability _ability = null;
-        private bool _abilityInProgress = false;
-        private StatsHolder _statsHolder;
 
-        private void OnEnable()
-        {
-            _abilityInProgress = false;
-        }
+        private StatsHolder _statsHolder;
 
         private void OnDisable()
         {
             if (_ability != null)
             {
-                OnAbilityFinished();
+                Abort();
             }
         }
 
@@ -42,13 +37,18 @@ namespace TransparentGames.Essentials.Abilities
             if (abilityTemplate == null)
                 return false;
 
-            return abilityTemplate.CanUse(this) && !_abilityInProgress;
+            if (abilityTemplate.CanUse(this) == false)
+                return false;
+
+            return _ability == null || _ability.CanCancel;
         }
 
         public void Cast(GameObject target = null)
         {
+            if (_ability)
+                Abort();
+
             _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
-            _ability.HitResultsEvent += OnHitResults;
 
             var hitInfo = abilityTemplate.Calculate(_statsHolder.Stats);
             hitInfo.source = Owner;
@@ -56,11 +56,11 @@ namespace TransparentGames.Essentials.Abilities
 
             _ability.HitInfo = hitInfo;
             _ability.LayerMask = abilityTemplate.layerMask;
-            _ability.Use(this);
-            _abilityInProgress = true;
+            _ability.HitResultsEvent += OnHitResults;
             _ability.Finished += OnAbilityFinished;
-        }
 
+            _ability.Use(this);
+        }
 
         public void OnStatsChanged(StatsHolder statsHolder)
         {
@@ -77,12 +77,15 @@ namespace TransparentGames.Essentials.Abilities
 
         private void OnAbilityFinished()
         {
-            _ability.HitResultsEvent -= OnHitResults;
             _ability.Finished -= OnAbilityFinished;
-            _abilityInProgress = false;
+            Abort();
             Ready?.Invoke();
+        }
 
+        private void Abort()
+        {
             Destroy(_ability.gameObject);
+            _ability = null;
         }
     }
 

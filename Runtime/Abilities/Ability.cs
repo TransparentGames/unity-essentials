@@ -7,6 +7,7 @@ namespace TransparentGames.Essentials.Abilities
 {
     public abstract class Ability : MonoBehaviour
     {
+        public bool CanCancel { get; set; } = true;
         public event Action<List<HitResult>> HitResultsEvent;
         public event Action Finished;
         public HitInfo HitInfo { get; set; }
@@ -14,7 +15,7 @@ namespace TransparentGames.Essentials.Abilities
 
         public abstract void Use(Caster caster);
 
-        protected void OnFinished()
+        protected virtual void OnFinished()
         {
             Finished?.Invoke();
         }
