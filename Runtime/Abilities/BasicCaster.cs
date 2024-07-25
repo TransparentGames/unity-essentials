@@ -25,9 +25,7 @@ namespace TransparentGames.Essentials.Abilities
         private void OnDisable()
         {
             if (_ability != null)
-            {
-                Abort();
-            }
+                _ability.Cancel();
         }
 
         public override bool CanCast()
@@ -60,7 +58,7 @@ namespace TransparentGames.Essentials.Abilities
         public override void Cancel()
         {
             if (_ability != null)
-                Abort();
+                _ability.Cancel();
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
@@ -78,13 +76,6 @@ namespace TransparentGames.Essentials.Abilities
 
         protected virtual void OnAbilityFinished()
         {
-            _ability.Finished -= OnAbilityFinished;
-            Abort();
-        }
-
-        private void Abort()
-        {
-            Destroy(_ability.gameObject);
             _ability = null;
             OnReady();
         }
