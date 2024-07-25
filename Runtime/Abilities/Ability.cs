@@ -14,6 +14,7 @@ namespace TransparentGames.Essentials.Abilities
         public LayerMask LayerMask { get; set; }
 
         public abstract void Use(Caster caster);
+        public abstract void Cancel();
 
         protected virtual void OnFinished()
         {
