@@ -14,6 +14,7 @@ namespace TransparentGames.Essentials.Abilities
 
         public abstract void Cast(GameObject target = null);
         public abstract bool CanCast();
+        public abstract void Cancel();
 
         protected void OnReady()
         {

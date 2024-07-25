@@ -16,9 +16,9 @@ namespace TransparentGames.Essentials.Abilities
         public override Animator Animator => Owner.GetComponentInChildren<Animator>();
         public override bool IsReady => _ability == null || _ability.CanCancel;
 
-        [SerializeField] private AbilityTemplate abilityTemplate;
+        [SerializeField] protected AbilityTemplate abilityTemplate;
 
-        private Ability _ability = null;
+        protected Ability _ability = null;
 
         private StatsHolder _statsHolder;
 
@@ -38,14 +38,11 @@ namespace TransparentGames.Essentials.Abilities
             if (abilityTemplate.CanUse(this) == false)
                 return false;
 
-            return _ability == null || _ability.CanCancel;
+            return IsReady;
         }
 
         public override void Cast(GameObject target = null)
         {
-            if (_ability)
-                Abort();
-
             _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
 
             var hitInfo = abilityTemplate.Calculate(_statsHolder.Stats);
@@ -58,6 +55,12 @@ namespace TransparentGames.Essentials.Abilities
             _ability.Finished += OnAbilityFinished;
 
             _ability.Use(this);
+        }
+
+        public override void Cancel()
+        {
+            if (_ability != null)
+                Abort();
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
@@ -73,17 +76,17 @@ namespace TransparentGames.Essentials.Abilities
             }
         }
 
-        private void OnAbilityFinished()
+        protected virtual void OnAbilityFinished()
         {
             _ability.Finished -= OnAbilityFinished;
             Abort();
-            OnReady();
         }
 
         private void Abort()
         {
             Destroy(_ability.gameObject);
             _ability = null;
+            OnReady();
         }
     }
 
