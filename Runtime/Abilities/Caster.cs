@@ -10,7 +10,9 @@ namespace TransparentGames.Essentials.Abilities
         public GameObject Owner { get; set; }
 
         public abstract Animator Animator { get; }
-        public abstract bool IsReady { get; }
+        public abstract bool IsBusy { get; }
+        public abstract bool CanCancel { get; }
+        public abstract bool CanHardCancel { get; }
 
         public abstract void Cast(GameObject target = null);
         public abstract bool CanCast();
