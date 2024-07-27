@@ -18,10 +18,10 @@ namespace TransparentGames.Essentials.UI
             EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
 
             if (GUILayout.Button("Open"))
-                uiState.Open();
+                uiState.TryOpen();
 
             if (GUILayout.Button("Close"))
-                uiState.Close();
+                uiState.TryClose();
         }
     }
 }
