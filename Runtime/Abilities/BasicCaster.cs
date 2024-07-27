@@ -14,7 +14,9 @@ namespace TransparentGames.Essentials.Abilities
     public class BasicCaster : Caster, IStatsRequired
     {
         public override Animator Animator => Owner.GetComponentInChildren<Animator>();
-        public override bool IsReady => _ability == null || _ability.CanCancel;
+        public override bool IsBusy => _ability != null;
+        public override bool CanCancel => !IsBusy || _ability.CanCancel;
+        public override bool CanHardCancel => CanCancel || _ability.CanHardCancel;
 
         [SerializeField] protected AbilityTemplate abilityTemplate;
 
@@ -36,7 +38,7 @@ namespace TransparentGames.Essentials.Abilities
             if (abilityTemplate.CanUse(this) == false)
                 return false;
 
-            return IsReady;
+            return true;
         }
 
         public override void Cast(GameObject target = null)
