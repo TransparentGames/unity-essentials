@@ -7,9 +7,6 @@ namespace TransparentGames.Essentials.UI
 {
     public class View : UIElement
     {
-        public event Action TryOpened;
-        public event Action TryClosed;
-
         public override UIState State => state;
 
         [SerializeField] private List<Button> closeButtons;
@@ -18,14 +15,14 @@ namespace TransparentGames.Essentials.UI
 
         public override void TryOpen()
         {
-            TryOpened?.Invoke();
+            OnTryOpened();
             if (manual == false)
                 Open();
         }
 
         public override void TryClose()
         {
-            TryClosed?.Invoke();
+            OnTryClosed();
             if (manual == false)
                 Close();
         }

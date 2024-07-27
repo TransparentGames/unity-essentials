@@ -6,25 +6,14 @@ namespace TransparentGames.Essentials.UI
     [CreateAssetMenu(fileName = "UI State", menuName = "Transparent Games/UI/UI State", order = 0)]
     public class UIState : ScriptableObject
     {
-        public void Open()
+        public void TryOpen()
         {
-            UIManager.Initialized(() => UIManager.Instance.Open(this));
+            UIManager.Initialized(() => UIManager.Instance.TryOpen(this));
         }
 
-        public void Close()
+        public void TryClose()
         {
-            UIManager.Initialized(() => UIManager.Instance.Close(this));
-        }
-
-        public void AddListener(Action callback)
-        {
-            UIManager.Initialized(() => UIManager.Instance.Get(this).Closed += callback);
-        }
-
-        public void RemoveListener(Action callback)
-        {
-            if (UIManager.InstanceExists)
-                UIManager.Instance.Get(this).Closed -= callback;
+            UIManager.Initialized(() => UIManager.Instance.TryClose(this));
         }
     }
 }

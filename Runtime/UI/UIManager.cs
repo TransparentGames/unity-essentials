@@ -7,6 +7,8 @@ namespace TransparentGames.Essentials.UI
 {
     public class UIManager : MonoSingleton<UIManager>
     {
+        public event Action<UIState> UIStateChangeAttempt;
+
         private Dictionary<UIState, UIElement> _UIElements = new();
 
         protected override void Awake()
@@ -24,7 +26,15 @@ namespace TransparentGames.Essentials.UI
             base.Awake();
         }
 
-        public void Open(UIState state)
+        public void TryOpen(UIState state)
+        {
+            if (_UIElements.TryGetValue(state, out var uiElement))
+            {
+                UIStateChangeAttempt?.Invoke(state);
+            }
+        }
+
+        public void ForceOpen(UIState state)
         {
             if (_UIElements.TryGetValue(state, out var uiElement))
             {
@@ -42,7 +52,7 @@ namespace TransparentGames.Essentials.UI
             return null;
         }
 
-        public void Close(UIState state)
+        public void TryClose(UIState state)
         {
             if (_UIElements.TryGetValue(state, out var uiElement))
             {
