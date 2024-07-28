@@ -6,8 +6,10 @@ namespace TransparentGames.Essentials.Items
     public class ItemTemplate : PlayfabItemTemplate
     {
         public virtual string Name => itemName;
+        public virtual string Description => description;
         [Space]
         public Sprite icon;
         [SerializeField] protected string itemName;
+        [SerializeField] protected string description;
     }
 }
