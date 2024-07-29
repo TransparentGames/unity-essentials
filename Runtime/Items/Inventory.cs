@@ -7,7 +7,7 @@ namespace TransparentGames.Essentials.Items
 {
     public class Inventory
     {
-        public event Action Changed;
+        public event Action<InventoryItem, bool> Changed;
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
 
         private readonly Dictionary<int, InventoryItem> _items;
@@ -34,7 +34,7 @@ namespace TransparentGames.Essentials.Items
                 }
 
                 _items.Add(i, item);
-                Changed?.Invoke();
+                Changed?.Invoke(item, true);
                 return;
             }
         }
@@ -56,7 +56,7 @@ namespace TransparentGames.Essentials.Items
                 if (_items[i] == item)
                 {
                     _items[i] = null;
-                    Changed?.Invoke();
+                    Changed?.Invoke(item, false);
                     return;
                 }
             }
