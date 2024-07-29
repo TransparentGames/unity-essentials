@@ -14,6 +14,7 @@ namespace TransparentGames.Essentials.Items
         public Action Changed;
         private ItemTemplate _itemTemplate;
         private ItemInstance _itemInstance;
+        private ItemInfo _itemInfo;
 
         public InventoryItem()
         {
@@ -23,9 +24,9 @@ namespace TransparentGames.Essentials.Items
             };
         }
 
-        public InventoryItem(ItemInstance itemInstance)
+        public InventoryItem(ItemInstance itemInstance, ItemTemplate itemTemplate)
         {
-            _itemTemplate = ItemCollection.Instance.GetItemTemplate(itemInstance.ItemId);
+            _itemTemplate = itemTemplate;
             _itemInstance = itemInstance;
         }
 
@@ -41,6 +42,16 @@ namespace TransparentGames.Essentials.Items
 
         public ItemTemplate ItemTemplate => _itemTemplate;
 
+        public ItemInfo ItemInfo
+        {
+            get => _itemInfo;
+            set
+            {
+                _itemInfo = value;
+                Changed?.Invoke();
+            }
+        }
+
         public int RemainingUses
         {
             get => _itemInstance.RemainingUses ?? 0;
@@ -49,7 +60,6 @@ namespace TransparentGames.Essentials.Items
                 _itemInstance.RemainingUses = value;
                 Changed?.Invoke();
             }
-
         }
     }
 }
