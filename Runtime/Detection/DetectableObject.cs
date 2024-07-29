@@ -8,15 +8,21 @@ namespace TransparentGames.Essentials.Detection
         public GameObject Owner { get; set; }
         public bool IsDetectable => gameObject.activeSelf;
         public event Action<IDetectable> DetectionChanged;
-        private void OnEnable()
+
+        protected void OnEnable()
         {
             DetectableRegistry.Instance.Register(this);
-            DetectionChanged?.Invoke(this);
+            OnDetectionChanged();
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             DetectableRegistry.UnRegister(this);
+            OnDetectionChanged();
+        }
+
+        protected void OnDetectionChanged()
+        {
             DetectionChanged?.Invoke(this);
         }
     }
