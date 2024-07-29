@@ -6,7 +6,7 @@ namespace TransparentGames.Essentials.Combat
     public class HitPresenter : MonoBehaviour
     {
         [SerializeField] private Vector3 damageIndicatorOffset;
-
+        [SerializeField] private HitTextColorTemplate hitTextColorTemplate;
         private IHittable _hittable;
 
         private void Awake()
@@ -26,7 +26,7 @@ namespace TransparentGames.Essentials.Combat
 
         private void OnHit(HitResult hitResult)
         {
-            DamageIndicatorManager.Initialized(() => DamageIndicatorManager.Instance.Spawn(hitResult, damageIndicatorOffset));
+            DamageIndicatorManager.Initialized(() => DamageIndicatorManager.Instance.Spawn(hitResult, damageIndicatorOffset, hitTextColorTemplate));
         }
     }
 }
