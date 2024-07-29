@@ -20,14 +20,6 @@ namespace TransparentGames.Essentials.Items
             item_id = itemId;
             data_type = dataType;
         }
-
-        public Sprite GetIcon()
-        {
-            if (data_type == DataType.Currency)
-                return CurrencyCollection.Instance.GetCurrencyNode(item_id).Icon;
-
-            return ItemCollection.Instance.GetItemTemplate(item_id).icon;
-        }
     }
 
     public static class DataType

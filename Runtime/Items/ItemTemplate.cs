@@ -10,6 +10,7 @@ namespace TransparentGames.Essentials.Items
         [Space]
         public Sprite icon;
         [SerializeField] protected string itemName;
-        [SerializeField] protected string description;
+        [SerializeField, TextArea] protected string description;
+        public string itemClass;
     }
 }

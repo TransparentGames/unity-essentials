@@ -21,7 +21,7 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
     /// </summary>
     private Dictionary<string, InventoryItem> _inventoryItems = new();
 
-    public void AddItem(ItemInstance itemInstance)
+    public void AddItem(ItemInstance itemInstance, ItemTemplate itemTemplate)
     {
         if (_inventoryItems.ContainsKey(itemInstance.ItemInstanceId))
         {
@@ -30,7 +30,7 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
             return;
         }
 
-        var inventoryItem = new InventoryItem(itemInstance);
+        var inventoryItem = new InventoryItem(itemInstance, itemTemplate);
 
         _inventoryItems.Add(itemInstance.ItemInstanceId, inventoryItem);
         Changed?.Invoke();
