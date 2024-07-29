@@ -24,7 +24,7 @@ public class InventorySystemManager : MonoBehaviour
         }
     }
 
-    public static void CreateItem(string itemId)
+    public static InventoryItem CreateItem(string itemId)
     {
         var itemTemplate = GetItemTemplate(itemId);
         var itemInstance = new ItemInstance
@@ -36,6 +36,7 @@ public class InventorySystemManager : MonoBehaviour
         };
 
         InventoryManager.Instance.AddItem(itemInstance, itemTemplate);
+        return InventoryManager.Instance.InventoryItems[itemInstance.ItemInstanceId];
     }
 
     public static ItemTemplate GetItemTemplate(string itemId)
