@@ -23,7 +23,7 @@ namespace TransparentGames.Essentials.Combat
             _pool.Clear();
         }
 
-        public void Spawn(HitResult hitResult, Vector3 offset)
+        public void Spawn(HitResult hitResult, Vector3 offset, HitTextColorTemplate hitTextColorTemplate)
         {
             DamageIndicator damageIndicator = _pool.Get();
             damageIndicator.transform.localPosition = new Vector3(damageIndicator.transform.localPosition.x, damageIndicator.transform.localPosition.y, 0);
@@ -35,7 +35,7 @@ namespace TransparentGames.Essentials.Combat
 
             damageIndicator.OnReturnToPool += Release;
 
-            damageIndicator.Set(hitResult);
+            damageIndicator.Set(hitResult, hitTextColorTemplate);
         }
 
         public void Release(DamageIndicator damageIndicator)

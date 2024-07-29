@@ -7,8 +7,6 @@ namespace TransparentGames.Essentials.Combat
 {
     public class DamageIndicator : MonoBehaviour
     {
-        public Color normalTextColor = Color.white;
-        public Color criticalTextColor = Color.red;
         public event Action<DamageIndicator> OnReturnToPool;
 
         [SerializeField] private TextMeshProUGUI textMeshProUGUI;
@@ -18,7 +16,7 @@ namespace TransparentGames.Essentials.Combat
         private Tween _scaleTween;
         private Tween _fadeTween;
 
-        public void Set(HitResult hitResult)
+        public void Set(HitResult hitResult, HitTextColorTemplate hitTextColorTemplate)
         {
             _moveXTween?.Kill();
             _moveYTween?.Kill();
@@ -30,7 +28,7 @@ namespace TransparentGames.Essentials.Combat
             textMeshProUGUI.text = hitResult.damageDealt.ToString();
             if (hitResult.isCritical)
                 textMeshProUGUI.text += "!";
-            textMeshProUGUI.color = hitResult.isCritical ? criticalTextColor : normalTextColor;
+            textMeshProUGUI.color = hitResult.isCritical ? hitTextColorTemplate.criticalHitColor : hitTextColorTemplate.normalHitColor;
 
             _moveXTween = textMeshProUGUI.transform.DOMoveX(transform.position.x + 0.5f, 0.5f).SetEase(Ease.InOutQuad);
             _moveYTween = textMeshProUGUI.transform.DOMoveY(transform.position.y + 0.2f, 0.5f).SetEase(Ease.OutQuad);
