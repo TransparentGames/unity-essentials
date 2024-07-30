@@ -9,7 +9,6 @@ namespace TransparentGames.Essentials.UI
     {
         public override UIState State => state;
 
-        [SerializeField] private List<Button> closeButtons;
         [SerializeField] private UIState state;
         [SerializeField] private bool manual;
 
@@ -39,26 +38,9 @@ namespace TransparentGames.Essentials.UI
             OnClosed();
         }
 
-        private void Awake()
-        {
-            foreach (var closeButton in closeButtons)
-                closeButton.onClick.AddListener(OnCloseButtonClicked);
-        }
-
         private void Start()
         {
             Close();
-        }
-
-        private void OnDestroy()
-        {
-            foreach (var closeButton in closeButtons)
-                closeButton.onClick.RemoveListener(OnCloseButtonClicked);
-        }
-
-        private void OnCloseButtonClicked()
-        {
-            TryClose();
         }
     }
 }
