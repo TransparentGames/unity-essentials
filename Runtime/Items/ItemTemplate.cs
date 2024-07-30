@@ -12,5 +12,6 @@ namespace TransparentGames.Essentials.Items
         [SerializeField] protected string itemName;
         [SerializeField, TextArea] protected string description;
         public string itemClass;
+        public bool IsUnique;
     }
 }

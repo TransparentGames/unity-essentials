@@ -7,11 +7,7 @@ namespace TransparentGames.Essentials.Data.Nodes
     [CreateAssetMenu(fileName = "Currency Node", menuName = "Transparent Games/Data/Currency Node", order = 0)]
     public class CurrencyNode : BaseNode<int>
     {
-        public string Key => key;
-
-        [SerializeField] protected string key;
         [SerializeField] protected int defaultValue;
-        [SerializeField] private Sprite icon;
 
         public Sprite Icon => icon;
         public override string DisplayValue => Value.ToString();
@@ -19,23 +15,23 @@ namespace TransparentGames.Essentials.Data.Nodes
         {
             get
             {
-                return CurrencyManager.Instance.Get(key, defaultValue).Value;
+                return CurrencyManager.Instance.Get(itemId, defaultValue).Value;
             }
             set
             {
-                CurrencyManager.Instance.Get(key, defaultValue).Value = value;
+                CurrencyManager.Instance.Get(itemId, defaultValue).Value = value;
             }
         }
 
         public override void AddListener(Action callback)
         {
-            CurrencyManager.Instance.Get(key, defaultValue).Changed += callback;
+            CurrencyManager.Instance.Get(itemId, defaultValue).Changed += callback;
         }
 
         public override void RemoveListener(Action callback)
         {
             if (CurrencyManager.InstanceExists)
-                CurrencyManager.Instance.Get(key, defaultValue).Changed -= callback;
+                CurrencyManager.Instance.Get(itemId, defaultValue).Changed -= callback;
         }
     }
 }
