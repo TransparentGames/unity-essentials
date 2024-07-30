@@ -1,5 +1,6 @@
 using System;
 using TransparentGames.Essentials.Currency;
+using TransparentGames.Essentials.Data.Nodes;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.Items
@@ -7,25 +8,19 @@ namespace TransparentGames.Essentials.Items
     [Serializable]
     public class RewardItem
     {
-        public string item_id = "CN";
-        public string data_type = "currency";
+        public string ItemId => string.IsNullOrEmpty(_itemId) ? itemTemplate.itemId : _itemId;
         public int count = 1;
+        [SerializeField] private ItemTemplate itemTemplate;
+
+        private string _itemId;
 
         public RewardItem()
         {
         }
 
-        public RewardItem(string itemId, string dataType)
+        public RewardItem(string itemId)
         {
-            item_id = itemId;
-            data_type = dataType;
+            _itemId = itemId;
         }
-    }
-
-    public static class DataType
-    {
-        public static readonly string Inventory = "inventory";
-        public static readonly string PlayerData = "player_data";
-        public static readonly string Currency = "currency";
     }
 }
