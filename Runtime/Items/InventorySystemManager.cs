@@ -42,12 +42,11 @@ public class InventorySystemManager : MonoBehaviour
         {
             ItemId = itemId,
             RemainingUses = count,
-            ItemInstanceId = itemTemplate.IsUnique ? System.Guid.NewGuid().ToString() : itemId,
+            ItemInstanceId = System.Guid.NewGuid().ToString(),
             ItemClass = itemTemplate.itemClass
         };
 
-        InventoryManager.Instance.AddItem(itemInstance, itemTemplate);
-        return InventoryManager.Instance.InventoryItems[itemInstance.ItemInstanceId];
+        return new InventoryItem(itemInstance, itemTemplate);
     }
 
     public static ItemTemplate GetItemTemplate(string itemId)
