@@ -30,7 +30,15 @@ namespace TransparentGames.Essentials.Items
             {
                 if (_items.ContainsKey(i))
                 {
-                    continue;
+                    if (_items[i].ItemTemplate.IsUnique)
+                        continue;
+
+                    if (_items[i].ItemInstance.ItemId != item.ItemInstance.ItemId)
+                        continue;
+
+                    _items[i].ItemInstance.RemainingUses += item.ItemInstance.RemainingUses;
+                    Changed?.Invoke(item, true);
+                    return;
                 }
 
                 _items.Add(i, item);

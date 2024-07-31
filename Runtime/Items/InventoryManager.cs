@@ -23,15 +23,14 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
 
     public void AddItem(ItemInstance itemInstance, ItemTemplate itemTemplate)
     {
-        if (_inventoryItems.TryGetValue(itemInstance.ItemInstanceId, out var inventoryItem))
+        if (_inventoryItems.ContainsKey(itemInstance.ItemInstanceId))
         {
             Debug.Log($"Item [{itemInstance.ItemId}] already exists in inventory, updating...");
-            var updatedUses = inventoryItem.RemainingUses + (itemInstance.RemainingUses ?? 1);
-            UpdateItem(itemInstance.ItemInstanceId, updatedUses);
+            UpdateItem(itemInstance.ItemInstanceId, itemInstance);
             return;
         }
 
-        inventoryItem = new InventoryItem(itemInstance, itemTemplate);
+        var inventoryItem = new InventoryItem(itemInstance, itemTemplate);
 
         _inventoryItems.Add(itemInstance.ItemInstanceId, inventoryItem);
         Changed?.Invoke();
