@@ -23,7 +23,13 @@ namespace TransparentGames.Essentials.Items
                 {
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.ObjectField(inventoryItem.ItemTemplate, typeof(ItemTemplate), false);
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
                     EditorGUILayout.IntField(inventoryItem.ItemInstance.ItemInstanceId, inventoryItem.RemainingUses);
+                    if (GUILayout.Button("Remove"))
+                    {
+                        item.RemoveItem(inventoryItem);
+                    }
                     GUILayout.EndHorizontal();
                 }
 
