@@ -6,6 +6,7 @@ using TransparentGames.Essentials.Data;
 using TransparentGames.Essentials.Data.Nodes;
 using TransparentGames.Essentials.Dummy;
 using TransparentGames.Essentials.Items;
+using TransparentGames.Essentials.Shop;
 using UnityEngine;
 
 public class InventorySystemManager : MonoBehaviour
@@ -56,4 +57,14 @@ public class InventorySystemManager : MonoBehaviour
     }
 
     #endregion
+
+    public static bool CanAfford(Price price, InventoryItem currency)
+    {
+        return price.amount <= currency.RemainingUses;
+    }
+
+    public static void Pay(Price price, InventoryItem currency)
+    {
+        currency.RemainingUses -= price.amount;
+    }
 }
