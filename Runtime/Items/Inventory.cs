@@ -7,6 +7,7 @@ namespace TransparentGames.Essentials.Items
 {
     public class Inventory
     {
+        public int SlotAmount => _slotAmount;
         public event Action<InventoryItem, bool> Changed;
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
 
