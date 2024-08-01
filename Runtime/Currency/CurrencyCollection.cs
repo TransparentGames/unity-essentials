@@ -14,7 +14,7 @@ namespace TransparentGames.Essentials.Currency
 
         public CurrencyNode GetCurrencyNode(string itemId)
         {
-            return currencyNodes.Find(currencyNode => currencyNode.itemId == itemId);
+            return currencyNodes.Find(currencyNode => currencyNode.Key == itemId);
         }
     }
 }

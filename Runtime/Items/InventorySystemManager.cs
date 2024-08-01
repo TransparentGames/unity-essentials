@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using TransparentGames.Essentials.Currency;
+using TransparentGames.Essentials.Data;
 using TransparentGames.Essentials.Data.Nodes;
 using TransparentGames.Essentials.Dummy;
 using TransparentGames.Essentials.Items;
@@ -8,28 +10,21 @@ using UnityEngine;
 
 public class InventorySystemManager : MonoBehaviour
 {
-    [SerializeField] private ItemCollection itemCollection;
-    [SerializeField] private CurrencyCollection currencyCollection;
+    [SerializeField] private ItemDatabase itemCollection;
 
     private static Dictionary<string, ItemTemplate> _itemTemplates = new();
-    private static Dictionary<string, CurrencyNode> _currenciesTemplates = new();
 
     private void Awake()
     {
-        if (itemCollection == null || currencyCollection == null)
+        if (itemCollection == null)
         {
-            Debug.LogError("ItemCollection or CurrencyCollection is not set in InventorySystemManager");
+            Debug.LogError("ItemCollection is not set in InventorySystemManager");
             return;
         }
 
         foreach (var itemTemplate in itemCollection.ItemTemplates)
         {
             _itemTemplates.Add(itemTemplate.itemId, itemTemplate);
-        }
-
-        foreach (var currencyNode in currencyCollection.CurrencyNodes)
-        {
-            _currenciesTemplates.Add(currencyNode.itemId, currencyNode);
         }
     }
 
@@ -57,25 +52,6 @@ public class InventorySystemManager : MonoBehaviour
         }
 
         Debug.LogError($"ItemTemplate with id [{itemId}] not found");
-        return null;
-    }
-
-    public static List<InventoryItem> GetItemCategory(string category)
-    {
-        return InventoryManager.Instance.InventoryItems.Values.ToList().FindAll(item => item.ItemInstance.ItemClass == category);
-    }
-    #endregion
-
-    #region Currency
-
-    public static CurrencyNode GetCurrency(string currencyId)
-    {
-        if (_currenciesTemplates.ContainsKey(currencyId))
-        {
-            return _currenciesTemplates[currencyId];
-        }
-
-        Debug.LogError($"CurrencyNode with id [{currencyId}] not found");
         return null;
     }
 

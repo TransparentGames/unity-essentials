@@ -9,14 +9,12 @@ namespace TransparentGames.Essentials.Shop
     [Serializable]
     public class Price
     {
-        public bool CanAfford => currencyNode.Value >= amount;
-
-        public CurrencyNode currencyNode;
+        public ItemTemplate itemTemplate;
         public int amount;
 
-        public Price(CurrencyNode currencyNode, int amount)
+        public Price(ItemTemplate itemTemplate, int amount)
         {
-            this.currencyNode = currencyNode;
+            this.itemTemplate = itemTemplate;
             this.amount = amount;
         }
     }

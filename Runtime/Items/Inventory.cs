@@ -1,33 +1,53 @@
 
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using TransparentGames.Essentials.Data;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.Items
 {
-    public class Inventory
+    public class Inventory : MonoBehaviour
     {
-        public int SlotAmount => _slotAmount;
+        [SerializeField] private string inventoryId;
+        [SerializeField] private List<ItemCollection> itemCollections;
+
+        public ItemCollection GetItemCollection(string category = "main")
+        {
+            foreach (var itemCollection in itemCollections)
+            {
+                if (itemCollection.Category == category)
+                {
+                    return itemCollection;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    [Serializable]
+    public class ItemCollection
+    {
+        public int SlotAmount => slotAmount;
+        public string Category => category;
         public event Action<InventoryItem, bool> Changed;
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
 
-        private readonly Dictionary<int, InventoryItem> _items;
-        private int _slotAmount;
-        public Inventory(int slotAmount)
-        {
-            _slotAmount = slotAmount;
-            _items = new Dictionary<int, InventoryItem>(_slotAmount);
-        }
+        [SerializeField] private int slotAmount;
+        [SerializeField] private string category;
+
+        private readonly Dictionary<int, InventoryItem> _items = new();
 
         public bool AddItem(InventoryItem item)
         {
-            if (_items.Count >= _slotAmount && item.ItemTemplate.IsUnique)
+            if (_items.Count >= slotAmount && item.ItemTemplate.IsUnique)
             {
                 Debug.LogWarning("Inventory is full");
                 return false;
             }
 
-            for (int i = 0; i < _slotAmount; i++)
+            for (int i = 0; i < slotAmount; i++)
             {
                 if (_items.ContainsKey(i))
                 {
@@ -60,14 +80,14 @@ namespace TransparentGames.Essentials.Items
             return _items[index];
         }
 
-        public List<InventoryItem> GetItems(string category)
+        public Dictionary<int, InventoryItem> GetItems(string category)
         {
-            var items = new List<InventoryItem>();
-            foreach (var item in _items.Values)
+            var items = new Dictionary<int, InventoryItem>();
+            foreach (var item in _items)
             {
-                if (item.ItemTemplate.itemClass == category)
+                if (item.Value.ItemTemplate.itemClass == category)
                 {
-                    items.Add(item);
+                    items.Add(item.Key, item.Value);
                 }
             }
 

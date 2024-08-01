@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TransparentGames.Essentials.Items
 {
     [CreateAssetMenu(fileName = "New Item Collection", menuName = "Transparent Games/Items/Item Collection", order = 0)]
-    public class ItemCollection : ScriptableObject
+    public class ItemDatabase : ScriptableObject
     {
         public List<ItemTemplate> ItemTemplates => itemTemplates;
 
