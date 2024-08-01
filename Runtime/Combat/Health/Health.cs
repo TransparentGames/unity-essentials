@@ -56,17 +56,16 @@ namespace TransparentGames.Essentials.Combat
         {
             base.OnInspectorGUI();
 
-            GUILayout.Space(20);
+            GUILayout.Space(10);
+            GUILayout.Label("Editor", EditorStyles.boldLabel);
 
             if (target is not Health health)
                 return;
 
-            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
-
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.FloatField("Max Health", health.MaxHealth);
-            EditorGUILayout.FloatField("Current Health", health.CurrentHealth);
-            EditorGUI.EndDisabledGroup();
+            // EditorGUI.BeginDisabledGroup(true);
+            // EditorGUILayout.FloatField("Max Health", health.MaxHealth);
+            // EditorGUILayout.FloatField("Current Health", health.CurrentHealth);
+            // EditorGUI.EndDisabledGroup();
 
             _healthValue = EditorGUILayout.FloatField("Health", _healthValue);
 
