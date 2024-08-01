@@ -8,7 +8,7 @@ namespace TransparentGames.Essentials.Data.Nodes
     /// <summary>
     /// Base class for getting the display value of a node
     /// </summary>
-    public abstract class Node : ItemTemplate
+    public abstract class Node : ScriptableObject
     {
         public abstract string DisplayValue { get; }
         public abstract void AddListener(Action callback);
