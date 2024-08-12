@@ -14,6 +14,7 @@ namespace TransparentGames.Essentials.Abilities
         public Ability abilityPrefab;
         public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;
+        public float cooldown;
 
         [SerializeField] private bool canCrit;
 
@@ -46,11 +47,6 @@ namespace TransparentGames.Essentials.Abilities
             }
 
             return result;
-        }
-
-        public virtual bool CanUse(Caster caster)
-        {
-            return true;
         }
     }
 }

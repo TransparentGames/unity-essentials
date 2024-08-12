@@ -5,24 +5,26 @@ using TransparentGames.Essentials;
 using TransparentGames.Essentials.Combat;
 using System;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace TransparentGames.Essentials.Abilities
 {
     public class BasicCaster : Caster, IStatsRequired
     {
         public override Animator Animator => Owner.GetComponentInChildren<Animator>();
-        public override bool IsBusy => _ability != null;
+        public override bool IsBusy => _inProgress;
         public override bool CanCancel => !IsBusy || _ability.CanCancel;
         public override bool CanHardCancel => CanCancel || _ability.CanHardCancel;
 
-        [SerializeField] protected AbilityTemplate abilityTemplate;
-
+        [SerializeField] private AbilityTemplate _abilityTemplate = null;
         protected Ability _ability = null;
+        protected bool _inProgress = false;
 
         private StatsHolder _statsHolder;
+
+        private void Start()
+        {
+            if (_abilityTemplate != null)
+                Equip(_abilityTemplate);
+        }
 
         private void OnDisable()
         {
@@ -32,35 +34,44 @@ namespace TransparentGames.Essentials.Abilities
 
         public override bool CanCast()
         {
-            if (abilityTemplate == null)
+            if (_ability == null)
                 return false;
 
-            if (abilityTemplate.CanUse(this) == false)
-                return false;
-
-            return true;
+            return _ability.CanUse(this);
         }
 
         public override void Cast(GameObject target = null)
         {
-            _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
+            _inProgress = true;
 
-            var hitInfo = abilityTemplate.Calculate(_statsHolder.Stats);
-            hitInfo.source = Owner;
-            hitInfo.level = _statsHolder.Level;
-
-            _ability.HitInfo = hitInfo;
-            _ability.LayerMask = abilityTemplate.layerMask;
             _ability.HitResultsEvent += OnHitResults;
             _ability.Finished += OnAbilityFinished;
 
             _ability.Use(this);
         }
 
+        public override void Equip(AbilityTemplate abilityTemplate)
+        {
+            Unequip();
+            _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
+        }
+
+        public override void Unequip()
+        {
+            if (_ability == null)
+                return;
+
+            Destroy(_ability.gameObject);
+
+            _ability = null;
+        }
+
         public override void Cancel()
         {
             if (_ability != null)
+            {
                 _ability.Cancel();
+            }
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
@@ -78,29 +89,8 @@ namespace TransparentGames.Essentials.Abilities
 
         protected virtual void OnAbilityFinished()
         {
-            _ability = null;
+            _inProgress = false;
             OnReady();
         }
     }
-
-#if UNITY_EDITOR
-    [CustomEditor(typeof(Caster), true)]
-    public class CasterEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-
-            GUILayout.Space(20);
-
-            if (target is not Caster caster)
-                return;
-
-            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
-
-            if (GUILayout.Button("Cast"))
-                caster.Cast();
-        }
-    }
-#endif
 }
