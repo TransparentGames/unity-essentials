@@ -11,7 +11,7 @@ namespace TransparentGames.Essentials.Time
     {
         public float TimeLeft => _timeLeft;
         public float TimeStart => _timeStart;
-        public event Action TimeIsUp;
+        public event Action<Countdown> TimeIsUp;
 
         private float _timeLeft;
         private float _timeStart;
@@ -42,7 +42,7 @@ namespace TransparentGames.Essentials.Time
                 _timeLeft -= UnityEngine.Time.deltaTime;
                 if (_timeLeft <= 0)
                 {
-                    TimeIsUp?.Invoke();
+                    TimeIsUp?.Invoke(this);
                     TimeIsUp = null;
 
                     _isRunning = false;
