@@ -13,8 +13,8 @@ namespace TransparentGames.Essentials.Time
         public float TimeStart => _timeStart;
         public event Action<Countdown> TimeIsUp;
 
-        private float _timeLeft;
-        private float _timeStart;
+        private float _timeLeft = 0;
+        private float _timeStart = 0;
         private bool _isRunning;
         private IUpdateEntity _updateEntity;
 

@@ -11,6 +11,7 @@ namespace TransparentGames.Essentials.Abilities
     {
         [Space]
         public string abilityName;
+        public Sprite icon;
         public Ability abilityPrefab;
         public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;

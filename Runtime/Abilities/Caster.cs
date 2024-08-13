@@ -15,6 +15,7 @@ namespace TransparentGames.Essentials.Abilities
         public virtual event Action Ready;
         public GameObject Owner { get; set; }
 
+        public abstract Ability CurrentAbility { get; }
         public abstract Animator Animator { get; }
         public abstract bool IsBusy { get; }
         public abstract bool CanCancel { get; }
@@ -22,7 +23,7 @@ namespace TransparentGames.Essentials.Abilities
 
         public abstract void Equip(AbilityTemplate abilityTemplate);
         public abstract void Unequip();
-        public abstract void Cast(GameObject target = null);
+        public abstract Ability Cast(GameObject target = null);
         public abstract bool CanCast();
         public abstract void Cancel();
 
