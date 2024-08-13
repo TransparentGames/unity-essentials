@@ -9,6 +9,7 @@ namespace TransparentGames.Essentials.Abilities
 {
     public class BasicCaster : Caster, IStatsRequired
     {
+        public override Ability CurrentAbility => _ability;
         public override Animator Animator => Owner.GetComponentInChildren<Animator>();
         public override bool IsBusy => _inProgress;
         public override bool CanCancel => !IsBusy || _ability.CanCancel;
@@ -20,7 +21,7 @@ namespace TransparentGames.Essentials.Abilities
 
         private StatsHolder _statsHolder;
 
-        private void Start()
+        private void Awake()
         {
             if (_abilityTemplate != null)
                 Equip(_abilityTemplate);
@@ -40,7 +41,7 @@ namespace TransparentGames.Essentials.Abilities
             return _ability.CanUse(this);
         }
 
-        public override void Cast(GameObject target = null)
+        public override Ability Cast(GameObject target = null)
         {
             _inProgress = true;
 
@@ -48,6 +49,8 @@ namespace TransparentGames.Essentials.Abilities
             _ability.Finished += OnAbilityFinished;
 
             _ability.Use(this);
+
+            return _ability;
         }
 
         public override void Equip(AbilityTemplate abilityTemplate)

@@ -8,6 +8,7 @@ namespace TransparentGames.Essentials.Abilities
 {
     public abstract class Ability : MonoBehaviour
     {
+        public AbilityTemplate AbilityTemplate;
         public bool CanCancel { get; set; } = true;
         public bool CanHardCancel { get; set; } = false;
         public event Action<List<HitResult>> HitResultsEvent;
