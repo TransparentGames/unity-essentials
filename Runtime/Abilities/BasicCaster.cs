@@ -27,12 +27,6 @@ namespace TransparentGames.Essentials.Abilities
                 Equip(_abilityTemplate);
         }
 
-        private void OnDisable()
-        {
-            if (_ability != null)
-                _ability.Cancel();
-        }
-
         public override bool CanCast()
         {
             if (_ability == null)
