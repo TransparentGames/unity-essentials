@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using TransparentGames.Essentials.Stats;
-using System.Collections.Generic;
-using TransparentGames.Essentials.Combat;
 
 #if UNITY_EDITOR
 using UnityEditor;

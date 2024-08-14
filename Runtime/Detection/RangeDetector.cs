@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Detection
 {
-    public class RangeDetector : MonoBehaviour, IDetector, IComponent
+    public class RangeDetector : ComponentBase, IDetector
     {
-        public GameObject Owner { get; set; }
+        public GameObject Owner => owner;
 
         [SerializeField] private int refreshFrameInterval = 10;
         [SerializeField] private List<AbstractScriptableObjectFilter> filters;

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Detection
 {
-    public class DetectableObject : MonoBehaviour, IDetectable, IComponent
+    public class DetectableObject : ComponentBase, IDetectable
     {
-        public GameObject Owner { get; set; }
+        public GameObject Owner => owner;
         public bool IsDetectable => gameObject.activeSelf;
         public event Action<IDetectable> DetectionChanged;
 
