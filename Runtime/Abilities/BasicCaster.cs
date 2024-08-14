@@ -10,7 +10,7 @@ namespace TransparentGames.Essentials.Abilities
     public class BasicCaster : Caster, IStatsRequired
     {
         public override Ability CurrentAbility => _ability;
-        public override Animator Animator => Owner.GetComponentInChildren<Animator>();
+        public override Animator Animator => owner.GetComponentInChildren<Animator>();
         public override bool IsBusy => _inProgress;
         public override bool CanCancel => !IsBusy || _ability.CanCancel;
         public override bool CanHardCancel => CanCancel || _ability.CanHardCancel;
@@ -56,7 +56,7 @@ namespace TransparentGames.Essentials.Abilities
         public override void Equip(AbilityTemplate abilityTemplate)
         {
             Unequip();
-            _ability = Instantiate(abilityTemplate.abilityPrefab, Owner.transform.position, Owner.transform.rotation);
+            _ability = Instantiate(abilityTemplate.abilityPrefab);
         }
 
         public override void Unequip()

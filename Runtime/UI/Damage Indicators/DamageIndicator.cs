@@ -30,8 +30,11 @@ namespace TransparentGames.Essentials.Combat
                 textMeshProUGUI.text += "!";
             textMeshProUGUI.color = hitResult.isCritical ? hitTextColorTemplate.criticalHitColor : hitTextColorTemplate.normalHitColor;
 
-            _moveXTween = textMeshProUGUI.transform.DOMoveX(transform.position.x + 0.5f, 0.5f).SetEase(Ease.InOutQuad);
-            _moveYTween = textMeshProUGUI.transform.DOMoveY(transform.position.y + 0.2f, 0.5f).SetEase(Ease.OutQuad);
+            var randomX = UnityEngine.Random.Range(-2f, 2f);
+            var randomY = UnityEngine.Random.Range(-2f, 2f);
+
+            _moveXTween = textMeshProUGUI.transform.DOMoveX(transform.position.x + randomX, 0.5f).SetEase(Ease.InOutQuad);
+            _moveYTween = textMeshProUGUI.transform.DOMoveY(transform.position.y + randomY, 0.5f).SetEase(Ease.OutQuad);
 
             _scaleTween = transform.DOScale(Vector3.one * 5.0f, 0.2f).SetEase(Ease.OutQuad).OnComplete(() => ScaleDown());
         }

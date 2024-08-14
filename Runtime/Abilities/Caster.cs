@@ -10,10 +10,9 @@ using UnityEditor;
 
 namespace TransparentGames.Essentials.Abilities
 {
-    public abstract class Caster : MonoBehaviour, IComponent
+    public abstract class Caster : ComponentBase
     {
         public virtual event Action Ready;
-        public GameObject Owner { get; set; }
 
         public abstract Ability CurrentAbility { get; }
         public abstract Animator Animator { get; }

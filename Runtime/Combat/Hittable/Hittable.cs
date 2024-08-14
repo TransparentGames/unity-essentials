@@ -7,9 +7,9 @@ using UnityEngine;
 namespace TransparentGames.Essentials.Combat
 {
     [RequireComponent(typeof(IHealth))]
-    public class Hittable : MonoBehaviour, IHittable, IStatsRequired, IComponent
+    public class Hittable : ComponentBase, IHittable, IStatsRequired
     {
-        public GameObject Owner { get; set; }
+        public GameObject Owner => owner;
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
