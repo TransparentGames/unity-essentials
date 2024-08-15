@@ -12,7 +12,7 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
         [SerializeField] private float screenOffsetX = .05f;
         [SerializeField] private float screenOffsetY = .05f;
 
-        private Camera mainCamera;
+        private Camera uiCamera;
         protected RectTransform rectTransform;
 
         private bool isInited;
@@ -28,7 +28,7 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
 
         private void OnEnable()
         {
-            mainCamera = Camera.main;
+            uiCamera = UICamera.Instance.Camera;
         }
 
         protected virtual void Init()
@@ -39,7 +39,7 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
         {
             if (!isInited) return;
 
-            var newAnchor = mainCamera.WorldToViewportPoint(worldPosition);
+            var newAnchor = uiCamera.WorldToViewportPoint(worldPosition);
 
             // Hide the UI element if it's outside the screen
             if (newAnchor.z < 0)
@@ -88,12 +88,8 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
         private void AlignWithCamera()
         {
             // Make sure the UI element stays aligned with the camera
-            Vector3 screenPoint = mainCamera.WorldToScreenPoint(transform.position);
-            transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
-
-            // Ensure the UI element is facing the correct direction in screen space
-            //Vector3 direction = mainCamera.transform.position - transform.position;
-            //transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+            Vector3 screenPoint = uiCamera.WorldToScreenPoint(transform.position);
+            transform.position = uiCamera.ScreenToWorldPoint(screenPoint);
         }
     }
 }
