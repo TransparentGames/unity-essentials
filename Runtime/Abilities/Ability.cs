@@ -11,7 +11,7 @@ namespace TransparentGames.Essentials.Abilities
         public AbilityTemplate AbilityTemplate;
         public bool CanCancel { get; set; } = true;
         public bool CanHardCancel { get; set; } = false;
-        public event Action<List<HitResult>> HitResultsEvent;
+        public event Action<HitResult> HitResult;
         public event Action Finished;
 
         public virtual bool CanUse(Caster caster)
@@ -43,9 +43,9 @@ namespace TransparentGames.Essentials.Abilities
             Finished = null;
         }
 
-        protected void OnHitResults(List<HitResult> hitResults)
+        protected void OnHitResult(HitResult hitResult)
         {
-            HitResultsEvent?.Invoke(hitResults);
+            HitResult?.Invoke(hitResult);
         }
     }
 }
