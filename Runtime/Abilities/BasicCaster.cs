@@ -39,7 +39,7 @@ namespace TransparentGames.Essentials.Abilities
         {
             _inProgress = true;
 
-            _ability.HitResultsEvent += OnHitResults;
+            _ability.HitResult += OnHitResult;
             _ability.Finished += OnAbilityFinished;
 
             _ability.Use(this);
@@ -76,12 +76,9 @@ namespace TransparentGames.Essentials.Abilities
             _statsHolder = statsHolder;
         }
 
-        private void OnHitResults(List<HitResult> hitResults)
+        private void OnHitResult(HitResult hitResult)
         {
-            foreach (HitResult hitResult in hitResults)
-            {
 
-            }
         }
 
         protected virtual void OnAbilityFinished()
