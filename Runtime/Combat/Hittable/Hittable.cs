@@ -10,6 +10,7 @@ namespace TransparentGames.Essentials.Combat
     public class Hittable : ComponentBase, IHittable, IStatsRequired
     {
         public GameObject Owner => owner;
+        public Transform Transform => transform;
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
