@@ -24,7 +24,7 @@ namespace TransparentGames.Essentials.UI
             _matBlock = new MaterialPropertyBlock();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             AlignCamera();
         }
