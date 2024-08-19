@@ -13,6 +13,7 @@ namespace TransparentGames.Essentials.Abilities
     public abstract class Caster : ComponentBase
     {
         public virtual event Action Ready;
+        public virtual event Action<Caster> Changed;
 
         public abstract Ability CurrentAbility { get; }
         public abstract Animator Animator { get; }
@@ -29,6 +30,11 @@ namespace TransparentGames.Essentials.Abilities
         protected void OnReady()
         {
             Ready?.Invoke();
+        }
+
+        protected void OnEquipped()
+        {
+            Changed?.Invoke(this);
         }
     }
 

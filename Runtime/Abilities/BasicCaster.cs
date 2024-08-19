@@ -51,6 +51,8 @@ namespace TransparentGames.Essentials.Abilities
         {
             Unequip();
             _ability = Instantiate(abilityTemplate.abilityPrefab);
+            _ability.Initialize(this);
+            OnEquipped();
         }
 
         public override void Unequip()

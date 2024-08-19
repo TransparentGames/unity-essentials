@@ -30,9 +30,16 @@ namespace TransparentGames.Essentials.Time
             _updateEntity = UpdateManager.StartUpdate(Update, UpdateType.Update);
         }
 
+        public void Reset(float time)
+        {
+            _timeLeft = time;
+            _timeStart = time;
+        }
+
         public void Stop()
         {
             _isRunning = false;
+            UpdateManager.Stop(_updateEntity);
         }
 
         public void Update()
@@ -43,7 +50,6 @@ namespace TransparentGames.Essentials.Time
                 if (_timeLeft <= 0)
                 {
                     TimeIsUp?.Invoke(this);
-                    TimeIsUp = null;
 
                     _isRunning = false;
                     UpdateManager.Stop(_updateEntity);
