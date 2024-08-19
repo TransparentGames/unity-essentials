@@ -14,6 +14,15 @@ namespace TransparentGames.Essentials.Abilities
         public event Action<HitResult> HitResult;
         public event Action Finished;
 
+        public virtual void Initialize(Caster caster)
+        {
+            var abilityComponents = GetComponentsInChildren<IAbilityComponent>();
+            foreach (var abilityComponent in abilityComponents)
+            {
+                abilityComponent.Initialize(caster);
+            }
+        }
+
         public virtual bool CanUse(Caster caster)
         {
             var abilityComponents = GetComponentsInChildren<IAbilityComponent>();
