@@ -9,10 +9,13 @@ namespace TransparentGames.Essentials.Abilities
     public abstract class Ability : MonoBehaviour
     {
         public AbilityTemplate AbilityTemplate;
-        public bool CanCancel { get; set; } = true;
-        public bool CanHardCancel { get; set; } = false;
+        public virtual bool CanCancel { get; set; } = true;
+        public virtual bool CanHardCancel { get; set; } = false;
+
         public event Action<HitResult> HitResult;
-        public event Action Finished;
+        public event Action<Ability> Finished;
+        public event Action<Ability> Cancelled;
+        public event Action<Ability> Ready;
 
         public virtual void Initialize(Caster caster)
         {
@@ -48,8 +51,17 @@ namespace TransparentGames.Essentials.Abilities
 
         protected virtual void OnFinished()
         {
-            Finished?.Invoke();
-            Finished = null;
+            Finished?.Invoke(this);
+        }
+
+        protected virtual void OnCancelled()
+        {
+            Cancelled?.Invoke(this);
+        }
+
+        public void OnReady()
+        {
+            Ready?.Invoke(this);
         }
 
         protected void OnHitResult(HitResult hitResult)
