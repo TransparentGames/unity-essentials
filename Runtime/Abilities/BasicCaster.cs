@@ -70,6 +70,8 @@ namespace TransparentGames.Essentials.Abilities
             if (_ability != null)
             {
                 _ability.Cancel();
+                _inProgress = false;
+                OnReady();
             }
         }
 
@@ -83,7 +85,7 @@ namespace TransparentGames.Essentials.Abilities
 
         }
 
-        protected virtual void OnAbilityFinished()
+        protected virtual void OnAbilityFinished(Ability ability)
         {
             _inProgress = false;
             OnReady();
