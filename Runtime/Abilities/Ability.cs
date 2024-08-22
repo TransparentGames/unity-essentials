@@ -14,7 +14,6 @@ namespace TransparentGames.Essentials.Abilities
 
         public event Action<HitResult> HitResult;
         public event Action<Ability> Finished;
-        public event Action<Ability> Cancelled;
         public event Action<Ability> Ready;
 
         public virtual void Initialize(Caster caster)
@@ -52,11 +51,6 @@ namespace TransparentGames.Essentials.Abilities
         protected virtual void OnFinished()
         {
             Finished?.Invoke(this);
-        }
-
-        protected virtual void OnCancelled()
-        {
-            Cancelled?.Invoke(this);
         }
 
         public void OnReady()
