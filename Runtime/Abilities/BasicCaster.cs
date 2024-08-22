@@ -12,8 +12,6 @@ namespace TransparentGames.Essentials.Abilities
         public override Ability CurrentAbility => _ability;
         public override Animator Animator => owner.GetComponentInChildren<Animator>();
         public override bool IsBusy => _inProgress;
-        public override bool CanCancel => !IsBusy || _ability.CanCancel;
-        public override bool CanHardCancel => CanCancel || _ability.CanHardCancel;
 
         [SerializeField] private AbilityTemplate _abilityTemplate = null;
         protected Ability _ability = null;
@@ -70,6 +68,7 @@ namespace TransparentGames.Essentials.Abilities
             if (_ability != null)
             {
                 _ability.Cancel();
+                _ability.Finished -= OnAbilityFinished;
                 _inProgress = false;
                 OnReady();
             }
@@ -87,6 +86,7 @@ namespace TransparentGames.Essentials.Abilities
 
         protected virtual void OnAbilityFinished(Ability ability)
         {
+            ability.Finished -= OnAbilityFinished;
             _inProgress = false;
             OnReady();
         }

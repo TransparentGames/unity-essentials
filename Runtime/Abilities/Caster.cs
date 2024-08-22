@@ -18,8 +18,6 @@ namespace TransparentGames.Essentials.Abilities
         public abstract Ability CurrentAbility { get; }
         public abstract Animator Animator { get; }
         public abstract bool IsBusy { get; }
-        public abstract bool CanCancel { get; }
-        public abstract bool CanHardCancel { get; }
 
         public abstract void Equip(AbilityTemplate abilityTemplate);
         public abstract void Unequip();
