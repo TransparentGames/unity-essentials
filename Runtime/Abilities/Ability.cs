@@ -9,7 +9,8 @@ namespace TransparentGames.Essentials.Abilities
     public abstract class Ability : MonoBehaviour
     {
         public AbilityTemplate AbilityTemplate;
-        public virtual bool CanCancel { get; set; } = true;
+        public virtual bool CanMoveCancel { get; set; } = false;
+        public virtual bool CanCancel { get; set; } = false;
         public virtual bool CanHardCancel { get; set; } = false;
 
         public event Action<HitResult> HitResult;
@@ -61,6 +62,13 @@ namespace TransparentGames.Essentials.Abilities
         protected void OnHitResult(HitResult hitResult)
         {
             HitResult?.Invoke(hitResult);
+        }
+
+        protected virtual void Abort()
+        {
+            CanCancel = false;
+            CanMoveCancel = false;
+            CanHardCancel = false;
         }
     }
 }
