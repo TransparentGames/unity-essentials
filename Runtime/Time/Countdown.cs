@@ -27,6 +27,9 @@ namespace TransparentGames.Essentials.Time
         public void Start()
         {
             _isRunning = true;
+            if (_updateEntity != null)
+                UpdateManager.Stop(_updateEntity);
+
             _updateEntity = UpdateManager.StartUpdate(Update, UpdateType.Update);
         }
 
@@ -39,7 +42,8 @@ namespace TransparentGames.Essentials.Time
         public void Stop()
         {
             _isRunning = false;
-            UpdateManager.Stop(_updateEntity);
+            if (_updateEntity != null)
+                UpdateManager.Stop(_updateEntity);
         }
 
         public void Update()
@@ -51,8 +55,7 @@ namespace TransparentGames.Essentials.Time
                 {
                     TimeIsUp?.Invoke(this);
 
-                    _isRunning = false;
-                    UpdateManager.Stop(_updateEntity);
+                    Stop();
                 }
             }
         }
