@@ -34,6 +34,11 @@ namespace TransparentGames.Essentials.Abilities
         {
             Changed?.Invoke(this);
         }
+
+        protected void OnUnequipped()
+        {
+            Changed?.Invoke(this);
+        }
     }
 
 #if UNITY_EDITOR

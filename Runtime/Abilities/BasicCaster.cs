@@ -61,6 +61,7 @@ namespace TransparentGames.Essentials.Abilities
             Destroy(_ability.gameObject);
 
             _ability = null;
+            OnUnequipped();
         }
 
         public override void Cancel()
