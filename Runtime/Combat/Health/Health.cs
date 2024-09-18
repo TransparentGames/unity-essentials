@@ -38,8 +38,8 @@ namespace TransparentGames.Essentials.Combat
                 if (_currentHealth > _maxHealth)
                 {
                     _currentHealth = _maxHealth;
-                    ValueInitialized?.Invoke();
                 }
+                ValueInitialized?.Invoke();
             }
         }
     }
