@@ -5,7 +5,7 @@ namespace TransparentGames.Essentials.Detection
 {
     public interface IDetectable
     {
-        public GameObject Owner { get; }
+        public Entity Owner { get; }
 
         public bool IsDetectable { get; }
         public event Action<IDetectable> DetectionChanged;

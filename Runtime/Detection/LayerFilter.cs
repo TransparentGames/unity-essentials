@@ -1,3 +1,4 @@
+using TransparentGames.Essentials;
 using TransparentGames.Essentials.Filters;
 using UnityEngine;
 
@@ -6,8 +7,8 @@ public class LayerFilter : AbstractScriptableObjectFilter
 {
     [SerializeField] private LayerMask layerMask;
 
-    public override bool Check(GameObject detectable)
+    public override bool Check(Entity detectable)
     {
-        return (layerMask.value & (1 << detectable.layer)) != 0;
+        return (layerMask.value & (1 << detectable.gameObject.layer)) != 0;
     }
 }

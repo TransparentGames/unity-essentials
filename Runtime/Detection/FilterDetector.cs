@@ -8,7 +8,7 @@ namespace TransparentGames.Essentials.Detection
 {
     public class FilterDetector : ComponentBase, IDetector
     {
-        public GameObject Owner => owner;
+        public Entity Owner => owner;
 
         [SerializeField] private int refreshFrameInterval = 10;
         [SerializeField] private List<AbstractScriptableObjectFilter> filters;

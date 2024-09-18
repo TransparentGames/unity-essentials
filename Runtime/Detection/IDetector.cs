@@ -9,7 +9,7 @@ namespace TransparentGames.Essentials.Detection
         public event Action<IDetectable> ObjectDetected;
         public event Action<IDetectable> ObjectLostDetection;
 
-        public GameObject Owner { get; }
+        public Entity Owner { get; }
         public bool IsAnyDetected { get; }
         public IReadOnlyList<IDetectable> AllDetected { get; }
         public IDetectable GetClosest();
