@@ -67,7 +67,7 @@ namespace TransparentGames.Essentials.Detection
             foreach (IDetectable detectable in _detected)
             {
                 // Corrected layer mask check
-                if ((layerMask & (1 << detectable.Owner.layer)) == 0)
+                if ((layerMask & (1 << detectable.Owner.gameObject.layer)) == 0)
                     continue;
 
                 Vector3 targetPosition = detectable.Owner.transform.position;
@@ -93,7 +93,7 @@ namespace TransparentGames.Essentials.Detection
             foreach (IDetectable detectable in _detected)
             {
                 // Corrected layer mask check
-                if ((layerMask & (1 << detectable.Owner.layer)) == 0)
+                if ((layerMask & (1 << detectable.Owner.gameObject.layer)) == 0)
                     continue;
 
                 Vector2 targetPosition = detectable.Owner.transform.position;

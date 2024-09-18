@@ -6,7 +6,7 @@ namespace TransparentGames.Essentials.Combat
     {
         public int damageDealt;
         public bool wasKilled;
-        public GameObject hitObject;
+        public Entity hitObject;
         public bool isCritical;
     }
 }

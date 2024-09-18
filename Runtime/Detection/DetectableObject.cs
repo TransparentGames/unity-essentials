@@ -5,7 +5,7 @@ namespace TransparentGames.Essentials.Detection
 {
     public class DetectableObject : ComponentBase, IDetectable
     {
-        public GameObject Owner => owner;
+        public Entity Owner => owner;
         public bool IsDetectable => gameObject.activeSelf;
         public event Action<IDetectable> DetectionChanged;
 
