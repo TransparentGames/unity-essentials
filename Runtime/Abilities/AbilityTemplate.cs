@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using TransparentGames.Essentials;
 using TransparentGames.Essentials.Stats;
 using TransparentGames.Essentials.Combat;
+using TransparentGames.Essentials.Items;
 
 namespace TransparentGames.Essentials.Abilities
 {
     [CreateAssetMenu(fileName = "New Ability Template", menuName = "Transparent Games/Abilities/Ability Template")]
-    public class AbilityTemplate : ScriptableObjectWithId
+    public class AbilityTemplate : ItemTemplate
     {
         [Space]
-        public string abilityName;
-        public Sprite icon;
         public Ability abilityPrefab;
         public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;
