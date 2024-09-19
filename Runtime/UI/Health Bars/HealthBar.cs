@@ -10,16 +10,15 @@ namespace TransparentGames.Essentials.UI
         protected float _maxHealth;
         protected float _level;
 
-
         public virtual void UpdateHealth(float currentHealth)
         {
-            _currentHealth = currentHealth;
+            _currentHealth = Mathf.Ceil(currentHealth);
         }
 
         public virtual void Set(float maxHealth, float currentHealth)
         {
-            _maxHealth = maxHealth;
-            _currentHealth = currentHealth;
+            _maxHealth = Mathf.Ceil(maxHealth);
+            _currentHealth = Mathf.Ceil(currentHealth);
         }
 
         public virtual void SetLevel(int level)
