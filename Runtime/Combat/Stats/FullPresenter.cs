@@ -6,8 +6,7 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Stats
 {
-    [RequireComponent(typeof(ILevelable), typeof(IHealth))]
-    public class FullPresenter : MonoBehaviour
+    public class FullPresenter : ComponentBase
     {
         [SerializeField] private HealthBar healthBarPrefab;
         [SerializeField] private bool isWorldSpace = true;
@@ -19,8 +18,8 @@ namespace TransparentGames.Essentials.Stats
 
         private void Awake()
         {
-            _health = GetComponent<IHealth>();
-            _levelable = GetComponent<ILevelable>();
+            _health = owner.GetComponentInChildren<IHealth>();
+            _levelable = owner.GetComponentInChildren<ILevelable>();
 
             if (isWorldSpace)
                 CreateWorldSpaceHealthBar();
