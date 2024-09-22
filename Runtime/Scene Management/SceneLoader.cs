@@ -15,6 +15,7 @@ namespace TransparentGames.Essentials.SceneManagement
     public class SceneLoader : MonoSingleton<SceneLoader>
     {
         public Action SceneReady;
+        public bool IsLoading => _isLoading;
         public Action<bool> ToggleLoadingScreen;
 
         [SerializeField] private GameSceneSO gameplayScene = default;
