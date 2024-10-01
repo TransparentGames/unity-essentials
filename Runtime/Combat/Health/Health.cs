@@ -34,11 +34,9 @@ namespace TransparentGames.Essentials.Combat
         {
             if (statsHolder.Stats.TryGetValue("Health", out Stat healthStat))
             {
+                var previousPercentage = _currentHealth / _maxHealth;
                 _maxHealth = healthStat.Value;
-                if (_currentHealth > _maxHealth)
-                {
-                    _currentHealth = _maxHealth;
-                }
+                _currentHealth = _maxHealth * previousPercentage;
                 ValueInitialized?.Invoke();
             }
         }
