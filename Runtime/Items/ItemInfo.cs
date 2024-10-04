@@ -6,5 +6,6 @@ namespace TransparentGames.Essentials.Items
     public struct ItemInfo
     {
         public ItemCollection itemCollection;
+        public int index;
     }
 }
