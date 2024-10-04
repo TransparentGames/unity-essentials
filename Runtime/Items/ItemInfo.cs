@@ -1,6 +1,10 @@
+using System;
+
 namespace TransparentGames.Essentials.Items
 {
-    public class ItemInfo
+    [Serializable]
+    public struct ItemInfo
     {
+        public ItemCollection itemCollection;
     }
 }

@@ -43,11 +43,11 @@ namespace TransparentGames.Essentials.Items
             {
                 if (itemCollection.Category == item.ItemTemplate.itemClass)
                 {
-                    return itemCollection.AddItem(item);
+                    return itemCollection.TryAddItem(item);
                 }
             }
 
-            return GetItemCollection().AddItem(item);
+            return GetItemCollection().TryAddItem(item);
         }
 
         public InventoryItem GetItem(string itemId)

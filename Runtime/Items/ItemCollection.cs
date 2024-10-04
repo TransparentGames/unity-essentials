@@ -18,10 +18,25 @@ namespace TransparentGames.Essentials.Items
 
         [SerializeField] private int slotAmount;
         [SerializeField] private string category;
+        [SerializeField] private List<ItemRestriction> restrictions;
 
         private readonly Dictionary<int, InventoryItem> _items = new();
 
-        public bool AddItem(InventoryItem item)
+        public bool IsItemPermitted(InventoryItem item)
+        {
+            var isPermitted = restrictions.Count == 0;
+            foreach (var restriction in restrictions)
+            {
+                if (restriction.IsSatisfiedBy(item))
+                {
+                    return true;
+                }
+            }
+
+            return isPermitted;
+        }
+
+        public bool TryAddItem(InventoryItem item)
         {
             if (_items.Count >= slotAmount && item.ItemTemplate.IsUnique)
             {
@@ -29,47 +44,85 @@ namespace TransparentGames.Essentials.Items
                 return false;
             }
 
+            if (IsItemPermitted(item) == false)
+            {
+                Debug.LogWarning("Item is not permitted");
+                return false;
+            }
+
             for (int i = 0; i < slotAmount; i++)
             {
-                if (_items.ContainsKey(i))
+                if (_items.ContainsKey(i) == false)
                 {
-                    if (_items[i].ItemTemplate.IsUnique)
-                        continue;
-
-                    if (_items[i].ItemInstance.ItemId != item.ItemInstance.ItemId)
-                        continue;
-
-                    _items[i].ItemInstance.RemainingUses += item.ItemInstance.RemainingUses;
-                    Changed?.Invoke(item, true);
+                    CreateNewItem(item, i);
                     return true;
                 }
 
-                _items.Add(i, item);
-                Changed?.Invoke(item, true);
-                return true;
+                if (UpdateItem(item, i))
+                    return true;
             }
 
             return false;
         }
 
+        public bool CanRemoveItem(InventoryItem item)
+        {
+            foreach (var key in _items.Keys)
+            {
+                if (_items[key].ItemInstance.ItemInstanceId == item.ItemInstance.ItemInstanceId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void AddItem(InventoryItem item, int index)
         {
-            if (_items.TryGetValue(index, out var existingItem))
+            if (_items.TryGetValue(index, out var existingItem) == false)
             {
-                if (existingItem.ItemInstance.ItemInstanceId == item.ItemInstance.ItemInstanceId)
-                {
-                    existingItem.ItemInstance.RemainingUses += item.ItemInstance.RemainingUses;
-                    Changed?.Invoke(item, true);
-                    return;
-                }
-
-                _items[index] = item;
-                Changed?.Invoke(item, true);
+                CreateNewItem(item, index);
                 return;
             }
 
+            if (UpdateItem(item, index))
+                return;
+
+            Debug.LogWarning("ItemCollection: Overwriting item");
+            OverrideItem(item, index);
+        }
+
+        private void CreateNewItem(InventoryItem item, int index)
+        {
+            item.ItemInfo = new ItemInfo
+            {
+                itemCollection = this,
+            };
             _items.Add(index, item);
             Changed?.Invoke(item, true);
+        }
+
+        private void OverrideItem(InventoryItem item, int index)
+        {
+            item.ItemInfo = new ItemInfo
+            {
+                itemCollection = this,
+            };
+            _items[index] = item;
+            Changed?.Invoke(item, true);
+        }
+
+        private bool UpdateItem(InventoryItem item, int index)
+        {
+            if (_items[index].ItemTemplate.IsUnique)
+                return false;
+
+            if (_items[index].ItemInstance.ItemId != item.ItemInstance.ItemId)
+                return false;
+
+            _items[index].ItemInstance.RemainingUses += item.ItemInstance.RemainingUses;
+            Changed?.Invoke(item, true);
+            return true;
         }
 
         public InventoryItem GetItem(int index)
