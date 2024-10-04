@@ -97,6 +97,7 @@ namespace TransparentGames.Essentials.Items
             item.ItemInfo = new ItemInfo
             {
                 itemCollection = this,
+                index = index,
             };
             _items.Add(index, item);
             Changed?.Invoke(item, true);
@@ -107,6 +108,7 @@ namespace TransparentGames.Essentials.Items
             item.ItemInfo = new ItemInfo
             {
                 itemCollection = this,
+                index = index,
             };
             _items[index] = item;
             Changed?.Invoke(item, true);
