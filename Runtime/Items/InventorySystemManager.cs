@@ -45,6 +45,24 @@ public class InventorySystemManager : MonoBehaviour
         return new InventoryItem(itemInstance, itemTemplate);
     }
 
+    public static bool MoveToCollectionItemAction(InventoryItem item, ItemCollection itemCollection)
+    {
+        if (item.ItemInfo.itemCollection == itemCollection)
+        {
+            Debug.LogWarning("ISM.MoveToCollectionItemAction: Item is already in this collection");
+            return false;
+        }
+
+        if (item.ItemInfo.itemCollection.CanRemoveItem(item) == false)
+            return false;
+
+        if (itemCollection.TryAddItem(item) == false)
+            return false;
+
+        item.ItemInfo.itemCollection.RemoveItem(item);
+        return true;
+    }
+
     public static ItemTemplate GetItemTemplate(string itemId)
     {
         if (_itemTemplates.ContainsKey(itemId))
