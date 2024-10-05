@@ -9,6 +9,7 @@ using TransparentGames.Essentials.Dummy;
 
 namespace TransparentGames.Essentials.Items
 {
+    [Serializable]
     public class InventoryItem
     {
         public Action Changed;

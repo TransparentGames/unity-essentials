@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using TransparentGames.Essentials.Data;
 using TransparentGames.Essentials.Shop;
+using UnityEditor;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.Items
@@ -11,9 +12,10 @@ namespace TransparentGames.Essentials.Items
     [Serializable]
     public class ItemCollection
     {
+        public event Action<InventoryItem, bool> Changed;
+
         public int SlotAmount => slotAmount;
         public string Category => category;
-        public event Action<InventoryItem, bool> Changed;
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
 
         [SerializeField] private int slotAmount;
@@ -21,6 +23,7 @@ namespace TransparentGames.Essentials.Items
         [SerializeField] private List<ItemRestriction> restrictions;
 
         private readonly Dictionary<int, InventoryItem> _items = new();
+        [SerializeField, HideInInspector] private ItemUser _itemUser;
 
         public bool IsItemPermitted(InventoryItem item)
         {
@@ -36,11 +39,11 @@ namespace TransparentGames.Essentials.Items
             return isPermitted;
         }
 
-        public bool TryAddItem(InventoryItem item)
+        public bool CanAddItem(InventoryItem item)
         {
             if (_items.Count >= slotAmount && item.ItemTemplate.IsUnique)
             {
-                Debug.LogWarning("Inventory is full");
+                Debug.LogWarning("Item is not permitted");
                 return false;
             }
 
@@ -49,6 +52,14 @@ namespace TransparentGames.Essentials.Items
                 Debug.LogWarning("Item is not permitted");
                 return false;
             }
+
+            return IsItemPermitted(item);
+        }
+
+        public bool TryAddItem(InventoryItem item, int count = 1)
+        {
+            if (CanAddItem(item) == false)
+                return false;
 
             for (int i = 0; i < slotAmount; i++)
             {
@@ -98,6 +109,7 @@ namespace TransparentGames.Essentials.Items
             {
                 itemCollection = this,
                 index = index,
+                itemUser = _itemUser
             };
             _items.Add(index, item);
             Changed?.Invoke(item, true);
@@ -109,6 +121,7 @@ namespace TransparentGames.Essentials.Items
             {
                 itemCollection = this,
                 index = index,
+                itemUser = _itemUser
             };
             _items[index] = item;
             Changed?.Invoke(item, true);
@@ -148,6 +161,11 @@ namespace TransparentGames.Essentials.Items
                     return;
                 }
             }
+        }
+
+        public void EditorSetItemUser(ItemUser itemUser)
+        {
+            _itemUser = itemUser;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace TransparentGames.Essentials.Items
         /// The icon of the item.
         /// </summary>
         public Sprite icon;
+        public ItemAction defaultAction;
         [Tooltip("Used for categorizing items")] public string itemClass;
         /// <summary>
         /// The maximum amount of this item that can be stacked in a single inventory slot.
