@@ -6,13 +6,18 @@ using TransparentGames.Essentials.Data;
 using TransparentGames.Essentials.Shop;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace TransparentGames.Essentials.Items
 {
     public class Inventory : MonoBehaviour
     {
         public List<ItemCollection> ItemCollections => itemCollections;
 
-        [SerializeField] private string inventoryId;
+        [SerializeField] private ItemUser itemUser;
+
         [SerializeField] private List<ItemCollection> itemCollections;
         [SerializeField] private List<Price> startingItems;
 
@@ -79,5 +84,18 @@ namespace TransparentGames.Essentials.Items
 
             GetItemCollection().RemoveItem(item);
         }
+
+#if UNITY_EDITOR
+
+        public void OnValidate()
+        {
+            foreach (var itemCollection in itemCollections)
+            {
+                itemCollection?.EditorSetItemUser(itemUser);
+            }
+
+            EditorUtility.SetDirty(this); // Mark as dirty to save
+        }
+#endif
     }
 }

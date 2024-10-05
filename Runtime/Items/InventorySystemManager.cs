@@ -56,11 +56,14 @@ public class InventorySystemManager : MonoBehaviour
         if (item.ItemInfo.itemCollection.CanRemoveItem(item) == false)
             return false;
 
-        var itemCollectionCache = item.ItemInfo.itemCollection;
-        if (itemCollection.TryAddItem(item) == false)
+        if (itemCollection.CanAddItem(item) == false)
             return false;
 
+        var itemCollectionCache = item.ItemInfo.itemCollection;
+
         itemCollectionCache.RemoveItem(item);
+        itemCollection.TryAddItem(item);
+
         return true;
     }
 
