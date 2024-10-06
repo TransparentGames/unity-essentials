@@ -19,10 +19,13 @@ namespace TransparentGames.Essentials.Items
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
 
         [SerializeField] private int slotAmount;
+        [SerializeField] private string name;
         [SerializeField] private string category;
         [SerializeField] private List<ItemRestriction> restrictions;
+        [SerializeField] private List<ItemSlot> itemSlots;
 
         private readonly Dictionary<int, InventoryItem> _items = new();
+        private readonly Dictionary<int, ItemSlot> _itemSlots = new();
         [SerializeField, HideInInspector] private ItemUser _itemUser;
 
         public bool IsItemPermitted(InventoryItem item)
@@ -30,7 +33,7 @@ namespace TransparentGames.Essentials.Items
             var isPermitted = restrictions.Count == 0;
             foreach (var restriction in restrictions)
             {
-                if (restriction.IsSatisfiedBy(item))
+                if (restriction.IsSatisfiedBy(item, this))
                 {
                     return true;
                 }
@@ -41,12 +44,6 @@ namespace TransparentGames.Essentials.Items
 
         public bool CanAddItem(InventoryItem item)
         {
-            if (_items.Count >= slotAmount && item.ItemTemplate.IsUnique)
-            {
-                Debug.LogWarning("Item is not permitted");
-                return false;
-            }
-
             if (IsItemPermitted(item) == false)
             {
                 Debug.LogWarning("Item is not permitted");
@@ -88,20 +85,86 @@ namespace TransparentGames.Essentials.Items
             return false;
         }
 
-        public void AddItem(InventoryItem item, int index)
+        #region ItemSlotCollection
+
+        /// <summary>
+        /// Add item to the item slot collection
+        /// </summary>
+        /// <param name="inventoryItem"></param>
+        /// <param name="slotIndex"></param>
+        public InventoryItem AddItem(InventoryItem inventoryItem, int slotIndex)
         {
-            if (_items.TryGetValue(index, out var existingItem) == false)
+            if (CanAddItem(inventoryItem) == false)
             {
-                CreateNewItem(item, index);
-                return;
+                return null;
             }
 
-            if (UpdateItem(item, index))
-                return;
+            if (_items.ContainsKey(slotIndex))
+            {
+                OverrideItem(inventoryItem, slotIndex);
+                return inventoryItem;
+            }
 
-            Debug.LogWarning("ItemCollection: Overwriting item");
-            OverrideItem(item, index);
+            CreateNewItem(inventoryItem, slotIndex);
+            return inventoryItem;
         }
+
+
+        public InventoryItem RemoveItem(int slotIndex, int amountToRemove = 1)
+        {
+            if (_items.TryGetValue(slotIndex, out var item) == false)
+            {
+                return null;
+            }
+
+            if (item.ItemInstance.RemainingUses <= amountToRemove)
+            {
+                _items.Remove(slotIndex);
+                Changed?.Invoke(item, false);
+                return item;
+            }
+
+            item.ItemInstance.RemainingUses -= amountToRemove;
+            Changed?.Invoke(item, true);
+            return item;
+        }
+
+        public InventoryItem GetItemAtSlot(int slotIndex)
+        {
+            if (_items.TryGetValue(slotIndex, out var item))
+            {
+                return item;
+            }
+
+            return null;
+        }
+
+        public int GetItemSlotIndex(InventoryItem inventoryItem)
+        {
+            foreach (var key in _items.Keys)
+            {
+                if (_items[key].ItemInstance.ItemInstanceId == inventoryItem.ItemInstance.ItemInstanceId)
+                {
+                    return key;
+                }
+            }
+            return -1;
+        }
+
+        public int GetTargetSlotIndex(InventoryItem inventoryItem)
+        {
+            for (int i = 0; i < itemSlots.Count; i++)
+            {
+                if (itemSlots[i].itemCategory == inventoryItem.ItemTemplate.itemClass)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        #endregion
 
         private void CreateNewItem(InventoryItem item, int index)
         {
