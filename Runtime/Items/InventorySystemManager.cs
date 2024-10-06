@@ -67,6 +67,19 @@ public class InventorySystemManager : MonoBehaviour
         return true;
     }
 
+    public static bool MoveToSlotCollectionItemAction(InventoryItem item, ItemCollection itemCollection)
+    {
+        var potentialSlot = itemCollection.GetTargetSlotIndex(item);
+
+        if (potentialSlot == -1)
+            return false;
+
+        var itemRemoved = item.ItemInfo.itemCollection.RemoveItem(item.ItemInfo.index);
+
+        itemCollection.AddItem(itemRemoved, potentialSlot);
+        return true;
+    }
+
     public static ItemTemplate GetItemTemplate(string itemId)
     {
         if (_itemTemplates.ContainsKey(itemId))

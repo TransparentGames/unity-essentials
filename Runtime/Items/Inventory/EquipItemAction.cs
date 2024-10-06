@@ -19,7 +19,7 @@ namespace TransparentGames.Essentials.Items
             if (targetCollection == null)
                 return;
 
-            InventorySystemManager.MoveToCollectionItemAction(inventoryItem, targetCollection);
+            InventorySystemManager.MoveToSlotCollectionItemAction(inventoryItem, targetCollection);
         }
     }
 }

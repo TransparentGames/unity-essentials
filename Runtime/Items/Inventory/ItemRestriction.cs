@@ -5,6 +5,11 @@ namespace TransparentGames.Essentials.Items
 {
     public abstract class ItemRestriction : ScriptableObject
     {
-        public abstract bool IsSatisfiedBy(InventoryItem item);
+        public bool IsSatisfiedBy(InventoryItem inventoryItem, ItemCollection itemCollection)
+        {
+            return IsSatisfiedByInternal(inventoryItem, itemCollection);
+        }
+
+        protected abstract bool IsSatisfiedByInternal(InventoryItem inventoryItem, ItemCollection itemCollection);
     }
 }
