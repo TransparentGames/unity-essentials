@@ -17,7 +17,6 @@ namespace TransparentGames.Essentials.Items
         public List<ItemCollection> ItemCollections => itemCollections;
 
         [SerializeField] private ItemUser itemUser;
-
         [SerializeField] private List<ItemCollection> itemCollections;
         [SerializeField] private List<Price> startingItems;
 
@@ -29,11 +28,24 @@ namespace TransparentGames.Essentials.Items
             }
         }
 
-        public ItemCollection GetItemCollection(string category = "main")
+        public ItemCollection GetItemCollection(string collectionName)
         {
             foreach (var itemCollection in itemCollections)
             {
-                if (itemCollection.Category == category)
+                if (itemCollection.Name == collectionName)
+                {
+                    return itemCollection;
+                }
+            }
+
+            return null;
+        }
+
+        public ItemCollection GetDefaultItemCollection(InventoryItem inventoryItem)
+        {
+            foreach (var itemCollection in itemCollections)
+            {
+                if (itemCollection.CanAddItem(inventoryItem))
                 {
                     return itemCollection;
                 }
@@ -44,15 +56,7 @@ namespace TransparentGames.Essentials.Items
 
         public bool AddItem(InventoryItem item)
         {
-            foreach (var itemCollection in itemCollections)
-            {
-                if (itemCollection.Category == item.ItemTemplate.itemClass)
-                {
-                    return itemCollection.TryAddItem(item);
-                }
-            }
-
-            return GetItemCollection().TryAddItem(item);
+            return GetDefaultItemCollection(item).TryAddItem(item);
         }
 
         public InventoryItem GetItem(string itemId)
@@ -69,20 +73,6 @@ namespace TransparentGames.Essentials.Items
             }
 
             return null;
-        }
-
-        public void RemoveItem(InventoryItem item)
-        {
-            foreach (var itemCollection in itemCollections)
-            {
-                if (itemCollection.Category == item.ItemTemplate.itemClass)
-                {
-                    itemCollection.RemoveItem(item);
-                    return;
-                }
-            }
-
-            GetItemCollection().RemoveItem(item);
         }
 
 #if UNITY_EDITOR

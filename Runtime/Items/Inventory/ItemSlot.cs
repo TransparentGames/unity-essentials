@@ -7,7 +7,7 @@ namespace TransparentGames.Essentials.Items
     public class ItemSlot
     {
         public string name;
-        public string itemCategory;
+        public ItemCategory itemCategory;
         public int sizeLimit;
     }
 }

@@ -18,7 +18,7 @@ namespace TransparentGames.Essentials.Items
 
             foreach (var item in inventory.ItemCollections)
             {
-                GUILayout.Label(item.Category, EditorStyles.boldLabel);
+                GUILayout.Label(item.Name, EditorStyles.boldLabel);
                 foreach (var inventoryItem in item.Items.Values)
                 {
                     GUILayout.BeginHorizontal();
