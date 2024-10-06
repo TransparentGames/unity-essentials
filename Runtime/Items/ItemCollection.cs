@@ -1,56 +1,67 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using TransparentGames.Essentials.Data;
 using TransparentGames.Essentials.Shop;
 using UnityEditor;
 using UnityEngine;
 
+
 namespace TransparentGames.Essentials.Items
 {
+    public enum ItemCollectionPurpose
+    {
+        None,
+        Main,
+        Secondary,
+        Equipped
+    }
+
+
     [Serializable]
     public class ItemCollection
     {
         public event Action<InventoryItem, bool> Changed;
 
         public int SlotAmount => slotAmount;
-        public string Category => category;
+        public string Name => name;
         public IReadOnlyDictionary<int, InventoryItem> Items => _items;
+        public ItemCollectionPurpose Purpose => purpose;
 
         [SerializeField] private int slotAmount;
         [SerializeField] private string name;
-        [SerializeField] private string category;
+        [SerializeField] private ItemCollectionPurpose purpose;
         [SerializeField] private List<ItemRestriction> restrictions;
         [SerializeField] private List<ItemSlot> itemSlots;
 
         private readonly Dictionary<int, InventoryItem> _items = new();
-        private readonly Dictionary<int, ItemSlot> _itemSlots = new();
         [SerializeField, HideInInspector] private ItemUser _itemUser;
-
-        public bool IsItemPermitted(InventoryItem item)
-        {
-            var isPermitted = restrictions.Count == 0;
-            foreach (var restriction in restrictions)
-            {
-                if (restriction.IsSatisfiedBy(item, this))
-                {
-                    return true;
-                }
-            }
-
-            return isPermitted;
-        }
 
         public bool CanAddItem(InventoryItem item)
         {
             if (IsItemPermitted(item) == false)
             {
-                Debug.LogWarning("Item is not permitted");
                 return false;
             }
 
             return IsItemPermitted(item);
+        }
+
+        public bool CanAddItem(InventoryItem item, int slotIndex)
+        {
+            if (IsItemPermitted(item) == false)
+            {
+                return false;
+            }
+
+            if (IsRestrictedByItemSlot(item, slotIndex) == false)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public bool TryAddItem(InventoryItem item, int count = 1)
@@ -109,7 +120,6 @@ namespace TransparentGames.Essentials.Items
             return inventoryItem;
         }
 
-
         public InventoryItem RemoveItem(int slotIndex, int amountToRemove = 1)
         {
             if (_items.TryGetValue(slotIndex, out var item) == false)
@@ -139,28 +149,42 @@ namespace TransparentGames.Essentials.Items
             return null;
         }
 
-        public int GetItemSlotIndex(InventoryItem inventoryItem)
+        public int GetTargetSlotIndex(InventoryItem inventoryItem, bool checkAvailability = false)
         {
-            foreach (var key in _items.Keys)
-            {
-                if (_items[key].ItemInstance.ItemInstanceId == inventoryItem.ItemInstance.ItemInstanceId)
-                {
-                    return key;
-                }
-            }
-            return -1;
-        }
+            int cumulativeIndex = 0;
 
-        public int GetTargetSlotIndex(InventoryItem inventoryItem)
-        {
             for (int i = 0; i < itemSlots.Count; i++)
             {
-                if (itemSlots[i].itemCategory == inventoryItem.ItemTemplate.itemClass)
+                ItemSlot itemSlot = itemSlots[i];
+
+                // Check if the inventory item matches this slot's item category
+                if (itemSlot.itemCategory.Name == inventoryItem.ItemTemplate.itemCategory.Name)
                 {
-                    return i;
+                    // Loop through each index in the slot's range based on sizeLimit
+                    for (int slotIndex = cumulativeIndex; slotIndex < cumulativeIndex + itemSlot.sizeLimit; slotIndex++)
+                    {
+                        // If checking availability, ensure the slot is free
+                        if (checkAvailability)
+                        {
+                            if (!_items.ContainsKey(slotIndex))
+                            {
+                                // Return the index of the first available slot
+                                return slotIndex;
+                            }
+                        }
+                        else
+                        {
+                            // Return the first matching slot regardless of availability
+                            return slotIndex;
+                        }
+                    }
                 }
+
+                // Update the cumulative index by adding the sizeLimit of the current slot
+                cumulativeIndex += itemSlot.sizeLimit;
             }
 
+            // Return -1 if no valid slot is found
             return -1;
         }
 
@@ -203,16 +227,6 @@ namespace TransparentGames.Essentials.Items
             return true;
         }
 
-        public InventoryItem GetItem(int index)
-        {
-            if (!_items.ContainsKey(index))
-            {
-                return null;
-            }
-
-            return _items[index];
-        }
-
         public void RemoveItem(InventoryItem item)
         {
             foreach (var key in _items.Keys)
@@ -224,6 +238,45 @@ namespace TransparentGames.Essentials.Items
                     return;
                 }
             }
+        }
+
+        private bool IsItemPermitted(InventoryItem item)
+        {
+            var isPermitted = restrictions.Count == 0;
+            foreach (var restriction in restrictions)
+            {
+                if (restriction.IsSatisfiedBy(item, this))
+                {
+                    return true;
+                }
+            }
+
+            return isPermitted;
+        }
+
+        private bool IsRestrictedByItemSlot(InventoryItem item, int slotIndex)
+        {
+            int cumulativeIndex = 0;
+
+            if (itemSlots.Count == 0)
+            {
+                return true;
+            }
+
+            foreach (var itemSlot in itemSlots)
+            {
+                // Check if the slotIndex falls within the current itemSlot's range
+                if (slotIndex >= cumulativeIndex && slotIndex < cumulativeIndex + itemSlot.sizeLimit)
+                {
+                    // Return true if the categories match, false otherwise
+                    return itemSlot.itemCategory.Name == item.ItemTemplate.itemCategory.Name;
+                }
+
+                // Move the cumulative index forward by the size limit of the current itemSlot
+                cumulativeIndex += itemSlot.sizeLimit;
+            }
+
+            return false; // Return false if no valid slot is found
         }
 
         public void EditorSetItemUser(ItemUser itemUser)

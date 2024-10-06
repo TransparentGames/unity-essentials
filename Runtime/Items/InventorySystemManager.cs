@@ -69,12 +69,26 @@ public class InventorySystemManager : MonoBehaviour
 
     public static bool MoveToSlotCollectionItemAction(InventoryItem item, ItemCollection itemCollection)
     {
-        var potentialSlot = itemCollection.GetTargetSlotIndex(item);
+        var potentialSlot = itemCollection.GetTargetSlotIndex(item, true);
 
         if (potentialSlot == -1)
-            return false;
+        {
+            potentialSlot = itemCollection.GetTargetSlotIndex(item, false);
+            if (potentialSlot == -1)
+            {
+                Debug.LogWarning("ISM.MoveToSlotCollectionItemAction: No slot available");
+                return false;
+            }
+        }
 
         var itemRemoved = item.ItemInfo.itemCollection.RemoveItem(item.ItemInfo.index);
+
+        var previousItem = itemCollection.GetItemAtSlot(potentialSlot);
+        if (previousItem != null)
+        {
+            previousItem.ItemInfo.itemCollection.RemoveItem(previousItem.ItemInfo.index);
+            itemRemoved.ItemInfo.itemCollection.AddItem(previousItem, itemRemoved.ItemInfo.index);
+        }
 
         itemCollection.AddItem(itemRemoved, potentialSlot);
         return true;
