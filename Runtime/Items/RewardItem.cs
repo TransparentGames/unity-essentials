@@ -22,5 +22,11 @@ namespace TransparentGames.Essentials.Items
         {
             _itemId = itemId;
         }
+
+        public RewardItem(string itemId, int count)
+        {
+            _itemId = itemId;
+            this.count = count;
+        }
     }
 }

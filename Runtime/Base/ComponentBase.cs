@@ -8,7 +8,7 @@ namespace TransparentGames.Essentials
 {
     public class ComponentBase : MonoBehaviour
     {
-        public Entity owner;
+        [HideInInspector] public Entity owner;
     }
 
 #if UNITY_EDITOR
@@ -19,22 +19,33 @@ namespace TransparentGames.Essentials
         {
             base.OnInspectorGUI();
 
-            var component = (ComponentBase)target;
+            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
 
-            if (GUILayout.Button("Set Owner"))
+            var component = (ComponentBase)target;
+            if (component.owner == null)
             {
-                var parent = FindParent(component.gameObject);
-                var entity = parent.GetComponent<Entity>();
-                if (parent != null)
+                EditorGUILayout.HelpBox("Owner is not set", MessageType.Warning);
+
+                if (GUILayout.Button("Set Owner"))
                 {
-                    component.owner = entity;
-                    EditorUtility.SetDirty(component);
+                    var parent = FindParent(component.gameObject);
+                    var entity = parent.GetComponent<Entity>();
+                    if (parent != null)
+                    {
+                        component.owner = entity;
+                        EditorUtility.SetDirty(component);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No parent found");
+                        //component.owner = component.gameObject;
+                    }
                 }
-                else
-                {
-                    Debug.LogWarning("No parent found");
-                    //component.owner = component.gameObject;
-                }
+
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Owner is set", MessageType.None);
             }
         }
 
