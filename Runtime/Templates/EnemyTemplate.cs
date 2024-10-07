@@ -1,3 +1,4 @@
+using TransparentGames.Essentials.Enemies;
 using UnityEngine;
 
 namespace TransparentGames.Entities

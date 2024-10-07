@@ -12,6 +12,7 @@ namespace TransparentGames.Essentials
 {
     public class Entity : MonoBehaviour, IComponentParent
     {
+        [HideInInspector] public string EntityTypeId;
         //public List<ComponentBase> Components = new();
     }
 
