@@ -19,7 +19,7 @@ namespace TransparentGames.Essentials.Abilities
 
         public virtual void Initialize(Caster caster)
         {
-            var abilityComponents = GetComponentsInChildren<IAbilityComponent>();
+            var abilityComponents = GetComponents<IAbilityComponent>();
             foreach (var abilityComponent in abilityComponents)
             {
                 abilityComponent.Initialize(caster);
@@ -28,7 +28,7 @@ namespace TransparentGames.Essentials.Abilities
 
         public virtual bool CanUse(Caster caster)
         {
-            var abilityComponents = GetComponentsInChildren<IAbilityComponent>();
+            var abilityComponents = GetComponents<IAbilityComponent>();
             var canUse = true;
             foreach (var abilityComponent in abilityComponents)
             {
@@ -42,7 +42,7 @@ namespace TransparentGames.Essentials.Abilities
 
         protected virtual void OnUsed(Caster caster)
         {
-            var abilityComponents = GetComponentsInChildren<IAbilityComponent>();
+            var abilityComponents = GetComponents<IAbilityComponent>();
             foreach (var abilityComponent in abilityComponents)
             {
                 abilityComponent.Use(caster);
