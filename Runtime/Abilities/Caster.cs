@@ -43,7 +43,7 @@ namespace TransparentGames.Essentials.Abilities
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(Caster), true)]
-    public class CasterEditor : Editor
+    public class CasterEditor : ComponentBaseEditor
     {
         private AbilityTemplate _abilityTemplateHolder;
 
