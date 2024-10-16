@@ -39,17 +39,19 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
         var dmgReduction = _defense / (_defense + (5 * hitInfo.level) + 500);
         var damage = Mathf.CeilToInt(hitInfo.damage * (1 - dmgReduction));
 
-        _health.Add(-damage);
+
         HitResult hitResult = new()
         {
             damageDealt = (int)damage,
-            wasKilled = _health.CurrentHealth <= 0,
+            wasKilled = _health.CurrentHealth - damage <= 0,
             hitObject = owner,
             isCritical = hitInfo.isCritical
         };
 
         HitResultEvent?.Invoke(hitResult);
         HitInfoEvent?.Invoke(hitInfo);
+
+        _health.Add(-damage);
 
         return hitResult;
     }

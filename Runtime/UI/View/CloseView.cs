@@ -21,7 +21,7 @@ namespace TransparentGames.Essentials.UI
             foreach (var closeAction in closeActions)
             {
                 closeAction.action.Enable();
-                closeAction.action.performed += ctx => _baseView.TryClose();
+                closeAction.action.performed += OnCloseActionPerformed;
             }
         }
 
@@ -29,9 +29,14 @@ namespace TransparentGames.Essentials.UI
         {
             foreach (var closeAction in closeActions)
             {
-                closeAction.action.performed -= ctx => _baseView.TryClose();
+                closeAction.action.performed -= OnCloseActionPerformed;
                 closeAction.action.Disable();
             }
+        }
+
+        private void OnCloseActionPerformed(InputAction.CallbackContext context)
+        {
+            _baseView.TryClose();
         }
     }
 }
