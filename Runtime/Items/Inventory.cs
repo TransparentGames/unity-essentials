@@ -18,15 +18,6 @@ namespace TransparentGames.Essentials.Items
 
         [SerializeField] private ItemUser itemUser;
         [SerializeField] private List<ItemCollection> itemCollections;
-        [SerializeField] private List<Price> startingItems;
-
-        private void Awake()
-        {
-            foreach (var price in startingItems)
-            {
-                AddItem(InventorySystemManager.CreateItem(price.itemTemplate.itemId, price.amount));
-            }
-        }
 
         public ItemCollection GetItemCollection(string collectionName)
         {
