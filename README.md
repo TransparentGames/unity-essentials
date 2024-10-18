@@ -1,14 +1,13 @@
+# Outdated description
+
 # Unity Essentials
 
 -   Singletons
 -   Update Manager
--   Finite State Machine
+-   Inventory System
+-   Item Management
 -   Events
 -   Scene Management
 -   Base Classes (DescriptionBaseSO)
-
-# Editors
-
--   Scriptable Object Browser
--   Scene Selector
--   State Machine
+-   Playfab inventory integration
+-   UI system
