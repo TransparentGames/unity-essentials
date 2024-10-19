@@ -6,9 +6,7 @@ namespace TransparentGames.Essentials.UI
     public abstract class UIElement : MonoBehaviour
     {
         public event Action TryOpened;
-        public event Action Opened;
         public event Action TryClosed;
-        public event Action Closed;
 
         public abstract UIState State { get; }
 
@@ -22,19 +20,15 @@ namespace TransparentGames.Essentials.UI
             TryOpened?.Invoke();
         }
 
-        protected void OnOpened()
-        {
-            Opened?.Invoke();
-        }
-
         protected void OnTryClosed()
         {
             TryClosed?.Invoke();
         }
 
-        protected void OnClosed()
+        public void OnClosed()
         {
-            Closed?.Invoke();
+            if (UIManager.InstanceExists)
+                UIManager.Instance.CloseCallback(State);
         }
     }
 }

@@ -12,11 +12,21 @@ namespace TransparentGames.Essentials.UI
         [SerializeField] private UIState state;
         [SerializeField] private bool manual;
 
+        private void Start()
+        {
+            gameObject.SetActive(false);
+        }
+
         public override void TryOpen()
         {
             OnTryOpened();
             if (manual == false)
                 Open();
+        }
+
+        public override void Open()
+        {
+            gameObject.SetActive(true);
         }
 
         public override void TryClose()
@@ -26,21 +36,10 @@ namespace TransparentGames.Essentials.UI
                 Close();
         }
 
-        public override void Open()
-        {
-            gameObject.SetActive(true);
-            OnOpened();
-        }
-
         public override void Close()
         {
             gameObject.SetActive(false);
             OnClosed();
-        }
-
-        private void Start()
-        {
-            Close();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace TransparentGames.Essentials.UI
     public class UIManager : MonoSingleton<UIManager>
     {
         public event Action<UIState> UIStateChangeAttempt;
+        public event Action<UIState> UiStateClosed;
 
         private Dictionary<UIState, UIElement> _UIElements = new();
 
@@ -52,11 +53,19 @@ namespace TransparentGames.Essentials.UI
             return null;
         }
 
-        public void TryClose(UIState state)
+        public void ForceClose(UIState state)
         {
             if (_UIElements.TryGetValue(state, out var uiElement))
             {
                 uiElement.TryClose();
+            }
+        }
+
+        public void CloseCallback(UIState state)
+        {
+            if (_UIElements.TryGetValue(state, out var uiElement))
+            {
+                UiStateClosed.Invoke(state);
             }
         }
     }
