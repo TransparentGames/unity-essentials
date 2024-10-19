@@ -18,7 +18,7 @@ public class Cooldown : Countdown
     }
 }
 
-public class CooldownManager : MonoSingleton<CooldownManager>
+public class CooldownManager : PersistentMonoSingleton<CooldownManager>
 {
     private List<Cooldown> _cooldowns = new();
     public Cooldown StartCooldown(Entity Owner, string id, float cooldown)

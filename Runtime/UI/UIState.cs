@@ -13,7 +13,8 @@ namespace TransparentGames.Essentials.UI
 
         public void TryClose()
         {
-            UIManager.Initialized(() => UIManager.Instance.ForceClose(this));
+            if (UIManager.InstanceExists)
+                UIManager.Instance.ForceClose(this);
         }
     }
 }

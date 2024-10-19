@@ -15,7 +15,7 @@ namespace TransparentGames.Essentials.Singletons
         /// <summary>
         /// The instance.
         /// </summary>
-        private static T _instance;
+        protected static T _instance;
         private static Action _initialized;
 
         /// <summary>
@@ -51,12 +51,7 @@ namespace TransparentGames.Essentials.Singletons
                     _instance = FindObjectOfType<T>();
                     if (_instance == null)
                     {
-                        GameObject obj = new()
-                        {
-                            name = Regex.Replace(typeof(T).Name, "(\\B[A-Z])", " $1")
-                        };
-                        _instance = obj.AddComponent<T>();
-                        _instance.OnMonoSingletonCreated();
+                        Debug.LogError($"No instance of {typeof(T).Name} found in the scene, do you perhaps wanted to create a new one?");
                     }
                 }
                 return _instance;
