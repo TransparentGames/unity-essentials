@@ -6,21 +6,23 @@ namespace TransparentGames.Essentials.UI
 {
     public class Window : UIElement
     {
-        public override UIState State => _state;
+        public override UIState State => state;
 
-        [SerializeField] private UIState _state;
+        [SerializeField] private UIState state;
 
-
-        public override void Close()
+        private void Start()
         {
             gameObject.SetActive(false);
-            OnClosed();
+        }
+
+        public override void TryOpen()
+        {
+            Open();
         }
 
         public override void Open()
         {
             gameObject.SetActive(true);
-            OnOpened();
         }
 
         public override void TryClose()
@@ -28,9 +30,10 @@ namespace TransparentGames.Essentials.UI
             Close();
         }
 
-        public override void TryOpen()
+        public override void Close()
         {
-            Open();
+            gameObject.SetActive(false);
+            OnClosed();
         }
     }
 }
