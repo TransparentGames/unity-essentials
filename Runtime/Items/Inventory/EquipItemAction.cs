@@ -15,7 +15,8 @@ namespace TransparentGames.Essentials.Items
         protected override void InvokeActionInternal(InventoryItem inventoryItem, ItemUser itemUser)
         {
             var inventory = itemUser.GetComponent<Inventory>();
-            if (inventoryItem.ItemInfo.itemCollection.Purpose == ItemCollectionPurpose.Equipped)
+            ;
+            if (inventory.GetItemCollection(inventoryItem.ItemInfo.itemCollectionName).Purpose == ItemCollectionPurpose.Equipped)
             {
                 var defaultCollection = inventory.GetDefaultItemCollection(inventoryItem);
                 InventorySystemManager.MoveToCollectionItemAction(inventoryItem, defaultCollection);

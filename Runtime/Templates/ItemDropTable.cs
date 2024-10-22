@@ -7,6 +7,6 @@ namespace TransparentGames.Essentials.Enemies
 {
     public abstract class ItemDropTable : ScriptableObject
     {
-        public abstract List<RewardItem> GetRandomItems();
+        public abstract List<RewardItem> GetRandomRewardItems();
     }
 }
