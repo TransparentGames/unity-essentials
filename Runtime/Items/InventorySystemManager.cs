@@ -45,21 +45,27 @@ public class InventorySystemManager : MonoBehaviour
         return new InventoryItem(itemInstance, itemTemplate);
     }
 
+    public static InventoryItem RecreateItem(ItemInstance itemInstance, ItemInfo itemInfo)
+    {
+        var itemTemplate = GetItemTemplate(itemInstance.ItemId);
+        return new InventoryItem(itemInstance, itemTemplate, itemInfo);
+    }
+
     public static bool MoveToCollectionItemAction(InventoryItem item, ItemCollection itemCollection)
     {
-        if (item.ItemInfo.itemCollection == itemCollection)
+        if (item.ItemInfo.ItemCollection == itemCollection)
         {
             Debug.LogWarning("ISM.MoveToCollectionItemAction: Item is already in this collection");
             return false;
         }
 
-        if (item.ItemInfo.itemCollection.CanRemoveItem(item) == false)
+        if (item.ItemInfo.ItemCollection.CanRemoveItem(item) == false)
             return false;
 
         if (itemCollection.CanAddItem(item) == false)
             return false;
 
-        var itemCollectionCache = item.ItemInfo.itemCollection;
+        var itemCollectionCache = item.ItemInfo.ItemCollection;
 
         itemCollectionCache.RemoveItem(item);
         itemCollection.TryAddItem(item);
@@ -81,13 +87,13 @@ public class InventorySystemManager : MonoBehaviour
             }
         }
 
-        var itemRemoved = item.ItemInfo.itemCollection.RemoveItem(item.ItemInfo.index);
+        var itemRemoved = item.ItemInfo.ItemCollection.RemoveItem(item.ItemInfo.index);
 
         var previousItem = itemCollection.GetItemAtSlot(potentialSlot);
         if (previousItem != null)
         {
-            previousItem.ItemInfo.itemCollection.RemoveItem(previousItem.ItemInfo.index);
-            itemRemoved.ItemInfo.itemCollection.AddItem(previousItem, itemRemoved.ItemInfo.index);
+            previousItem.ItemInfo.ItemCollection.RemoveItem(previousItem.ItemInfo.index);
+            itemRemoved.ItemInfo.ItemCollection.AddItem(previousItem, itemRemoved.ItemInfo.index);
         }
 
         itemCollection.AddItem(itemRemoved, potentialSlot);

@@ -7,10 +7,11 @@ namespace TransparentGames.Entities
 {
     public abstract class EntityTemplate : ScriptableObject
     {
-        public string itemId;
+        public string entityId;
         [Space]
         public Sprite icon;
         public AssetReference assetReference;
         public BaseStats baseStats;
     }
+
 }

@@ -120,6 +120,21 @@ namespace TransparentGames.Essentials.Items
             return inventoryItem;
         }
 
+        public InventoryItem AddItem(InventoryItem inventoryItem)
+        {
+            if (CanAddItem(inventoryItem) == false)
+            {
+                return null;
+            }
+
+            // TODO: Make this item collection part of the flow using only the name and internal function to get collection owner etc
+            inventoryItem.ItemInfo.ItemCollection = this;
+
+            _items[inventoryItem.ItemInfo.index] = inventoryItem;
+            Changed?.Invoke(inventoryItem, true);
+            return inventoryItem;
+        }
+
         public InventoryItem RemoveItem(int slotIndex, int amountToRemove = 1)
         {
             if (_items.TryGetValue(slotIndex, out var item) == false)
@@ -194,9 +209,8 @@ namespace TransparentGames.Essentials.Items
         {
             item.ItemInfo = new ItemInfo
             {
-                itemCollection = this,
+                ItemCollection = this,
                 index = index,
-                itemUser = _itemUser
             };
             _items.Add(index, item);
             Changed?.Invoke(item, true);
@@ -206,9 +220,8 @@ namespace TransparentGames.Essentials.Items
         {
             item.ItemInfo = new ItemInfo
             {
-                itemCollection = this,
+                ItemCollection = this,
                 index = index,
-                itemUser = _itemUser
             };
             _items[index] = item;
             Changed?.Invoke(item, true);
