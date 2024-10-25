@@ -39,7 +39,9 @@ public class InventorySystemManager : MonoBehaviour
             ItemId = itemId,
             RemainingUses = count,
             ItemInstanceId = System.Guid.NewGuid().ToString(),
-            ItemClass = itemTemplate.itemClass
+            ItemClass = itemTemplate.itemClass,
+            UnitCurrency = "CN",
+            UnitPrice = 0
         };
 
         return new InventoryItem(itemInstance, itemTemplate);

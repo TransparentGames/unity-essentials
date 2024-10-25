@@ -13,9 +13,9 @@ namespace TransparentGames.Essentials.Items
     public class InventoryItem
     {
         public Action Changed;
-        private ItemTemplate _itemTemplate;
-        private ItemInstance _itemInstance;
-        private ItemInfo _itemInfo;
+        protected ItemTemplate _itemTemplate;
+        protected ItemInstance _itemInstance;
+        protected ItemInfo _itemInfo;
 
         public InventoryItem()
         {
