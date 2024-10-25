@@ -58,9 +58,8 @@ namespace TransparentGames.Essentials.Abilities
             if (_ability == null)
                 return;
 
-            Destroy(_ability.gameObject);
-
             _ability = null;
+
             OnUnequipped();
         }
 
