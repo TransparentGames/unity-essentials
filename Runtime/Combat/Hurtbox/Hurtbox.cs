@@ -14,6 +14,7 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
     public event Action<HitResult> HitResultEvent;
     public event Action<HitInfo> HitInfoEvent;
 
+    [SerializeField] private StatDefinition defenseStatDefinition = null;
     [SerializeField] private Color inactiveColor;
     [SerializeField] private Color collisionOpenColor;
 
@@ -67,7 +68,7 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
 
     public void OnStatsChanged(StatsHolder statsHolder)
     {
-        if (statsHolder.Stats.TryGetValue("Defense", out Stat defenseStat))
+        if (statsHolder.Stats.TryGetValue(defenseStatDefinition.statId, out Stat defenseStat))
         {
             _defense = defenseStat.Value;
         }
