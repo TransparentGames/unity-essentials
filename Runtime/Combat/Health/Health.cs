@@ -16,6 +16,8 @@ namespace TransparentGames.Essentials.Combat
         public float MaxHealth => _maxHealth;
         public float CurrentHealth => _currentHealth;
 
+        [SerializeField] private StatDefinition healthStatDefinition;
+
         private float _maxHealth = 9999f;
         private float _currentHealth = 9999f;
 
@@ -32,7 +34,7 @@ namespace TransparentGames.Essentials.Combat
 
         public void OnStatsChanged(StatsHolder statsHolder)
         {
-            if (statsHolder.Stats.TryGetValue("Health", out Stat healthStat))
+            if (statsHolder.Stats.TryGetValue(healthStatDefinition.statId, out Stat healthStat))
             {
                 var previousPercentage = _currentHealth / _maxHealth;
                 _maxHealth = healthStat.Value;

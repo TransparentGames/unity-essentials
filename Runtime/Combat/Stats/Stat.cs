@@ -11,8 +11,16 @@ namespace TransparentGames.Essentials.Stats
             get { return _value ?? value; }
             set { _value = value; }
         }
-        public string Type => statDefinition.statName;
+        /// <summary>
+        /// The type of stat. Use it for identifying the stat in the database.
+        /// </summary>
+        public string Type => statDefinition.statId;
+        /// <summary>
+        /// The family type of the stat. Use it for identifying the family of the stat in the database.
+        /// </summary>
+        public string FamilyType => statDefinition.GetFamilyType();
         public string DisplayValue => statDefinition.GetDisplayValue(Value);
+        public string DisplayName => statDefinition.GetDisplayName();
 
         [SerializeField] private StatDefinition statDefinition;
         [SerializeField] protected float value;

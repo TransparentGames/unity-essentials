@@ -28,7 +28,7 @@ namespace TransparentGames.Essentials.Abilities
 
             foreach (var additionalStat in additionalStats)
             {
-                if (stats.TryGetValue(additionalStat.Type, out Stat existingStat))
+                if (stats.TryGetValue(additionalStat.FamilyType, out Stat existingStat))
                 {
                     result.damage += additionalStat.Calculate(existingStat.Value);
                 }
@@ -37,7 +37,7 @@ namespace TransparentGames.Essentials.Abilities
             if (canCrit == false)
                 return result;
 
-            if (stats.TryGetValue("Critical Chance", out Stat ccStat) && stats.TryGetValue("Critical Damage", out Stat cdStat))
+            if (stats.TryGetValue("cri", out Stat ccStat) && stats.TryGetValue("cri_dmg", out Stat cdStat))
             {
                 if (Random.value < ccStat.Value)
                 {
