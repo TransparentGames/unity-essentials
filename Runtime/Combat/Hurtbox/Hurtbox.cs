@@ -17,7 +17,6 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
     [SerializeField] private Color inactiveColor;
     [SerializeField] private Color collisionOpenColor;
 
-
     private ColliderState _state = ColliderState.Open;
     private IHealth _health;
     private float _defense = 0;
@@ -73,6 +72,7 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
             _defense = defenseStat.Value;
         }
     }
+
     private void OnDrawGizmos()
     {
         if (_collider == null)

@@ -12,7 +12,8 @@ namespace TransparentGames.Essentials.Items
             set
             {
                 itemCollection = value;
-                itemCollectionName = itemCollection.Name;
+                if (itemCollection != null)
+                    itemCollectionName = itemCollection.Name;
             }
         }
         private ItemCollection itemCollection;

@@ -12,7 +12,7 @@ namespace TransparentGames.Essentials.Stats
             set { base.Value = value; }
         }
 
-        public AnimationCurve curve;
+        [SerializeField] private AnimationCurve curve;
         public float scalableValue;
 
         private int _level;
@@ -26,9 +26,9 @@ namespace TransparentGames.Essentials.Stats
         public ScalableStat(ScalableStat stat, int level)
             : base(stat)
         {
-            _level = level;
-            curve = stat.curve ?? throw new ArgumentNullException(nameof(stat.curve));
+            curve = stat.curve;
             scalableValue = stat.scalableValue;
+            _level = level;
         }
     }
 }

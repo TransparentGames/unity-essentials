@@ -1,9 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
-using TransparentGames.Essentials.Currency;
-using TransparentGames.Essentials.Data;
-using TransparentGames.Essentials.Data.Nodes;
+using System.Reflection;
 using TransparentGames.Essentials.Dummy;
 using TransparentGames.Essentials.Items;
 using TransparentGames.Essentials.Shop;
@@ -31,26 +28,28 @@ public class InventorySystemManager : MonoBehaviour
 
     #region Items
 
-    public static InventoryItem CreateItem(string itemId, int count = 1)
-    {
-        var itemTemplate = GetItemTemplate(itemId);
-        var itemInstance = new ItemInstance
-        {
-            ItemId = itemId,
-            RemainingUses = count,
-            ItemInstanceId = System.Guid.NewGuid().ToString(),
-            ItemClass = itemTemplate.itemClass,
-            UnitCurrency = "CN",
-            UnitPrice = 0
-        };
-
-        return new InventoryItem(itemInstance, itemTemplate);
-    }
-
-    public static InventoryItem RecreateItem(ItemInstance itemInstance, ItemInfo itemInfo)
+    public static T CreateItem<T>(ItemInstance itemInstance) where T : InventoryItem
     {
         var itemTemplate = GetItemTemplate(itemInstance.ItemId);
-        return new InventoryItem(itemInstance, itemTemplate, itemInfo);
+
+        // Get the constructor that matches the parameters
+        ConstructorInfo constructor = typeof(T).GetConstructor(new Type[] { typeof(ItemInstance), typeof(ItemTemplate) })
+            ?? throw new InvalidOperationException($"Type {typeof(T)} does not have a constructor with parameters (ItemInstance, ItemTemplate).");
+
+        // Create an instance of T using the constructor
+        return (T)constructor.Invoke(new object[] { itemInstance, itemTemplate });
+    }
+
+    public static T RecreateItem<T>(ItemInstance itemInstance, ItemInfo itemInfo) where T : InventoryItem
+    {
+        var itemTemplate = GetItemTemplate(itemInstance.ItemId);
+
+        // Get the constructor that matches the parameters
+        ConstructorInfo constructor = typeof(T).GetConstructor(new Type[] { typeof(ItemInstance), typeof(ItemTemplate), typeof(ItemInfo) })
+            ?? throw new InvalidOperationException($"Type {typeof(T)} does not have a constructor with parameters (ItemInstance, ItemTemplate, ItemInfo).");
+
+        // Create an instance of T using the constructor
+        return (T)constructor.Invoke(new object[] { itemInstance, itemTemplate, itemInfo });
     }
 
     public static bool MoveToCollectionItemAction(InventoryItem item, ItemCollection itemCollection)
