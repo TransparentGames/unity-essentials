@@ -29,6 +29,11 @@ namespace TransparentGames.Essentials.Items
         {
             _itemTemplate = itemTemplate;
             _itemInstance = itemInstance;
+            _itemInfo = new()
+            {
+                ItemCollection = null,
+                index = -1
+            };
         }
 
         public InventoryItem(ItemInstance itemInstance, ItemTemplate itemTemplate, ItemInfo itemInfo)

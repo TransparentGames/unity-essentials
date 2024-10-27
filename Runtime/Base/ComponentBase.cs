@@ -28,41 +28,34 @@ namespace TransparentGames.Essentials
 
                 if (GUILayout.Button("Set Owner"))
                 {
-                    var parent = FindParent(component.gameObject);
-                    var entity = parent.GetComponent<Entity>();
-                    if (parent != null)
-                    {
-                        component.owner = entity;
-                        EditorUtility.SetDirty(component);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("No parent found");
-                        //component.owner = component.gameObject;
-                    }
+                    SetOwner(component);
                 }
-
             }
             else
             {
-                EditorGUILayout.HelpBox("Owner is set", MessageType.None);
+                EditorGUILayout.HelpBox("Owner is set", MessageType.Info);
             }
         }
 
-        private void Reset()
+        private void SetOwner(ComponentBase component)
         {
-            var component = (ComponentBase)target;
             var parent = FindParent(component.gameObject);
-            var entity = parent.GetComponent<Entity>();
             if (parent != null)
             {
-                component.owner = entity;
-                EditorUtility.SetDirty(component);
+                var entity = parent.GetComponent<Entity>();
+                if (entity != null)
+                {
+                    component.owner = entity;
+                    EditorUtility.SetDirty(component);
+                }
+                else
+                {
+                    Debug.LogError("No Entity component found on parent.");
+                }
             }
             else
             {
-                Debug.LogWarning("No parent found");
-                //component.owner = component.gameObject;
+                Debug.LogError("No parent found.");
             }
         }
 
@@ -81,7 +74,5 @@ namespace TransparentGames.Essentials
             return FindParent(go.transform.parent.gameObject);
         }
     }
-
-
 #endif
 }

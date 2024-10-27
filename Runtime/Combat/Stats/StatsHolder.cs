@@ -68,10 +68,9 @@ namespace TransparentGames.Essentials.Stats
 
             foreach (var baseStatEntry in baseStatsDict)
             {
-                // Assuming Stat is a class with a copy constructor or a method to create a deep copy
-                finalStatsDict.Add(baseStatEntry.Key, new Stat(baseStatEntry.Value.statDefinition, baseStatEntry.Value.Value));
+                // Use the copy constructor to create a deep copy of the Stat instance
+                finalStatsDict.Add(baseStatEntry.Key, new Stat(baseStatEntry.Value));
             }
-
             // Apply updates from statUpdaters.
             foreach (var statUpdater in _statUpdaters)
             {

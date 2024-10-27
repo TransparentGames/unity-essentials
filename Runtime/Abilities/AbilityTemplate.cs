@@ -28,7 +28,7 @@ namespace TransparentGames.Essentials.Abilities
 
             foreach (var additionalStat in additionalStats)
             {
-                if (stats.TryGetValue(additionalStat.statDefinition.statName, out Stat existingStat))
+                if (stats.TryGetValue(additionalStat.Type, out Stat existingStat))
                 {
                     result.damage += additionalStat.Calculate(existingStat.Value);
                 }

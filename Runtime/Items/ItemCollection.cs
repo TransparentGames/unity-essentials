@@ -207,22 +207,22 @@ namespace TransparentGames.Essentials.Items
 
         private void CreateNewItem(InventoryItem item, int index)
         {
-            item.ItemInfo = new ItemInfo
-            {
-                ItemCollection = this,
-                index = index,
-            };
+            var itemInfo = item.ItemInfo;
+            itemInfo.ItemCollection = this;
+            itemInfo.index = index;
+            item.ItemInfo = itemInfo;
+
             _items.Add(index, item);
             Changed?.Invoke(item, true);
         }
 
         private void OverrideItem(InventoryItem item, int index)
         {
-            item.ItemInfo = new ItemInfo
-            {
-                ItemCollection = this,
-                index = index,
-            };
+            var itemInfo = item.ItemInfo;
+            itemInfo.ItemCollection = this;
+            itemInfo.index = index;
+            item.ItemInfo = itemInfo;
+
             _items[index] = item;
             Changed?.Invoke(item, true);
         }

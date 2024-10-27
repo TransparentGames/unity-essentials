@@ -11,11 +11,10 @@ namespace TransparentGames.Essentials.Stats
             get { return _value ?? value; }
             set { _value = value; }
         }
-
+        public string Type => statDefinition.statName;
         public string DisplayValue => statDefinition.GetDisplayValue(Value);
 
-        public StatDefinition statDefinition;
-
+        [SerializeField] private StatDefinition statDefinition;
         [SerializeField] protected float value;
 
         protected float? _value;
@@ -31,8 +30,7 @@ namespace TransparentGames.Essentials.Stats
         {
             if (stat == null) throw new ArgumentNullException(nameof(stat));
             statDefinition = stat.statDefinition;
-            value = stat.value;
-            _value = stat._value;
+            _value = stat.Value;
         }
     }
 }
