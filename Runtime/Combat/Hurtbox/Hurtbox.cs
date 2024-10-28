@@ -68,7 +68,7 @@ public class Hurtbox : ComponentBase, IStatsRequired, IHittable
 
     public void OnStatsChanged(StatsHolder statsHolder)
     {
-        if (statsHolder.Stats.TryGetValue(defenseStatDefinition.statId, out Stat defenseStat))
+        if (statsHolder.Stats.TryGetValue(defenseStatDefinition.Type, out Stat defenseStat))
         {
             _defense = defenseStat.Value;
         }

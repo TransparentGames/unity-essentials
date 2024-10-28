@@ -1,3 +1,4 @@
+using TransparentGames.Essentials.UI;
 using UnityEngine;
 
 namespace TransparentGames.Essentials.Items
@@ -17,6 +18,7 @@ namespace TransparentGames.Essentials.Items
         public Sprite icon;
         public ItemCategory itemCategory;
         public ItemAction defaultAction;
+        public UIState itemDetailsWindow;
         [Tooltip("Used for categorizing items")] public string itemClass;
         /// <summary>
         /// The maximum amount of this item that can be stacked in a single inventory slot.
