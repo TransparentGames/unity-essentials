@@ -34,7 +34,7 @@ namespace TransparentGames.Essentials.Combat
 
         public void OnStatsChanged(StatsHolder statsHolder)
         {
-            if (statsHolder.Stats.TryGetValue(healthStatDefinition.statId, out Stat healthStat))
+            if (statsHolder.Stats.TryGetValue(healthStatDefinition.Type, out Stat healthStat))
             {
                 var previousPercentage = _currentHealth / _maxHealth;
                 _maxHealth = healthStat.Value;

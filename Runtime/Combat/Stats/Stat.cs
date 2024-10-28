@@ -14,11 +14,11 @@ namespace TransparentGames.Essentials.Stats
         /// <summary>
         /// The type of stat. Use it for identifying the stat in the database.
         /// </summary>
-        public string Type => statDefinition.statId;
+        public string Type => statDefinition.Type;
         /// <summary>
         /// The family type of the stat. Use it for identifying the family of the stat in the database.
         /// </summary>
-        public string FamilyType => statDefinition.GetFamilyType();
+        public string FamilyType => statDefinition.FamilyType;
         public string DisplayValue => statDefinition.GetDisplayValue(Value);
         public string DisplayName => statDefinition.GetDisplayName();
 
@@ -39,6 +39,11 @@ namespace TransparentGames.Essentials.Stats
             if (stat == null) throw new ArgumentNullException(nameof(stat));
             statDefinition = stat.statDefinition;
             _value = stat.Value;
+        }
+
+        public float Calculate(float baseValue = 1)
+        {
+            return statDefinition.Calculate(Value, baseValue);
         }
     }
 }
