@@ -10,7 +10,7 @@ namespace TransparentGames.Essentials.UI
         public event Action<UIState> UIStateChangeAttempt;
         public event Action<UIState> UiStateClosed;
 
-        private Dictionary<UIState, UIElement> _UIElements = new();
+        private Dictionary<string, UIElement> _UIElements = new();
 
         protected override void Awake()
         {
@@ -20,7 +20,7 @@ namespace TransparentGames.Essentials.UI
             {
                 if (uiElement.State)
                 {
-                    _UIElements.Add(uiElement.State, uiElement);
+                    _UIElements.Add(uiElement.State.name, uiElement);
                 }
             }
 
@@ -29,7 +29,7 @@ namespace TransparentGames.Essentials.UI
 
         public void TryOpen(UIState state)
         {
-            if (_UIElements.TryGetValue(state, out var uiElement))
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
                 UIStateChangeAttempt?.Invoke(state);
             }
@@ -37,7 +37,7 @@ namespace TransparentGames.Essentials.UI
 
         public void ForceOpen(UIState state)
         {
-            if (_UIElements.TryGetValue(state, out var uiElement))
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
                 uiElement.TryOpen();
             }
@@ -45,7 +45,7 @@ namespace TransparentGames.Essentials.UI
 
         public UIElement Get(UIState state)
         {
-            if (_UIElements.TryGetValue(state, out var uiElement))
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
                 return uiElement;
             }
@@ -55,7 +55,7 @@ namespace TransparentGames.Essentials.UI
 
         public void ForceClose(UIState state)
         {
-            if (_UIElements.TryGetValue(state, out var uiElement))
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
                 uiElement.TryClose();
             }
@@ -63,7 +63,7 @@ namespace TransparentGames.Essentials.UI
 
         public void CloseCallback(UIState state)
         {
-            if (_UIElements.TryGetValue(state, out var uiElement))
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
                 UiStateClosed.Invoke(state);
             }
