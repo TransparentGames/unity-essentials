@@ -22,7 +22,7 @@ namespace TransparentGames.Essentials.UI
 
         }
 
-        public void OnClosed()
+        protected void OnClosed()
         {
             if (UIManager.InstanceExists)
                 UIManager.Instance.CloseCallback(State);
