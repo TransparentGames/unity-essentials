@@ -8,9 +8,10 @@ namespace TransparentGames.Essentials.UI
     public class UIManager : MonoSingleton<UIManager>
     {
         public event Action<UIState> UIStateChangeAttempt;
-        public event Action<UIState> UiStateClosed;
+        public event Action<UIState> UIStateClosed;
 
         private Dictionary<string, UIElement> _UIElements = new();
+        private Stack<UIState> _uiStateHistory = new();
 
         protected override void Awake()
         {
@@ -29,10 +30,13 @@ namespace TransparentGames.Essentials.UI
 
         public void TryOpen(UIState state)
         {
-            if (_UIElements.TryGetValue(state.name, out var uiElement))
-            {
-                UIStateChangeAttempt?.Invoke(state);
-            }
+            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            if (_uiStateHistory.Count > 0 && _uiStateHistory.Peek().name == state.name)
+                return;
+
+            UIStateChangeAttempt?.Invoke(state);
         }
 
         /// <summary>
@@ -45,6 +49,11 @@ namespace TransparentGames.Essentials.UI
             {
                 uiElement.PrepareOpen();
             }
+        }
+
+        public void OpenCallback(UIState state)
+        {
+            _uiStateHistory.Push(state);
         }
 
         public UIElement Get(UIState state)
@@ -63,10 +72,19 @@ namespace TransparentGames.Essentials.UI
         /// <param name="state"></param>
         public void TryClose(UIState state)
         {
-            if (_UIElements.TryGetValue(state.name, out var uiElement))
+            if (_uiStateHistory.Count == 0)
+                return;
+
+            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            if (_uiStateHistory.Peek().name != state.name)
             {
-                uiElement.PrepareClose();
+                Debug.LogWarning($"Trying to close {state.name} but the top of the stack is {_uiStateHistory.Peek().name}");
+                return;
             }
+
+            uiElement.PrepareClose();
         }
 
         /// <summary>
@@ -75,10 +93,8 @@ namespace TransparentGames.Essentials.UI
         /// <param name="state"></param>
         public void CloseCallback(UIState state)
         {
-            if (_UIElements.TryGetValue(state.name, out var uiElement))
-            {
-                UiStateClosed.Invoke(state);
-            }
+            var stackState = _uiStateHistory.Pop();
+            UIStateClosed.Invoke(state);
         }
     }
 }

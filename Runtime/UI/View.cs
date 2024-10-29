@@ -27,6 +27,7 @@ namespace TransparentGames.Essentials.UI
         protected override void ExecuteOpen()
         {
             gameObject.SetActive(true);
+            OnOpened();
         }
 
         public override void PrepareClose()
