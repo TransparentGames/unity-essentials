@@ -35,11 +35,15 @@ namespace TransparentGames.Essentials.UI
             }
         }
 
+        /// <summary>
+        /// This is called by Managers to force open a view.
+        /// </summary>
+        /// <param name="state"></param>
         public void ForceOpen(UIState state)
         {
             if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
-                uiElement.TryOpen();
+                uiElement.PrepareOpen();
             }
         }
 
@@ -53,14 +57,22 @@ namespace TransparentGames.Essentials.UI
             return null;
         }
 
-        public void ForceClose(UIState state)
+        /// <summary>
+        /// This is called by Managers to force close a view.
+        /// </summary>
+        /// <param name="state"></param>
+        public void TryClose(UIState state)
         {
             if (_UIElements.TryGetValue(state.name, out var uiElement))
             {
-                uiElement.TryClose();
+                uiElement.PrepareClose();
             }
         }
 
+        /// <summary>
+        /// This is called by UIElement when it is closing, to notify all subscribers about view being closed.
+        /// </summary>
+        /// <param name="state"></param>
         public void CloseCallback(UIState state)
         {
             if (_UIElements.TryGetValue(state.name, out var uiElement))

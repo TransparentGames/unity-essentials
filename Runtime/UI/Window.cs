@@ -15,22 +15,22 @@ namespace TransparentGames.Essentials.UI
             gameObject.SetActive(false);
         }
 
-        public override void TryOpen()
+        public override void PrepareOpen()
         {
-            Open();
+            ExecuteOpen();
         }
 
-        public override void Open()
+        protected override void ExecuteOpen()
         {
             gameObject.SetActive(true);
         }
 
-        public override void TryClose()
+        public override void PrepareClose()
         {
-            Close();
+            ExecuteClose();
         }
 
-        public override void Close()
+        protected override void ExecuteClose()
         {
             gameObject.SetActive(false);
             OnClosed();

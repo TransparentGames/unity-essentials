@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.UI
 {
-    [CustomEditor(typeof(View))]
-    public class ViewEditor : Editor
+    [CustomEditor(typeof(UIElement), true), CanEditMultipleObjects]
+    public class UIElementEditor : Editor
     {
-        private View _view;
+        private UIElement _view;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            _view = target as View;
+            _view = target as UIElement;
 
             if (_view == null)
                 return;
@@ -24,7 +24,7 @@ namespace TransparentGames.Essentials.UI
 
             if (_view.State == null)
             {
-                EditorGUILayout.HelpBox("No UI State assigned to this View.", MessageType.Warning);
+                EditorGUILayout.HelpBox("No UI State assigned to this UIElement.", MessageType.Warning);
                 if (GUILayout.Button("Create UI State"))
                 {
                     CreateUiState();
@@ -32,7 +32,7 @@ namespace TransparentGames.Essentials.UI
             }
             else
             {
-                EditorGUILayout.HelpBox("UI State assigned to this View.", MessageType.None);
+                EditorGUILayout.HelpBox("UI State assigned to this UIElement.", MessageType.None);
             }
         }
 
@@ -88,7 +88,7 @@ namespace TransparentGames.Essentials.UI
             }
             else
             {
-                Debug.LogError("Failed to find the 'state' property on the View component.");
+                Debug.LogError("Failed to find the 'state' property on the UIElement component.");
             }
 
             // Mark the prefab as dirty so that changes are saved
