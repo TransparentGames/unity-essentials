@@ -8,6 +8,7 @@ namespace TransparentGames.Essentials.UI
     public class CloseView : MonoBehaviour
     {
         [SerializeField] private List<InputActionReference> closeActions;
+        [SerializeField] private InputActionReference cancelAction;
 
         private View _baseView;
 
@@ -18,6 +19,8 @@ namespace TransparentGames.Essentials.UI
 
         private void OnEnable()
         {
+            cancelAction.action.performed += OnCloseActionPerformed;
+            // this action can be overriden by the following view
             foreach (var closeAction in closeActions)
             {
                 closeAction.action.Enable();
@@ -27,6 +30,7 @@ namespace TransparentGames.Essentials.UI
 
         private void OnDisable()
         {
+            cancelAction.action.performed -= OnCloseActionPerformed;
             foreach (var closeAction in closeActions)
             {
                 closeAction.action.performed -= OnCloseActionPerformed;

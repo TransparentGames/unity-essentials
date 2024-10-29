@@ -7,6 +7,7 @@ namespace TransparentGames.Essentials.UI
 {
     public class UIManager : MonoSingleton<UIManager>
     {
+        public UIState[] History => _uiStateHistory.ToArray();
         public event Action<UIState> UIStateChangeAttempt;
         public event Action<UIState> UIStateClosed;
 
