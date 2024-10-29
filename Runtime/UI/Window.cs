@@ -33,7 +33,6 @@ namespace TransparentGames.Essentials.UI
         protected override void ExecuteClose()
         {
             gameObject.SetActive(false);
-            OnClosed();
         }
     }
 }

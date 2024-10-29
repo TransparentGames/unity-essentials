@@ -17,6 +17,12 @@ namespace TransparentGames.Essentials.UI
 
         }
 
+        protected void OnOpened()
+        {
+            if (UIManager.InstanceExists)
+                UIManager.Instance.OpenCallback(State);
+        }
+
         protected virtual void OnPrepareClosed()
         {
 
