@@ -18,7 +18,7 @@ public class Cooldown : Countdown
     }
 }
 
-public class CooldownManager : PersistentMonoSingleton<CooldownManager>
+public class CooldownManager : MonoSingleton<CooldownManager>
 {
     private List<Cooldown> _cooldowns = new();
     public Cooldown StartCooldown(Entity Owner, string id, float cooldown)
@@ -56,5 +56,13 @@ public class CooldownManager : PersistentMonoSingleton<CooldownManager>
     {
         var cooldown = (Cooldown)countdown;
         //_cooldowns.Remove(cooldown);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var cooldown in _cooldowns)
+        {
+            cooldown.Stop();
+        }
     }
 }
