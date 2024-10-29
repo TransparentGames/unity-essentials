@@ -5,24 +5,21 @@ namespace TransparentGames.Essentials.UI
 {
     public abstract class UIElement : MonoBehaviour
     {
-        public event Action TryOpened;
-        public event Action TryClosed;
-
         public abstract UIState State { get; }
 
-        public abstract void TryOpen();
-        public abstract void Open();
-        public abstract void TryClose();
-        public abstract void Close();
+        public abstract void PrepareOpen();
+        protected abstract void ExecuteOpen();
+        public abstract void PrepareClose();
+        protected abstract void ExecuteClose();
 
-        protected void OnTryOpened()
+        protected virtual void OnPrepareOpened()
         {
-            TryOpened?.Invoke();
+
         }
 
-        protected void OnTryClosed()
+        protected virtual void OnPrepareClosed()
         {
-            TryClosed?.Invoke();
+
         }
 
         public void OnClosed()

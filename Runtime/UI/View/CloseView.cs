@@ -36,7 +36,8 @@ namespace TransparentGames.Essentials.UI
 
         private void OnCloseActionPerformed(InputAction.CallbackContext context)
         {
-            _baseView.TryClose();
+            if (UIManager.InstanceExists)
+                UIManager.Instance.TryClose(_baseView.State);
         }
     }
 }
