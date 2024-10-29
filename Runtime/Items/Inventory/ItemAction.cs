@@ -23,7 +23,10 @@ namespace TransparentGames.Essentials.Items
         /// <param name="inventoryItem">The inventory item.</param>
         /// <param name="itemUser">The item user (can be null).</param>
         /// <returns>True if it can be invoked.</returns>
-        protected abstract bool CanInvokeInternal(InventoryItem inventoryItem, ItemUser itemUser);
+        protected virtual bool CanInvokeInternal(InventoryItem inventoryItem, ItemUser itemUser)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Consume the item.
