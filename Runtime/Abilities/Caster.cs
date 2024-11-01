@@ -16,7 +16,6 @@ namespace TransparentGames.Essentials.Abilities
         public virtual event Action<Caster> Changed;
 
         public abstract Ability CurrentAbility { get; }
-        public abstract Animator Animator { get; }
         public abstract bool IsBusy { get; }
 
         public abstract void Equip(AbilityTemplate abilityTemplate);

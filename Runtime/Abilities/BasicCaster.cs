@@ -10,7 +10,6 @@ namespace TransparentGames.Essentials.Abilities
     public class BasicCaster : Caster, IStatsRequired
     {
         public override Ability CurrentAbility => _ability;
-        public override Animator Animator => owner.GetComponentInChildren<Animator>();
         public override bool IsBusy => _inProgress;
 
         [SerializeField] private AbilityTemplate _abilityTemplate = null;
