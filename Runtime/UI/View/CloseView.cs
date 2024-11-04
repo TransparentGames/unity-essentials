@@ -19,8 +19,9 @@ namespace TransparentGames.Essentials.UI
 
         private void OnEnable()
         {
-            cancelAction.action.performed += OnCloseActionPerformed;
-            // this action can be overriden by the following view
+            if (cancelAction != null)
+                cancelAction.action.performed += OnCancelActionPerformed;
+
             foreach (var closeAction in closeActions)
             {
                 closeAction.action.Enable();
@@ -30,12 +31,20 @@ namespace TransparentGames.Essentials.UI
 
         private void OnDisable()
         {
-            cancelAction.action.performed -= OnCloseActionPerformed;
+            if (cancelAction != null)
+                cancelAction.action.performed -= OnCancelActionPerformed;
+
             foreach (var closeAction in closeActions)
             {
                 closeAction.action.performed -= OnCloseActionPerformed;
                 closeAction.action.Disable();
             }
+        }
+
+        private void OnCancelActionPerformed(InputAction.CallbackContext context)
+        {
+            if (UIManager.InstanceExists)
+                UIManager.Instance.TryCancel(_baseView.State);
         }
 
         private void OnCloseActionPerformed(InputAction.CallbackContext context)
