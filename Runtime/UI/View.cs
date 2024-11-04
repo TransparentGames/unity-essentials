@@ -10,7 +10,6 @@ namespace TransparentGames.Essentials.UI
         public override UIState State => state;
 
         [SerializeField] private UIState state;
-        [SerializeField] private bool manual;
 
         protected virtual void Start()
         {
@@ -20,25 +19,19 @@ namespace TransparentGames.Essentials.UI
         public override void PrepareOpen()
         {
             OnPrepareOpened();
-            if (manual == false)
-                ExecuteOpen();
-        }
-
-        protected override void ExecuteOpen()
-        {
             gameObject.SetActive(true);
             OnOpened();
+        }
+
+        protected void Close()
+        {
+            if (UIManager.InstanceExists)
+                UIManager.Instance.TryClose(State);
         }
 
         public override void PrepareClose()
         {
             OnPrepareClosed();
-            if (manual == false)
-                ExecuteClose();
-        }
-
-        protected override void ExecuteClose()
-        {
             gameObject.SetActive(false);
             OnClosed();
         }

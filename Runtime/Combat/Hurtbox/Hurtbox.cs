@@ -41,8 +41,10 @@ namespace TransparentGames.Essentials.Combat
 
             hitResult = hurtboxDamage.OnHit(hitResult, hitInfo);
 
-            HitResultEvent?.Invoke(hitResult);
             HitInfoEvent?.Invoke(hitInfo);
+
+            if (hitResult.damageDealt > 0)
+                HitResultEvent?.Invoke(hitResult);
 
             return hitResult;
         }
