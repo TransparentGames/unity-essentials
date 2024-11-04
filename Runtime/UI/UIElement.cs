@@ -8,9 +8,8 @@ namespace TransparentGames.Essentials.UI
         public abstract UIState State { get; }
 
         public abstract void PrepareOpen();
-        protected abstract void ExecuteOpen();
         public abstract void PrepareClose();
-        protected abstract void ExecuteClose();
+
 
         protected virtual void OnPrepareOpened()
         {
@@ -23,11 +22,13 @@ namespace TransparentGames.Essentials.UI
                 UIManager.Instance.OpenCallback(State);
         }
 
+        /// <summary>
+        /// This is called by UIManager to prepare the view for closing.
+        /// </summary>
         protected virtual void OnPrepareClosed()
         {
 
         }
-
         protected void OnClosed()
         {
             if (UIManager.InstanceExists)

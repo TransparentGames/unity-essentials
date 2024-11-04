@@ -5,10 +5,17 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.UI
 {
+    public enum UIRequest
+    {
+        Open,
+        Close,
+        Cancel
+    }
+
     public class UIManager : MonoSingleton<UIManager>
     {
         public UIState[] History => _uiStateHistory.ToArray();
-        public event Action<UIState> UIStateChangeAttempt;
+        public event Action<UIState, UIRequest> UIStateRequestAttempt;
         public event Action<UIState> UIStateClosed;
 
         private Dictionary<string, UIElement> _UIElements = new();
@@ -37,7 +44,7 @@ namespace TransparentGames.Essentials.UI
             if (_uiStateHistory.Count > 0 && _uiStateHistory.Peek().name == state.name)
                 return;
 
-            UIStateChangeAttempt?.Invoke(state);
+            UIStateRequestAttempt?.Invoke(state, UIRequest.Open);
         }
 
         /// <summary>
@@ -46,10 +53,10 @@ namespace TransparentGames.Essentials.UI
         /// <param name="state"></param>
         public void ForceOpen(UIState state)
         {
-            if (_UIElements.TryGetValue(state.name, out var uiElement))
-            {
-                uiElement.PrepareOpen();
-            }
+            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            uiElement.PrepareOpen();
         }
 
         public void OpenCallback(UIState state)
@@ -67,16 +74,58 @@ namespace TransparentGames.Essentials.UI
             return null;
         }
 
+        public void TryCancel(UIState state)
+        {
+            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            if (_uiStateHistory.Count == 0)
+                return;
+
+            if (_uiStateHistory.Peek().name != state.name)
+            {
+                Debug.LogWarning($"Trying to close {state.name} but the top of the stack is {_uiStateHistory.Peek().name}");
+                return;
+            }
+
+            UIStateRequestAttempt?.Invoke(state, UIRequest.Cancel);
+        }
+
+        public void TryClose(UIState state)
+        {
+            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            if (_uiStateHistory.Count == 0)
+                return;
+
+            if (_uiStateHistory.Contains(state) == false)
+                return;
+
+            UIStateRequestAttempt?.Invoke(state, UIRequest.Close);
+        }
+
+        public void TryClose(UIElement element)
+        {
+            if (element == null)
+                return;
+
+            TryClose(element.State);
+        }
+
         /// <summary>
         /// This is called by Managers to force close a view.
         /// </summary>
         /// <param name="state"></param>
-        public void TryClose(UIState state)
+        public void ForceClose(UIState state)
         {
             if (_uiStateHistory.Count == 0)
                 return;
 
             if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
+                return;
+
+            if (_uiStateHistory.Contains(state) == false)
                 return;
 
             // Create a list to hold the states to be closed
@@ -101,23 +150,6 @@ namespace TransparentGames.Essentials.UI
             }
         }
 
-        public void TryCancel(UIState state)
-        {
-            if (_uiStateHistory.Count == 0)
-                return;
-
-            if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
-                return;
-
-            if (_uiStateHistory.Peek().name != state.name)
-            {
-                Debug.LogWarning($"Trying to close {state.name} but the top of the stack is {_uiStateHistory.Peek().name}");
-                return;
-            }
-
-            uiElement.PrepareClose();
-        }
-
         /// <summary>
         /// This is called by UIElement when it is closing, to notify all subscribers about view being closed.
         /// </summary>
@@ -127,7 +159,7 @@ namespace TransparentGames.Essentials.UI
             if (_uiStateHistory.Count > 0 && _uiStateHistory.Peek().name == state.name)
             {
                 var stackState = _uiStateHistory.Pop();
-                UIStateClosed.Invoke(state);
+                UIStateClosed?.Invoke(stackState);
             }
         }
     }
