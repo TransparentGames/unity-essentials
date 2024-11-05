@@ -22,6 +22,13 @@ namespace TransparentGames.Essentials.Combat
 
         private ColliderState _state = ColliderState.Open;
         private Collider _collider;
+        private List<IHurtboxComponent> _hurtboxComponents;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider>();
+            _hurtboxComponents = new List<IHurtboxComponent>(GetComponents<IHurtboxComponent>());
+        }
 
         public HitResult OnHit(HitInfo hitInfo)
         {
@@ -39,7 +46,8 @@ namespace TransparentGames.Essentials.Combat
                 return hitResult;
             }
 
-            hitResult = hurtboxDamage.OnHit(hitResult, hitInfo);
+            foreach (var hurtboxComponent in _hurtboxComponents)
+                hitResult = hurtboxComponent.OnHit(hitResult, hitInfo);
 
             HitInfoEvent?.Invoke(hitInfo);
 
