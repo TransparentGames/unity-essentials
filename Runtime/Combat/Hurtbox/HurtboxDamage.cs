@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Combat
 {
-    public class HurtboxDamage : ComponentBase, IStatsRequired
+    public class HurtboxDamage : ComponentBase, IStatsRequired, IHurtboxComponent
     {
         public Entity Owner => owner;
 

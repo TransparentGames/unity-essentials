@@ -8,5 +8,6 @@ namespace TransparentGames.Essentials.Combat
         public Entity source;
         public int level;
         public bool isCritical;
+        public int knockback;
     }
 }

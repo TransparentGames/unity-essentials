@@ -15,6 +15,7 @@ namespace TransparentGames.Essentials.Abilities
         public List<AdditionalStat> additionalStats;
         public LayerMask layerMask;
         public float cooldown;
+        public int knockback;
 
         [SerializeField] private bool canCrit;
 
@@ -23,7 +24,8 @@ namespace TransparentGames.Essentials.Abilities
             var result = new HitInfo
             {
                 damage = 0,
-                isCritical = false
+                isCritical = false,
+                knockback = knockback
             };
 
             foreach (var additionalStat in additionalStats)
