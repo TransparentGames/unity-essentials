@@ -135,7 +135,19 @@ namespace TransparentGames.Essentials.Items
             return inventoryItem;
         }
 
-        public InventoryItem RemoveItem(int slotIndex, int amountToRemove = 1)
+        public InventoryItem RemoveItem(int slotIndex)
+        {
+            if (_items.TryGetValue(slotIndex, out var item) == false)
+            {
+                return null;
+            }
+
+            _items.Remove(slotIndex);
+            Changed?.Invoke(item, false);
+            return item;
+        }
+
+        public InventoryItem RemoveItem(int slotIndex, int amountToRemove)
         {
             if (_items.TryGetValue(slotIndex, out var item) == false)
             {
@@ -144,9 +156,7 @@ namespace TransparentGames.Essentials.Items
 
             if (item.ItemInstance.RemainingUses <= amountToRemove)
             {
-                _items.Remove(slotIndex);
-                Changed?.Invoke(item, false);
-                return item;
+                return RemoveItem(slotIndex);
             }
 
             item.ItemInstance.RemainingUses -= amountToRemove;
