@@ -31,6 +31,11 @@ namespace TransparentGames.Essentials.Items
         {
             foreach (var itemCollection in itemCollections)
             {
+                if (itemCollection.Purpose == ItemCollectionPurpose.Equipped)
+                {
+                    continue;
+                }
+
                 if (itemCollection.CanAddItem(inventoryItem))
                 {
                     return itemCollection;
