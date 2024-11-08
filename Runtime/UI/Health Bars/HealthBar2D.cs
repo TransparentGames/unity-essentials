@@ -6,16 +6,17 @@ using UnityEngine.UI;
 
 namespace TransparentGames.Essentials.UI
 {
-    public class HealthBar2D : HealthBar
+    public class HealthBar2D : Bar
     {
-        public float CurrentHealth => _currentHealth;
-        public float MaxHealth => _maxHealth;
+        public float CurrentHealth => _currentValue;
+        public float MaxHealth => _maxValue;
 
         [SerializeField] private Image hpBar;
         [SerializeField] private Image animatedHpBar;
         [SerializeField] private TextMeshProUGUI levelText;
         [Space]
         [SerializeField] private TextMeshProUGUI healthText;
+        [SerializeField] protected bool showHealthText = false;
 
         private Tween _highlightTween;
 
@@ -24,12 +25,12 @@ namespace TransparentGames.Essentials.UI
             _highlightTween?.Kill();
         }
 
-        public override void UpdateHealth(float currentHealth)
+        public override void UpdateValue(float currentHealth)
         {
-            base.UpdateHealth(currentHealth);
+            base.UpdateValue(currentHealth);
 
             if (showHealthText)
-                healthText.text = _currentHealth.ToString() + " / " + _maxHealth.ToString();
+                healthText.text = _currentValue.ToString() + " / " + _maxValue.ToString();
             AnimateHpBar();
         }
 
@@ -38,11 +39,11 @@ namespace TransparentGames.Essentials.UI
             base.Set(maxHealth, currentHealth);
             _highlightTween?.Kill();
 
-            hpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
-            animatedHpBar.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
+            hpBar.fillAmount = Mathf.Clamp01(_currentValue / _maxValue);
+            animatedHpBar.fillAmount = Mathf.Clamp01(_currentValue / _maxValue);
             if (showHealthText)
             {
-                healthText.text = _currentHealth.ToString() + " / " + _maxHealth.ToString();
+                healthText.text = _currentValue.ToString() + " / " + _maxValue.ToString();
             }
         }
 
@@ -54,7 +55,7 @@ namespace TransparentGames.Essentials.UI
 
         private void AnimateHpBar()
         {
-            float fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
+            float fillAmount = Mathf.Clamp01(_currentValue / _maxValue);
             hpBar.fillAmount = fillAmount;
 
             _highlightTween?.Kill();

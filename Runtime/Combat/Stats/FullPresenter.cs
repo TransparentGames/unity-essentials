@@ -8,12 +8,12 @@ namespace TransparentGames.Essentials.Stats
 {
     public class FullPresenter : ComponentBase
     {
-        [SerializeField] private HealthBar healthBarPrefab;
+        [SerializeField] private Bar healthBarPrefab;
         [SerializeField] private bool isWorldSpace = true;
         [SerializeField] private Vector3 worldOffset;
 
         private IHealth _health;
-        private HealthBar _healthBar;
+        private Bar _healthBar;
         private ILevelable _levelable;
 
         private void Awake()
@@ -85,7 +85,7 @@ namespace TransparentGames.Essentials.Stats
         {
             if (_healthBar != null)
             {
-                _healthBar.UpdateHealth(currentHealth);
+                _healthBar.UpdateValue(currentHealth);
             }
         }
 
