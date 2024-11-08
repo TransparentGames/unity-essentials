@@ -4,22 +4,17 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.UI
 {
-    public class HealthBar3D : Bar
+    public class HealthBarSpriteRenderer : Bar
     {
         public float CurrentHealth => _currentValue;
         public float MaxHealth => _maxValue;
 
-        [SerializeField] private MeshRenderer spriteRenderer;
         [SerializeField] private TextMeshPro levelText;
+        [SerializeField] private Transform handleSprite;
+        [SerializeField] private Transform highlightSprite;
 
         private Tween _highlightFillTween;
-        private MaterialPropertyBlock _matBlock;
         private float _currentFillAmount;
-
-        private void Awake()
-        {
-            _matBlock = new MaterialPropertyBlock();
-        }
 
         private void LateUpdate()
         {
@@ -31,11 +26,14 @@ namespace TransparentGames.Essentials.UI
             _highlightFillTween?.Kill();
         }
 
-
         public override void UpdateValue(float currentHealth)
         {
             base.UpdateValue(currentHealth);
 
+            // Update the handle sprite immediately
+            UpdateHandleSprite();
+
+            // Animate the highlight sprite
             AnimateHpBar();
         }
 
@@ -46,17 +44,18 @@ namespace TransparentGames.Essentials.UI
 
             _currentFillAmount = Mathf.Clamp01(_currentValue / _maxValue);
 
-            spriteRenderer.GetPropertyBlock(_matBlock);
-            _matBlock.SetFloat("_healthNormalized", _currentFillAmount);
-            _matBlock.SetFloat("_highlightNormalized", _currentFillAmount);
-            spriteRenderer.SetPropertyBlock(_matBlock);
+            // Update the handle sprite immediately
+            UpdateHandleSprite();
+
+            // Update the highlight sprite to the initial value
+            UpdateHighlightSprite();
         }
 
         public override void SetLevel(int level)
         {
             base.SetLevel(level);
 
-            levelText.text = "Lvl " + level.ToString();
+            levelText.text = level.ToString();
         }
 
         private void AnimateHpBar()
@@ -64,16 +63,20 @@ namespace TransparentGames.Essentials.UI
             _highlightFillTween?.Kill();
 
             float targetFillAmount = Mathf.Clamp01(_currentValue / _maxValue);
-            spriteRenderer.GetPropertyBlock(_matBlock);
-            _matBlock.SetFloat("_healthNormalized", targetFillAmount);
-            spriteRenderer.SetPropertyBlock(_matBlock);
 
-            _highlightFillTween = DOTween.To(() => _currentFillAmount, x => _currentFillAmount = x, targetFillAmount, 1f).OnUpdate(() =>
-            {
-                spriteRenderer.GetPropertyBlock(_matBlock);
-                _matBlock.SetFloat("_highlightNormalized", _currentFillAmount);
-                spriteRenderer.SetPropertyBlock(_matBlock);
-            });
+            _highlightFillTween = DOTween.To(() => _currentFillAmount, x => _currentFillAmount = x, targetFillAmount, 1f)
+                .OnUpdate(UpdateHighlightSprite);
+        }
+
+        private void UpdateHandleSprite()
+        {
+            float fillAmount = Mathf.Clamp01(_currentValue / _maxValue);
+            handleSprite.localScale = new Vector3(fillAmount, handleSprite.localScale.y, handleSprite.localScale.z);
+        }
+
+        private void UpdateHighlightSprite()
+        {
+            highlightSprite.localScale = new Vector3(_currentFillAmount, highlightSprite.localScale.y, highlightSprite.localScale.z);
         }
 
         private void AlignCamera()

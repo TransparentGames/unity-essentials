@@ -10,12 +10,12 @@ namespace TransparentGames.Essentials.Combat
     [RequireComponent(typeof(IHealth))]
     public class HealthPresenter : MonoBehaviour
     {
-        [SerializeField] private HealthBar healthBarPrefab;
+        [SerializeField] private Bar healthBarPrefab;
         [SerializeField] private Vector3 healthBarOffset;
         [SerializeField] private bool isWorldSpace = true;
 
         private IHealth _health;
-        private HealthBar _healthBar;
+        private Bar _healthBar;
 
         private void Awake()
         {
@@ -87,7 +87,7 @@ namespace TransparentGames.Essentials.Combat
         {
             if (_healthBar != null)
             {
-                _healthBar.UpdateHealth(currentHealth);
+                _healthBar.UpdateValue(currentHealth);
             }
         }
     }
