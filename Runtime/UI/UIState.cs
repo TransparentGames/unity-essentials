@@ -8,7 +8,8 @@ namespace TransparentGames.Essentials.UI
     {
         public void TryOpen()
         {
-            UIManager.Initialized(() => UIManager.Instance.TryOpen(this));
+            if (UIManager.InstanceExists)
+                UIManager.Instance.TryOpen(this);
         }
 
         public void TryClose()
