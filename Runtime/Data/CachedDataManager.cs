@@ -8,7 +8,7 @@ namespace TransparentGames.Essentials.Data
     public class CachedDataManager : ScriptableObjectSingleton<CachedDataManager>, IDataSaveManager
     {
         public Dictionary<string, object> Properties => _properties;
-        private static Dictionary<string, object> _properties = new();
+        private static readonly Dictionary<string, object> _properties = new();
 
         protected override void OnInitializing()
         {
@@ -16,51 +16,29 @@ namespace TransparentGames.Essentials.Data
             _properties.Clear();
         }
 
-        public IDataProperty<int> GetProperty(string key, int defaultValue)
+        public IDataProperty<T> GetProperty<T>(string key, T defaultValue)
         {
             if (_properties.TryGetValue(key, out var property))
-                return (IDataProperty<int>)property;
+                return (IDataProperty<T>)property;
 
-            var newProperty = new DataInt(key, defaultValue);
-            _properties.Add(key, newProperty);
-            return newProperty;
-        }
+            IDataProperty<T> newProperty = defaultValue switch
+            {
+                int intValue => (IDataProperty<T>)new DataInt(key, intValue),
+                bool boolValue => (IDataProperty<T>)new DataBool(key, boolValue),
+                float floatValue => (IDataProperty<T>)new DataFloat(key, floatValue),
+                string stringValue => (IDataProperty<T>)new DataString(key, stringValue),
+                _ => throw new System.ArgumentException($"Unsupported type: {typeof(T)}")
+            };
 
-        public IDataProperty<bool> GetProperty(string key, bool defaultValue)
-        {
-            if (_properties.TryGetValue(key, out var property))
-                return (IDataProperty<bool>)property;
-
-            var newProperty = new DataBool(key, defaultValue);
-            _properties.Add(key, newProperty);
-            return newProperty;
-        }
-
-        public IDataProperty<float> GetProperty(string key, float defaultValue)
-        {
-            if (_properties.TryGetValue(key, out var property))
-                return (IDataProperty<float>)property;
-
-            var newProperty = new DataFloat(key, defaultValue);
-            _properties.Add(key, newProperty);
-            return newProperty;
-        }
-
-        public IDataProperty<string> GetProperty(string key, string defaultValue)
-        {
-            if (_properties.TryGetValue(key, out var property))
-                return (IDataProperty<string>)property;
-
-            var newProperty = new DataString(key, defaultValue);
             _properties.Add(key, newProperty);
             return newProperty;
         }
 
         public bool TryGetProperty<T>(string key, out IDataProperty<T> value)
         {
-            if (_properties.TryGetValue(key, out var property))
+            if (_properties.TryGetValue(key, out var property) && property is IDataProperty<T> typedProperty)
             {
-                value = (IDataProperty<T>)property;
+                value = typedProperty;
                 return true;
             }
 
