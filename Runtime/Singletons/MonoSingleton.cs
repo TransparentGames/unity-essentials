@@ -48,7 +48,7 @@ namespace TransparentGames.Essentials.Singletons
             {
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<T>();
+                    _instance = FindFirstObjectByType<T>();
                     if (_instance == null)
                     {
                         Debug.LogError($"No instance of {typeof(T).Name} found in the scene, do you perhaps wanted to create a new one?");
@@ -74,26 +74,22 @@ namespace TransparentGames.Essentials.Singletons
         /// </summary>
         protected virtual void Awake()
         {
-            if (_instance == null)
+            if (InstanceExists)
             {
-                _instance = this as T;
-
-                // Initialize existing instance
-                InitializeSingleton();
-            }
-            else
-            {
-
-                // Destroy duplicates
                 if (Application.isPlaying)
                 {
-                    Destroy(gameObject);
+                    Destroy(_instance);
                 }
                 else
                 {
-                    DestroyImmediate(gameObject);
+                    DestroyImmediate(_instance);
                 }
             }
+
+            _instance = this as T;
+
+            // Initialize existing instance
+            InitializeSingleton();
         }
 
         #endregion
