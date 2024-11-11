@@ -15,7 +15,7 @@ namespace TransparentGames.Essentials.UI
         public void TryClose()
         {
             if (UIManager.InstanceExists)
-                UIManager.Instance.ForceClose(this);
+                UIManager.Instance.TryClose(this);
         }
 
         public static bool operator ==(UIState a, UIState b)
