@@ -10,25 +10,34 @@ namespace TransparentGames.Essentials.Time
         public event Action TimeIsUp;
 
         private float _timeElapsed;
-        private float _timeLimit;
         private bool _isRunning;
         private IUpdateEntity _updateEntity;
 
-        public Timer(float time)
+        public Timer()
         {
-            _timeLimit = time;
+            _timeElapsed = 0f;
         }
 
         public void Start()
         {
+            if (_isRunning)
+            {
+                throw new InvalidOperationException("Timer is already running.");
+            }
+
             _isRunning = true;
-            _timeElapsed = 0f;
             _updateEntity = UpdateManager.StartUpdate(Update, UpdateType.Update);
         }
 
         public void Stop()
         {
+            if (!_isRunning)
+            {
+                throw new InvalidOperationException("Timer is not running.");
+            }
+
             _isRunning = false;
+            UpdateManager.Stop(_updateEntity);
         }
 
         public void Update()
@@ -36,15 +45,12 @@ namespace TransparentGames.Essentials.Time
             if (_isRunning)
             {
                 _timeElapsed += UnityEngine.Time.deltaTime;
-                if (_timeElapsed >= _timeLimit)
-                {
-                    TimeIsUp?.Invoke();
-                    TimeIsUp = null;
-
-                    _isRunning = false;
-                    UpdateManager.Stop(_updateEntity);
-                }
             }
+        }
+
+        public void Reset()
+        {
+            _timeElapsed = 0f;
         }
     }
 }
