@@ -9,16 +9,18 @@ using UnityEngine;
 namespace TransparentGames.Essentials.Combat
 {
     [RequireComponent(typeof(Collider))]
-    public class Hurtbox : ComponentBase, IHittable
+    public class Hurtbox : ComponentBase, IHittable, IHurtboxComponent
     {
         public Entity Owner => owner;
         public Transform Transform => transform;
+
+        public DamagePhase Phase => DamagePhase.PreCalculation;
+
         public event Action<HitResult> HitResultEvent;
         public event Action<HitInfo> HitInfoEvent;
 
         [SerializeField] private Color inactiveColor;
         [SerializeField] private Color collisionOpenColor;
-        [SerializeField] private HurtboxDamage hurtboxDamage;
 
         private ColliderState _state = ColliderState.Open;
         private Collider _collider;
@@ -28,6 +30,7 @@ namespace TransparentGames.Essentials.Combat
         {
             _collider = GetComponent<Collider>();
             _hurtboxComponents = new List<IHurtboxComponent>(GetComponents<IHurtboxComponent>());
+            _hurtboxComponents.Sort((a, b) => a.Phase.CompareTo(b.Phase));
         }
 
         public HitResult OnHit(HitInfo hitInfo)
@@ -40,19 +43,17 @@ namespace TransparentGames.Essentials.Combat
                 isCritical = hitInfo.isCritical
             };
 
-            if (_state == ColliderState.Closed || hurtboxDamage == null)
-            {
-                HitInfoEvent?.Invoke(hitInfo);
-                return hitResult;
-            }
-
             foreach (var hurtboxComponent in _hurtboxComponents)
-                hitResult = hurtboxComponent.OnHit(hitResult, hitInfo);
+                if (hurtboxComponent.HandleHit(ref hitInfo) == false)
+                    break;
 
             HitInfoEvent?.Invoke(hitInfo);
 
-            if (hitResult.damageDealt > 0)
+            if (hitInfo.damage > 0)
+            {
+                hitResult.damageDealt = hitInfo.damage;
                 HitResultEvent?.Invoke(hitResult);
+            }
 
             return hitResult;
         }
@@ -65,6 +66,17 @@ namespace TransparentGames.Essentials.Combat
         public void StopInvincibility()
         {
             _state = ColliderState.Open;
+        }
+
+        public bool HandleHit(ref HitInfo hitInfo)
+        {
+            if (_state == ColliderState.Closed)
+            {
+                hitInfo.damage = 0;
+                return false;
+            }
+
+            return true;
         }
 
         private void OnDrawGizmos()

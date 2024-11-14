@@ -8,31 +8,20 @@ namespace TransparentGames.Essentials.Combat
     public class HurtboxDamage : ComponentBase, IStatsRequired, IHurtboxComponent
     {
         public Entity Owner => owner;
+        public DamagePhase Phase => DamagePhase.DamageCalculation;
 
         [SerializeField] private StatDefinition defenseStatDefinition = null;
 
-        private IHealth _health;
         private float _defense = 0;
 
-        private void Start()
+        public bool HandleHit(ref HitInfo hitInfo)
         {
-            _health = owner.GetComponent<IHealth>();
-        }
-
-        public HitResult OnHit(HitResult hitResult, HitInfo hitInfo)
-        {
-            if (_health.CurrentHealth <= 0)
-                return hitResult;
-
             var dmgReduction = _defense / (_defense + (5 * hitInfo.level) + 500);
-            var damage = Mathf.CeilToInt(hitInfo.damage * (1 - dmgReduction));
+            var damage = Mathf.Floor(hitInfo.damage * (1 - dmgReduction));
 
-            hitResult.damageDealt = (int)damage;
-            hitResult.wasKilled = _health.CurrentHealth - damage <= 0;
+            hitInfo.damage = damage;
 
-            _health.Add(-damage);
-
-            return hitResult;
+            return true;
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
