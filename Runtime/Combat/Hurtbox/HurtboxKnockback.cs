@@ -4,14 +4,17 @@ namespace TransparentGames.Essentials.Combat
 {
     public class HurtboxKnockback : ComponentBase, IHurtboxComponent
     {
+        public DamagePhase Phase => DamagePhase.PreCalculation;
+
         private IMovable _movable;
+
 
         private void Awake()
         {
             _movable = owner.GetComponentInChildren<IMovable>();
         }
 
-        public HitResult OnHit(HitResult hitResult, HitInfo hitInfo)
+        public bool HandleHit(ref HitInfo hitInfo)
         {
             if (_movable != null)
             {
@@ -19,7 +22,7 @@ namespace TransparentGames.Essentials.Combat
                 _movable.AddForce(knockbackDirection);
             }
 
-            return hitResult;
+            return true;
         }
     }
 }
