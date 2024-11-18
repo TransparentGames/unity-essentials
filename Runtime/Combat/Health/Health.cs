@@ -60,10 +60,10 @@ namespace TransparentGames.Essentials.Combat
             if (target is not Health health)
                 return;
 
-            // EditorGUI.BeginDisabledGroup(true);
-            // EditorGUILayout.FloatField("Max Health", health.MaxHealth);
-            // EditorGUILayout.FloatField("Current Health", health.CurrentHealth);
-            // EditorGUI.EndDisabledGroup();
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.FloatField("Max Health", health.MaxHealth);
+            EditorGUILayout.FloatField("Current Health", health.CurrentHealth);
+            EditorGUI.EndDisabledGroup();
 
             _healthValue = EditorGUILayout.FloatField("Health", _healthValue);
 
