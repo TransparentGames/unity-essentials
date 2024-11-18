@@ -33,7 +33,7 @@ namespace TransparentGames.Essentials.Time
         {
             if (!_isRunning)
             {
-                throw new InvalidOperationException("Timer is not running.");
+                return;
             }
 
             _isRunning = false;

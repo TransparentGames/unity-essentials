@@ -1,7 +1,6 @@
-using TransparentGames.Essentials;
+using TransparentGames.Essentials.Pools;
 using TransparentGames.Essentials.Stats;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace TransparentGames.Entities
 {
@@ -10,7 +9,7 @@ namespace TransparentGames.Entities
         public string entityId;
         [Space]
         public Sprite icon;
-        public AssetReference assetReference;
+        public PoolDataProperty poolData;
         public BaseStats baseStats;
     }
 
