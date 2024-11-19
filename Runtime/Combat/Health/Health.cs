@@ -23,11 +23,16 @@ namespace TransparentGames.Essentials.Combat
 
         public virtual void Add(float amount)
         {
-            if (_currentHealth + amount > _maxHealth)
+            if (_currentHealth <= 0 && amount <= 0)
+                return;
+
+            _currentHealth += amount;
+
+            if (_currentHealth > _maxHealth)
                 _currentHealth = _maxHealth;
-            else
-                _currentHealth += amount;
+
             ValueChanged?.Invoke(_currentHealth);
+
             if (_currentHealth <= 0)
                 ValueZeroed?.Invoke();
         }
