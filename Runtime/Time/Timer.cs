@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace TransparentGames.Essentials.Time
 {
-    public class Timer
+    public class Timer : ITimeTracker
     {
-        public float TimeElapsed => _timeElapsed;
-        public event Action TimeIsUp;
+        public float DefaultTime => 0f;
+        public float CurrentTime => _timeElapsed;
 
         private float _timeElapsed;
         private bool _isRunning;
