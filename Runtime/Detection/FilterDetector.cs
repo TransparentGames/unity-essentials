@@ -64,7 +64,8 @@ namespace TransparentGames.Essentials.Detection
 
             for (int i = 0; i < _detected.Count; i++)
             {
-                if (newDetected.Contains(_detected[i])) continue;
+                if (newDetected.Contains(_detected[i]))
+                    continue;
                 ObjectLostDetection?.Invoke(_detected[i]);
                 _detected.RemoveAt(i);
                 i--;
@@ -72,7 +73,8 @@ namespace TransparentGames.Essentials.Detection
 
             for (int i = 0; i < newDetected.Count; i++)
             {
-                if (_detected.Contains(newDetected[i])) continue;
+                if (_detected.Contains(newDetected[i]))
+                    continue;
                 _detected.Add(newDetected[i]);
                 ObjectDetected?.Invoke(newDetected[i]);
             }
