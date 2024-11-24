@@ -12,7 +12,6 @@ namespace TransparentGames.Essentials.Combat
     {
         [SerializeField] private Bar healthBarPrefab;
         [SerializeField] private Vector3 healthBarOffset;
-        [SerializeField] private bool isWorldSpace = true;
 
         private IHealth _health;
         private Bar _healthBar;
@@ -21,10 +20,7 @@ namespace TransparentGames.Essentials.Combat
         {
             _health = GetComponent<IHealth>();
 
-            if (isWorldSpace)
-                WorldSpaceCanvas.Initialized(() => CreateWorldSpaceHealthBar());
-            else
-                DynamicElementsCanvas.Initialized(() => CreateScreenSpaceHealthBar());
+            DynamicElementsCanvas.Initialized(() => CreateScreenSpaceHealthBar());
 
             _health.ValueChanged += OnHealthChanged;
             _health.ValueInitialized += OnInitialized;
@@ -39,13 +35,6 @@ namespace TransparentGames.Essentials.Combat
         {
             if (_healthBar == null)
                 return;
-
-            if (isWorldSpace)
-            {
-                var worldSpaceElement = _healthBar.GetComponent<WorldSpaceElement>();
-                worldSpaceElement.SetOffset(healthBarOffset);
-                worldSpaceElement.SetTarget(transform);
-            }
 
             _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
             _healthBar.gameObject.SetActive(true);
@@ -63,16 +52,6 @@ namespace TransparentGames.Essentials.Combat
         {
             _health.ValueInitialized -= OnInitialized;
             _health.ValueChanged -= OnHealthChanged;
-        }
-
-        private void CreateWorldSpaceHealthBar()
-        {
-            _healthBar = Instantiate(healthBarPrefab, WorldSpaceCanvas.Instance.GetTransform(), false);
-            _healthBar.transform.localPosition = new Vector3(_healthBar.transform.localPosition.x, _healthBar.transform.localPosition.y, 0);
-            _healthBar.transform.localScale = Vector3.one;
-
-            _healthBar.Set(_health.MaxHealth, _health.CurrentHealth);
-            _healthBar.gameObject.SetActive(gameObject.activeSelf);
         }
 
         private void CreateScreenSpaceHealthBar()

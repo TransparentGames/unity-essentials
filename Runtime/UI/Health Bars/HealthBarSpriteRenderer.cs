@@ -16,11 +16,6 @@ namespace TransparentGames.Essentials.UI
         private Tween _highlightFillTween;
         private float _currentFillAmount;
 
-        private void LateUpdate()
-        {
-            AlignCamera();
-        }
-
         private void OnDisable()
         {
             _highlightFillTween?.Kill();
@@ -77,18 +72,6 @@ namespace TransparentGames.Essentials.UI
         private void UpdateHighlightSprite()
         {
             highlightSprite.localScale = new Vector3(_currentFillAmount, highlightSprite.localScale.y, highlightSprite.localScale.z);
-        }
-
-        private void AlignCamera()
-        {
-            if (Camera.main != null)
-            {
-                var camXForm = Camera.main.transform;
-                var forward = transform.position - camXForm.position;
-                forward.Normalize();
-                var up = Vector3.Cross(forward, camXForm.right);
-                transform.rotation = Quaternion.LookRotation(forward, up);
-            }
         }
     }
 }

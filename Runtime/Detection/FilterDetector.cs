@@ -9,13 +9,15 @@ namespace TransparentGames.Essentials.Detection
     public class FilterDetector : ComponentBase, IDetector
     {
         public Entity Owner => owner;
+        public IReadOnlyList<IDetectable> AllDetected => _detected;
+
+        public event Action Refreshed;
+        public event Action<IDetectable> ObjectDetected;
+        public event Action<IDetectable> ObjectLostDetection;
 
         [SerializeField] private int refreshFrameInterval = 10;
         [SerializeField] private List<AbstractScriptableObjectFilter> filters;
         public bool IsAnyDetected => AllDetected.Count > 0 && GetClosest() != null;
-        public IReadOnlyList<IDetectable> AllDetected => _detected;
-        public event Action<IDetectable> ObjectDetected;
-        public event Action<IDetectable> ObjectLostDetection;
 
         private readonly List<IDetectable> _detected = new();
         private IUpdateEntity _updateEntity;
@@ -53,6 +55,7 @@ namespace TransparentGames.Essentials.Detection
         {
             UpdateDetected(filters);
             UpdateClosest();
+            Refreshed?.Invoke();
         }
 
         protected void UpdateDetected(List<AbstractScriptableObjectFilter> filters)

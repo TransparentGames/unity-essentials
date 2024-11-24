@@ -6,6 +6,7 @@ namespace TransparentGames.Essentials.Detection
 {
     public interface IDetector
     {
+        public event Action Refreshed;
         public event Action<IDetectable> ObjectDetected;
         public event Action<IDetectable> ObjectLostDetection;
 
