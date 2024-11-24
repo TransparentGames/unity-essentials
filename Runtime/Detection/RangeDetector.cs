@@ -73,9 +73,8 @@ namespace TransparentGames.Essentials.Detection
             {
                 if (newDetected.Contains(_detected[i]))
                     continue;
-                var detectedCache = _detected[i];
+                ObjectLostDetection?.Invoke(_detected[i]);
                 _detected.RemoveAt(i);
-                ObjectLostDetection?.Invoke(detectedCache);
                 i--;
             }
 
