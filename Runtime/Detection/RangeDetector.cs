@@ -11,15 +11,18 @@ namespace TransparentGames.Essentials.Detection
     public class RangeDetector : ComponentBase, IDetector
     {
         public Entity Owner => owner;
+        public IReadOnlyList<IDetectable> AllDetected => _detected;
+
+        public event Action Refreshed;
+        public event Action<IDetectable> ObjectDetected;
+        public event Action<IDetectable> ObjectLostDetection;
+
 
         [SerializeField] private int refreshFrameInterval = 10;
         [SerializeField] private List<AbstractScriptableObjectFilter> filters;
         [SerializeField] private float range = 10f;
 
         public bool IsAnyDetected => AllDetected.Count > 0 && GetClosest() != null;
-        public IReadOnlyList<IDetectable> AllDetected => _detected;
-        public event Action<IDetectable> ObjectDetected;
-        public event Action<IDetectable> ObjectLostDetection;
 
         private readonly List<IDetectable> _detected = new();
         private IUpdateEntity _updateEntity;
@@ -56,6 +59,7 @@ namespace TransparentGames.Essentials.Detection
         {
             UpdateDetected(filters);
             UpdateClosest();
+            Refreshed?.Invoke();
         }
 
         protected void UpdateDetected(List<AbstractScriptableObjectFilter> filters)
@@ -67,15 +71,18 @@ namespace TransparentGames.Essentials.Detection
 
             for (int i = 0; i < _detected.Count; i++)
             {
-                if (newDetected.Contains(_detected[i])) continue;
-                ObjectLostDetection?.Invoke(_detected[i]);
+                if (newDetected.Contains(_detected[i]))
+                    continue;
+                var detectedCache = _detected[i];
                 _detected.RemoveAt(i);
+                ObjectLostDetection?.Invoke(detectedCache);
                 i--;
             }
 
             for (int i = 0; i < newDetected.Count; i++)
             {
-                if (_detected.Contains(newDetected[i])) continue;
+                if (_detected.Contains(newDetected[i]))
+                    continue;
                 _detected.Add(newDetected[i]);
                 ObjectDetected?.Invoke(newDetected[i]);
             }

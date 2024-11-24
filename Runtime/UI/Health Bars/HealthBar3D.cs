@@ -21,11 +21,6 @@ namespace TransparentGames.Essentials.UI
             _matBlock = new MaterialPropertyBlock();
         }
 
-        private void LateUpdate()
-        {
-            AlignCamera();
-        }
-
         private void OnDisable()
         {
             _highlightFillTween?.Kill();
@@ -74,18 +69,6 @@ namespace TransparentGames.Essentials.UI
                 _matBlock.SetFloat("_highlightNormalized", _currentFillAmount);
                 spriteRenderer.SetPropertyBlock(_matBlock);
             });
-        }
-
-        private void AlignCamera()
-        {
-            if (Camera.main != null)
-            {
-                var camXForm = Camera.main.transform;
-                var forward = transform.position - camXForm.position;
-                forward.Normalize();
-                var up = Vector3.Cross(forward, camXForm.right);
-                transform.rotation = Quaternion.LookRotation(forward, up);
-            }
         }
     }
 }
