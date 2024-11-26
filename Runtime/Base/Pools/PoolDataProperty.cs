@@ -8,9 +8,9 @@ namespace TransparentGames.Essentials.Pools
     public class PoolDataProperty : IPoolData
     {
         public string Name => assetReference.ToString();
-        public AssetReferenceT<PoolObject> Reference => assetReference;
+        public AssetReference Reference => assetReference;
 
-        [SerializeField] private AssetReferenceT<PoolObject> assetReference;
+        [SerializeField] private AssetReference assetReference;
 
         public void Release()
         {
