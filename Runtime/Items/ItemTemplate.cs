@@ -17,8 +17,6 @@ namespace TransparentGames.Essentials.Items
         /// </summary>
         public Sprite icon;
         public ItemCategory itemCategory;
-        public ItemAction defaultAction;
-        public ItemAction interactAction;
         public UIState itemDetailsWindow;
         [Tooltip("Used for categorizing items")] public string itemClass;
         /// <summary>
