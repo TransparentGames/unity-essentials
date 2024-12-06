@@ -25,7 +25,7 @@ namespace TransparentGames.Essentials.SceneManagement
             SceneLoader.Instance.LoadMenu(mainMenuSceneSO);
 
             // Unload the current scene
-            SceneManager.UnloadSceneAsync(gameObject.scene);
+            await SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 #endif
     }
