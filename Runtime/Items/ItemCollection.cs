@@ -64,10 +64,19 @@ namespace TransparentGames.Essentials.Items
             return true;
         }
 
-        public bool TryAddItem(InventoryItem item, int count = 1)
+        public bool TryAddItem(InventoryItem item)
         {
             if (CanAddItem(item) == false)
                 return false;
+
+            if (item.ItemTemplate.IsUnique == false)
+            {
+                foreach (var key in _items.Keys)
+                {
+                    if (UpdateItem(item, key))
+                        return true;
+                }
+            }
 
             for (int i = 0; i < slotAmount; i++)
             {
@@ -234,7 +243,7 @@ namespace TransparentGames.Essentials.Items
             item.ItemInfo = itemInfo;
 
             _items[index] = item;
-            Changed?.Invoke(item, true);
+            Changed?.Invoke(_items[index], true);
         }
 
         private bool UpdateItem(InventoryItem item, int index)
@@ -245,8 +254,8 @@ namespace TransparentGames.Essentials.Items
             if (_items[index].ItemInstance.ItemId != item.ItemInstance.ItemId)
                 return false;
 
-            _items[index].ItemInstance.RemainingUses += item.ItemInstance.RemainingUses;
-            Changed?.Invoke(item, true);
+            _items[index].RemainingUses += item.ItemInstance.RemainingUses ?? 0;
+            Changed?.Invoke(_items[index], true);
             return true;
         }
 
