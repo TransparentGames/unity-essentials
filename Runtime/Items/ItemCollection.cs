@@ -272,6 +272,26 @@ namespace TransparentGames.Essentials.Items
             }
         }
 
+        public void RemoveItem(InventoryItem item, int count)
+        {
+            foreach (var key in _items.Keys)
+            {
+                if (_items[key].ItemInstance.ItemInstanceId == item.ItemInstance.ItemInstanceId)
+                {
+                    if (_items[key].ItemInstance.RemainingUses <= count)
+                    {
+                        _items.Remove(key);
+                        Changed?.Invoke(item, false);
+                        return;
+                    }
+
+                    _items[key].ItemInstance.RemainingUses -= count;
+                    Changed?.Invoke(item, true);
+                    return;
+                }
+            }
+        }
+
         private bool IsItemPermitted(InventoryItem item)
         {
             var isPermitted = restrictions.Count == 0;
