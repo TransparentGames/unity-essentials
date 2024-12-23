@@ -74,6 +74,16 @@ namespace TransparentGames.Essentials.UI
             return null;
         }
 
+        public T Get<T>(UIState state) where T : UIElement
+        {
+            if (_UIElements.TryGetValue(state.name, out var uiElement))
+            {
+                return uiElement as T;
+            }
+
+            return null;
+        }
+
         public void TryCancel(UIState state)
         {
             if (_UIElements.TryGetValue(state.name, out var uiElement) == false)
@@ -88,7 +98,14 @@ namespace TransparentGames.Essentials.UI
                 return;
             }
 
-            UIStateRequestAttempt?.Invoke(state, UIRequest.Cancel);
+            if (state.canBeForceClosed == false)
+            {
+                UIStateRequestAttempt?.Invoke(state, UIRequest.Cancel);
+            }
+            else
+            {
+                ForceClose(state);
+            }
         }
 
         public void TryClose(UIState state)

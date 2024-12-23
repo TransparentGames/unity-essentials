@@ -6,6 +6,8 @@ namespace TransparentGames.Essentials.UI
     [CreateAssetMenu(fileName = "UI State", menuName = "Transparent Games/UI/UI State", order = 0)]
     public class UIState : ScriptableObject
     {
+        public bool canBeForceClosed = false;
+
         public void TryOpen()
         {
             if (UIManager.InstanceExists)
