@@ -34,7 +34,10 @@ namespace TransparentGames.Essentials.Combat
             ValueChanged?.Invoke(_currentHealth);
 
             if (_currentHealth <= 0)
+            {
+                _currentHealth = 0;
                 ValueZeroed?.Invoke();
+            }
         }
 
         public void OnStatsChanged(StatsHolder statsHolder)
