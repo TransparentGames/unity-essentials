@@ -12,7 +12,7 @@ namespace TransparentGames.Essentials.Abilities
     {
         [Space]
         public Ability abilityPrefab;
-        public List<AdditionalStat> additionalStats;
+        public List<Stat> modifiers;
         public LayerMask layerMask;
         public float cooldown;
         public int knockback;
@@ -28,11 +28,11 @@ namespace TransparentGames.Essentials.Abilities
                 knockback = knockback
             };
 
-            foreach (var additionalStat in additionalStats)
+            foreach (var modifier in modifiers)
             {
-                if (stats.TryGetValue(additionalStat.FamilyType, out Stat existingStat))
+                if (stats.TryGetValue(modifier.FamilyType, out Stat existingStat))
                 {
-                    result.damage += additionalStat.Calculate(existingStat.Value);
+                    result.damage += modifier.Calculate(existingStat.Value);
                 }
             }
 
