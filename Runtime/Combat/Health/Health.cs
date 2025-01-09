@@ -31,11 +31,13 @@ namespace TransparentGames.Essentials.Combat
             if (_currentHealth > _maxHealth)
                 _currentHealth = _maxHealth;
 
+            if (_currentHealth < 0)
+                _currentHealth = 0;
+
             ValueChanged?.Invoke(_currentHealth);
 
             if (_currentHealth <= 0)
             {
-                _currentHealth = 0;
                 ValueZeroed?.Invoke();
             }
         }
