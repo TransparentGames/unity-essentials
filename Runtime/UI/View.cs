@@ -7,6 +7,7 @@ namespace TransparentGames.Essentials.UI
 {
     public class View : UIElement
     {
+        public event Action Opened;
         public override UIState State => state;
 
         [SerializeField] private UIState state;
