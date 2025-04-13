@@ -7,6 +7,7 @@ public class ManualToggle : MonoBehaviour
     public event Action<bool> Success;
     public event Action<bool> Toggled;
 
+    [SerializeField] private bool isAutoProcess = true;
     [SerializeField] private Button button;
     [SerializeField] private Image onImage;
     [SerializeField] private Image offImage;
@@ -31,6 +32,9 @@ public class ManualToggle : MonoBehaviour
     private void OnToggleValueChanged()
     {
         Toggled?.Invoke(!_isOn);
+
+        if (isAutoProcess)
+            Process();
     }
 
     private void Redraw()
@@ -51,6 +55,13 @@ public class ManualToggle : MonoBehaviour
         processAction?.Invoke();
         Override(!_isOn);
         Success?.Invoke(_isOn);
+
+        if (isAutoProcess)
+            Unlock();
+    }
+
+    public void Unlock()
+    {
         button.interactable = true;
     }
 }

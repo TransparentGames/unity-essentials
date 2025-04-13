@@ -23,10 +23,13 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
         {
             foreach (var order in Enum.GetNames(typeof(Layer)))
             {
-                Transform trans = new GameObject(order).transform;
-                trans.SetParent(transform);
+                var trans = new GameObject(order).transform;
+                trans.SetParent(base.transform);
                 trans.localScale = Vector3.one;
-                _layers.Add(trans);
+                trans.localPosition = new Vector3(trans.localPosition.x, trans.localPosition.y, 0);
+                var rectTransform = trans.gameObject.AddComponent<RectTransform>();
+                StretchToEdges(ref rectTransform);
+                _layers.Add(rectTransform);
             }
 
             base.Awake();
@@ -39,6 +42,14 @@ namespace TransparentGames.Essentials.UI.ScreenSpace
         public Transform GetTransform(Layer layer = Layer.Default)
         {
             return _layers[(int)layer];
+        }
+
+        private void StretchToEdges(ref RectTransform rectTransform)
+        {
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.anchoredPosition = Vector2.zero;
+            rectTransform.sizeDelta = Vector2.zero;
         }
     }
 }
